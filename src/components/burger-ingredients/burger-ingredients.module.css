@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.tabs {
+    display: flex;
+}
+
 .counter {
     position: absolute;
 }

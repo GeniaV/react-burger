@@ -4,3 +4,7 @@
     grid-template-columns: minmax(max-content, max-content) minmax(max-content, max-content);
     justify-content: center;
 }
+
+.main {
+    background-color: '#131316';
+}

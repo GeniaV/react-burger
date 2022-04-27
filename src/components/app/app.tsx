@@ -5,15 +5,17 @@ import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 
 export class App extends React.Component {
-    render() {
-      return (
-        <main style={{ backgroundColor: '#131316' }}>
-          <AppHeader />
+  render() {
+    return (
+      <>
+        <AppHeader />
+        <main className={appStyles.main}>
           <section className={appStyles.container}>
             <BurgerIngredients />
             <BurgerConstructor />
           </section>
         </main>
-      )
-    }
+      </>
+    )
+  }
 } 

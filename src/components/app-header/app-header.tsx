@@ -5,7 +5,7 @@ import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-dev
 export class AppHeader extends React.Component {
   render() {
     return (
-      <div style={{ backgroundColor: 'rgba(28, 28, 33, 1)' }}>
+      <div className={appHeaderStyles.container}>
         <header className={`pt-4 pb-4 ${appHeaderStyles.header}`}>
           <Navigator />
           <Logo />

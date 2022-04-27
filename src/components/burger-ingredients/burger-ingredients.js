@@ -6,12 +6,13 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { data } from "../../utils/data";
-import PropTypes from "prop-types";
+import { type } from "../../utils/types";
+
 
 function Tabs() {
   const [current, setCurrent] = React.useState("Булки");
   return (
-    <div style={{ display: "flex" }}>
+    <div className={burgerIngredientsStyles.tabs}>
       <a href="#bun" className={burgerIngredientsStyles.tab}>
         <Tab
           value="Булки"
@@ -106,22 +107,5 @@ class ProductList extends React.Component {
 }
 
 // Проверка данных
-ProductList.propTypes = {
-  category: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ),
-};
+ProductList.propTypes = type;
 

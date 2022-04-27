@@ -7,24 +7,24 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { data } from "../../utils/data";
-import PropTypes from 'prop-types';
+import { type } from "../../utils/types";
 
 export class BurgerConstructor extends React.Component {
   render() {
     return (
       <section className="mt-25 ml-4 mr-8">
         <div className="mb-10">
-          <TopProduct description={data} />
+          <TopProduct category={data} />
           <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
             <ProductList
-              description={data.filter(
+              category={data.filter(
                 (data) => data.type === "sauce" || data.type === "main"
               )}
             />
           </section>
-          <BottompProduct description={data} />
+          <BottompProduct category={data} />
         </div>
-        <MakeAnOrder description={data}/>
+        <MakeAnOrder category={data} />
       </section>
     );
   }
@@ -34,13 +34,13 @@ class TopProduct extends React.Component {
   render() {
     return (
       <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div className={burgerConstructorStyles.constructor}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={this.props.description[0].name + " (верх)"}
+            text={this.props.category[0].name + " (верх)"}
             price={200}
-            thumbnail={this.props.description[0].image}
+            thumbnail={this.props.category[0].image}
           />
         </div>
       </article>
@@ -52,13 +52,13 @@ class BottompProduct extends React.Component {
   render() {
     return (
       <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div className={burgerConstructorStyles.constructor}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={this.props.description[0].name + " (низ)"}
+            text={this.props.category[0].name + " (низ)"}
             price={200}
-            thumbnail={this.props.description[0].image}
+            thumbnail={this.props.category[0].image}
           />
         </div>
       </article>
@@ -86,20 +86,13 @@ class ProductList extends React.Component {
   render() {
     return (
       <section>
-        {this.props.description.map((card) => (
+        {this.props.category.map((card) => (
           <div
             className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`}
             key={card._id}
           >
             <DragIcon />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                width: "536px",
-              }}
-            >
+            <div className={burgerConstructorStyles.inner}>
               <ConstructorElement
                 text={card.name}
                 price={200}
@@ -114,21 +107,4 @@ class ProductList extends React.Component {
 }
 
 // Проверка данных
-ProductList.propTypes = {
-  description: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
-    })
-  ),
-};
+ProductList.propTypes = type;
