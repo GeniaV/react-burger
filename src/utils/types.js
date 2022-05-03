@@ -5,7 +5,7 @@ export const type = {
       PropTypes.shape({
         _id: PropTypes.string,
         name: PropTypes.string,
-        type: PropTypes.string,
+        type: PropTypes.oneOf(["bun", "main", "sauce"]),
         proteins: PropTypes.number,
         fat: PropTypes.number,
         carbohydrates: PropTypes.number,
