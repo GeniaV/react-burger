@@ -2,13 +2,6 @@
   display: flex;
 }
 
-.title {
-  display: flex;
-  padding-top: 53px;
-  padding-bottom: 13px;
-  width: 100%;
-}
-
 .photo {
   width: 520px;
   height: 240px;

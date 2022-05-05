@@ -51,7 +51,7 @@ function BottompProduct(props) {
           type="bottom"
           isLocked={true}
           text={props.category[0].name + " (низ)"}
-          price={200}
+          price={props.category[0].price}
           thumbnail={props.category[0].image}
         />
       </div>

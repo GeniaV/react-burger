@@ -4,7 +4,7 @@ import { Modal } from "../modal/modal";
 
 export function ModalOverlay() {
   return (
-    <div className={modalOverlayStyles.overlay}>
+    <div className={modalOverlayStyles.overlay_visible}>
       <Modal />
     </div>
   );
