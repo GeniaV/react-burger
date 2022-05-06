@@ -48,15 +48,15 @@ export function BurgerIngredients(props) {
         <h2 className="text text_type_main-medium" id="bun">
           Булки
         </h2>
-        <ProductList category={props.ingredients.filter((data) => data.type === "bun")} />
+        <ProductList category={props.ingredients.filter((data) => data.type === "bun")} onClick={props.onClick}/>
         <h2 className="text text_type_main-medium" id="souses">
           Cоусы
         </h2>
-        <ProductList category={props.ingredients.filter((data) => data.type === "sauce")} />
+        <ProductList category={props.ingredients.filter((data) => data.type === "sauce")} onClick={props.onClick}/>
         <h2 className="text text_type_main-medium" id="main">
           Начинки
         </h2>
-        <ProductList category={props.ingredients.filter((data) => data.type === "main")} />
+        <ProductList category={props.ingredients.filter((data) => data.type === "main")} onClick={props.onClick}/>
       </section>
     </section>
   );
@@ -68,7 +68,7 @@ function ProductList(props) {
       className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
     >
       {props.category.map((card) => (
-        <article className={burgerIngredientsStyles.card} key={card._id}>
+        <article className={burgerIngredientsStyles.card} key={card._id}  onClick={props.onClick}>
           <Counter
             count={1}
             size="default"

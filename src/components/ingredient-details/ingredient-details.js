@@ -11,7 +11,7 @@ export function IngredientDetails() {
       <h3
         className={`text text_type_main-medium pb-8 mt-4 ${ingredientDetailsStyles.name}`}
       >
-        Кристаллы марсианских альфа-сахаридов
+        {data[0].name}
       </h3>
       <ul className={`mb-15 ${ingredientDetailsStyles.contains}`}>
         <li>
@@ -19,7 +19,7 @@ export function IngredientDetails() {
             Калории,ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            244,4
+            {data[0].calories}
           </p>
         </li>
         <li>
@@ -27,7 +27,7 @@ export function IngredientDetails() {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            12,2
+            {data[0].proteins}
           </p>
         </li>
         <li>
@@ -35,7 +35,7 @@ export function IngredientDetails() {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            17,2
+            {data[0].fat}
           </p>
         </li>
         <li>
@@ -43,7 +43,7 @@ export function IngredientDetails() {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            10,2
+            {data[0].carbohydrates}
           </p>
         </li>
       </ul>

@@ -1,5 +1,9 @@
 .main {
     background-color: '#131316';
+    display: flex;
+    justify-content: center;
+    max-width: 1920px;
+    margin: 0 auto 0 auto;
 }
 
 .container {
@@ -7,4 +11,6 @@
     column-gap: 40px;
     grid-template-columns: minmax(max-content, max-content) minmax(max-content, max-content);
     justify-content: center;
+    align-self: center;
 }
+

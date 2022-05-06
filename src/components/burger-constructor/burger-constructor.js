@@ -22,7 +22,7 @@ export function BurgerConstructor(props) {
         </section>
         <BottompProduct category={props.ingredients} />
       </div>
-      <MakeAnOrder category={props.ingredients} />
+      <MakeAnOrder onClick={props.onClick}/>
     </section>
   );
 }
@@ -81,14 +81,14 @@ function ProductList(props) {
   );
 }
 
-function MakeAnOrder() {
+function MakeAnOrder(props) {
   return (
     <section className={`mr-4 ${burgerConstructorStyles.order}`}>
       <div className={burgerConstructorStyles.sum}>
         <p className="text text_type_digits-medium mr-2">610</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button type="primary" size="large">
+      <Button type="primary" size="large" onClick={props.onClick}>
         Оформить заказ
       </Button>
     </section>

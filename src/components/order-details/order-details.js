@@ -6,7 +6,7 @@ export function OrderDetails() {
   return (
     <>
       <h2
-        className={`text_type_digits-large mt-30 mb-8 ${orderDetailsStyles.number}`}
+        className={`text_type_digits-large mt-15 mb-8 ${orderDetailsStyles.number}`}
       >
         034536
       </h2>
