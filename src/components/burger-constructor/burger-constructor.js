@@ -12,7 +12,11 @@ export function BurgerConstructor(props) {
   return (
     <section className="mt-25 ml-4 mr-8">
       <div className="mb-10">
-        <TopProduct category={props.ingredients} />
+        <TopProduct
+          category={props.ingredients.filter(
+            (data) => data._id === "60d3b41abdacab0026a733c6"
+          )}
+        />
         <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
           <ProductList
             category={props.ingredients.filter(
@@ -20,9 +24,13 @@ export function BurgerConstructor(props) {
             )}
           />
         </section>
-        <BottompProduct category={props.ingredients} />
+        <BottompProduct
+          category={props.ingredients.filter(
+            (data) => data._id === "60d3b41abdacab0026a733c6"
+          )}
+        />
       </div>
-      <MakeAnOrder onClick={props.onClick}/>
+      <MakeAnOrder onClick={props.onClick} />
     </section>
   );
 }
@@ -30,15 +38,17 @@ export function BurgerConstructor(props) {
 function TopProduct(props) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={props.category[0].name + " (верх)"}
-          price={200}
-          thumbnail={props.category[0].image}
-        />
-      </div>
+      {props.category.map((item) => (
+        <div className={burgerConstructorStyles.constructor} key={item._id}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={item.name + " (верх)"}
+            price={item.price}
+            thumbnail={item.image}
+          />
+        </div>
+      ))}
     </article>
   );
 }
@@ -46,15 +56,17 @@ function TopProduct(props) {
 function BottompProduct(props) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={props.category[0].name + " (низ)"}
-          price={props.category[0].price}
-          thumbnail={props.category[0].image}
-        />
-      </div>
+      {props.category.map((item) => (
+        <div className={burgerConstructorStyles.constructor} key={item._id}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={item.name + " (низ)"}
+            price={item.price}
+            thumbnail={item.image}
+          />
+        </div>
+      ))}
     </article>
   );
 }

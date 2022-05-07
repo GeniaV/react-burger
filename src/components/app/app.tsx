@@ -4,7 +4,6 @@ import { AppHeader } from '../app-header/app-header';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
 import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { Modal } from "../modal/modal";
-import { data } from '../../utils/data';
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
 
@@ -55,14 +54,16 @@ export function App() {
       });
   };
 
+ const ingredientsArray = ingredients.data
+
   return (
     <>
       <AppHeader />
       {!ingredients.isLoading && !ingredients.hasError && ingredients &&
         <main className={appStyles.main}>
           <section className={appStyles.container}>
-            <BurgerIngredients ingredients={ingredients.data} onClick={openIngredientDetails}/>
-            <BurgerConstructor ingredients={data} onClick={openOrderDetailsModal} />
+            <BurgerIngredients ingredients={ingredientsArray} onClick={openIngredientDetails}/>
+            <BurgerConstructor ingredients={ingredientsArray} onClick={openOrderDetailsModal} />
           </section>
         </main>}
       {isIngredientDetailsOpened &&
