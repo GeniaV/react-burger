@@ -7,6 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
+import PropTypes from "prop-types";
 
 export function BurgerConstructor(props) {
   return (
@@ -109,3 +110,7 @@ function MakeAnOrder(props) {
 
 // Проверка данных
 ProductList.propTypes = type;
+
+BurgerConstructor.propTypes = {
+  onClick: PropTypes.func
+};

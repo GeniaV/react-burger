@@ -6,6 +6,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
+import PropTypes from "prop-types";
 
 function Tabs() {
   const [current, setCurrent] = React.useState("Булки");
@@ -68,7 +69,7 @@ function ProductList(props) {
       className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
     >
       {props.category.map((card) => (
-        <article className={burgerIngredientsStyles.card} key={card._id}  onClick={props.onClick}>
+        <article className={burgerIngredientsStyles.card} key={card._id}  onClick={() => props.onClick(card)}>
           <Counter
             count={1}
             size="default"
@@ -96,3 +97,12 @@ function ProductList(props) {
 
 // Проверка данных
 ProductList.propTypes = type;
+
+BurgerIngredients.propTypes = {
+  onClick: PropTypes.func
+};
+
+ProductList.propTypes = {
+  onClick: PropTypes.func
+};
+

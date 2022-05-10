@@ -35,8 +35,8 @@ export function App() {
     setOrderDetailsOpened(true);
   }
 
-  const openIngredientDetails = () => {
-    setIngredientDetailsOpened(true);
+  const openIngredientDetails = (data) => {
+    setIngredientDetailsOpened(data);
   }
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export function App() {
           onEscKeydown={handleEscKeydown}
           onCloseClick={closeAllModals}
         >
-          <IngredientDetails />
+          <IngredientDetails ingredientdata={isIngredientDetailsOpened}/>
         </Modal>}
       {isOrderDetailsOpened &&
         <Modal

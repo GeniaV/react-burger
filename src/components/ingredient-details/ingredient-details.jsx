@@ -1,17 +1,17 @@
 import React from "react";
 import ingredientDetailsStyles from "./ingredient-details.module.css";
-import { data } from "../../utils/data";
+import { type } from "../../utils/types";
 
-export function IngredientDetails() {
+export function IngredientDetails(props) {
   return (
     <section className={ingredientDetailsStyles.container}>
       <div className={`pl-5 pr-5 ${ingredientDetailsStyles.photo}`}>
-        <img src={data[0].image_large} alt={data[0].name} />
+        <img src={props.ingredientdata.image_large} alt={props.ingredientdata.name} />
       </div>
       <h3
         className={`text text_type_main-medium pb-8 mt-4 ${ingredientDetailsStyles.name}`}
       >
-        {data[0].name}
+        {props.ingredientdata.name}
       </h3>
       <ul className={`mb-15 ${ingredientDetailsStyles.contains}`}>
         <li>
@@ -19,7 +19,7 @@ export function IngredientDetails() {
             Калории,ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {data[0].calories}
+            {props.ingredientdata.calories}
           </p>
         </li>
         <li>
@@ -27,7 +27,7 @@ export function IngredientDetails() {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {data[0].proteins}
+            {props.ingredientdata.proteins}
           </p>
         </li>
         <li>
@@ -35,7 +35,7 @@ export function IngredientDetails() {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {data[0].fat}
+            {props.ingredientdata.fat}
           </p>
         </li>
         <li>
@@ -43,10 +43,11 @@ export function IngredientDetails() {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {data[0].carbohydrates}
+            {props.ingredientdata.carbohydrates}
           </p>
         </li>
       </ul>
     </section>
   );
 }
+
