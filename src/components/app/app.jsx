@@ -70,7 +70,7 @@ export function App() {
           onEscKeydown={handleEscKeydown}
           onCloseClick={closeAllModals}
         >
-          <IngredientDetails ingredientdata={isIngredientDetailsOpened}/>
+          <IngredientDetails ingredientData={isIngredientDetailsOpened}/>
         </Modal>}
       {isOrderDetailsOpened &&
         <Modal

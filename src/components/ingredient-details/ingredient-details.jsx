@@ -3,55 +3,40 @@ import ingredientDetailsStyles from "./ingredient-details.module.css";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 
-export function IngredientDetails({ ingredientdata }) {
+export function IngredientDetails({ ingredientData }) {
   return (
     <section className={ingredientDetailsStyles.container}>
       <div className={`pl-5 pr-5 ${ingredientDetailsStyles.photo}`}>
-        <img src={ingredientdata.image_large} alt={ingredientdata.name} />
+        <img src={ingredientData.image_large} alt={ingredientData.name} />
       </div>
       <h3
         className={`text text_type_main-medium pb-8 mt-4 ${ingredientDetailsStyles.name}`}
       >
-        {ingredientdata.name}
+        {ingredientData.name}
       </h3>
       <ul className={`mb-15 ${ingredientDetailsStyles.contains}`}>
-        <li>
-          <p className="text text_type_main-default text_color_inactive pb-2">
-            Калории,ккал
-          </p>
-          <p className="text text_type_digits-default text_color_inactive">
-            {ingredientdata.calories}
-          </p>
-        </li>
-        <li>
-          <p className="text text_type_main-default text_color_inactive pb-2">
-            Белки, г
-          </p>
-          <p className="text text_type_digits-default text_color_inactive">
-            {ingredientdata.proteins}
-          </p>
-        </li>
-        <li>
-          <p className="text text_type_main-default text_color_inactive pb-2">
-            Жиры, г
-          </p>
-          <p className="text text_type_digits-default text_color_inactive">
-            {ingredientdata.fat}
-          </p>
-        </li>
-        <li>
-          <p className="text text_type_main-default text_color_inactive pb-2">
-            Углеводы, г
-          </p>
-          <p className="text text_type_digits-default text_color_inactive">
-            {ingredientdata.carbohydrates}
-          </p>
-        </li>
+        <Ingredient ingredientInfo={ingredientData.calories} text="Калории,ккал" />
+        <Ingredient ingredientInfo={ingredientData.proteins} text="Белки, г" />
+        <Ingredient ingredientInfo={ingredientData.fat} text="Жиры, г" />
+        <Ingredient ingredientInfo={ingredientData.carbohydrates} text="Углеводы, г" />
       </ul>
     </section>
   );
 }
 
+function Ingredient({ ingredientInfo, text}) {
+  return (
+    <li>
+    <p className="text text_type_main-default text_color_inactive pb-2">
+      {text}
+    </p>
+    <p className="text text_type_digits-default text_color_inactive">
+      {ingredientInfo}
+    </p>
+  </li>
+  )
+}
+
 IngredientDetails.propTypes = {
-  ingredientdata: type
+  ingredientData: type
 }
