@@ -6,8 +6,7 @@ import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
-
-const apiUrl = 'https://norma.nomoreparties.space/api/ingredients';
+import { getIngredientsFromServer } from '../../utils/api';
 
 export function App() {
   const [ingredients, setIngredients] = useState({
@@ -45,12 +44,10 @@ export function App() {
 
   const getIngredients = () => {
     setIngredients({ ...ingredients, hasError: false, isLoading: true });
-    fetch(apiUrl)
-      .then(res => res.json())
+    getIngredientsFromServer()
       .then(res => setIngredients({ ...ingredients, data: res.data, isLoading: false }))
       .catch(err => {
         setIngredients({ ...ingredients, isLoading: false, hasError: true, errorMessage: err.message })
-        console.log(`Произошла ошибка: ${err.message}`)
       });
   };
 
