@@ -40,7 +40,7 @@ function Tabs() {
   );
 }
 
-export function BurgerIngredients(props) {
+export function BurgerIngredients({ ingredients, onClick }) {
   return (
     <section className="pl-8">
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -49,27 +49,27 @@ export function BurgerIngredients(props) {
         <h2 className="text text_type_main-medium" id="bun">
           Булки
         </h2>
-        <ProductList category={props.ingredients.filter((data) => data.type === "bun")} onClick={props.onClick}/>
+        <ProductList category={ingredients.filter((data) => data.type === "bun")} onClick={onClick}/>
         <h2 className="text text_type_main-medium" id="souses">
           Cоусы
         </h2>
-        <ProductList category={props.ingredients.filter((data) => data.type === "sauce")} onClick={props.onClick}/>
+        <ProductList category={ingredients.filter((data) => data.type === "sauce")} onClick={onClick}/>
         <h2 className="text text_type_main-medium" id="main">
           Начинки
         </h2>
-        <ProductList category={props.ingredients.filter((data) => data.type === "main")} onClick={props.onClick}/>
+        <ProductList category={ingredients.filter((data) => data.type === "main")} onClick={onClick}/>
       </section>
     </section>
   );
 }
 
-function ProductList(props) {
+function ProductList({ category, onClick }) {
   return (
     <section
       className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
     >
-      {props.category.map((card) => (
-        <article className={burgerIngredientsStyles.card} key={card._id}  onClick={() => props.onClick(card)}>
+      {category.map((card) => (
+        <article className={burgerIngredientsStyles.card} key={card._id}  onClick={() => onClick(card)}>
           <Counter
             count={1}
             size="default"

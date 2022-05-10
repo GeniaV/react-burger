@@ -3,16 +3,16 @@ import ingredientDetailsStyles from "./ingredient-details.module.css";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 
-export function IngredientDetails(props) {
+export function IngredientDetails({ ingredientdata }) {
   return (
     <section className={ingredientDetailsStyles.container}>
       <div className={`pl-5 pr-5 ${ingredientDetailsStyles.photo}`}>
-        <img src={props.ingredientdata.image_large} alt={props.ingredientdata.name} />
+        <img src={ingredientdata.image_large} alt={ingredientdata.name} />
       </div>
       <h3
         className={`text text_type_main-medium pb-8 mt-4 ${ingredientDetailsStyles.name}`}
       >
-        {props.ingredientdata.name}
+        {ingredientdata.name}
       </h3>
       <ul className={`mb-15 ${ingredientDetailsStyles.contains}`}>
         <li>
@@ -20,7 +20,7 @@ export function IngredientDetails(props) {
             Калории,ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {props.ingredientdata.calories}
+            {ingredientdata.calories}
           </p>
         </li>
         <li>
@@ -28,7 +28,7 @@ export function IngredientDetails(props) {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {props.ingredientdata.proteins}
+            {ingredientdata.proteins}
           </p>
         </li>
         <li>
@@ -36,7 +36,7 @@ export function IngredientDetails(props) {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {props.ingredientdata.fat}
+            {ingredientdata.fat}
           </p>
         </li>
         <li>
@@ -44,7 +44,7 @@ export function IngredientDetails(props) {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {props.ingredientdata.carbohydrates}
+            {ingredientdata.carbohydrates}
           </p>
         </li>
       </ul>

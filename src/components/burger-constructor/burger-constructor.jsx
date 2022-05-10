@@ -9,37 +9,37 @@ import {
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 
-export function BurgerConstructor(props) {
+export function BurgerConstructor({ ingredients, onClick }) {
   return (
     <section className="mt-25 ml-4 mr-8">
       <div className="mb-10">
         <TopProduct
-          category={props.ingredients.filter(
+          category={ingredients.filter(
             (data) => data._id === "60d3b41abdacab0026a733c6"
           )}
         />
         <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
           <ProductList
-            category={props.ingredients.filter(
+            category={ingredients.filter(
               (data) => data.type === "sauce" || data.type === "main"
             )}
           />
         </section>
         <BottompProduct
-          category={props.ingredients.filter(
+          category={ingredients.filter(
             (data) => data._id === "60d3b41abdacab0026a733c6"
           )}
         />
       </div>
-      <MakeAnOrder onClick={props.onClick} />
+      <MakeAnOrder onClick={onClick} />
     </section>
   );
 }
 
-function TopProduct(props) {
+function TopProduct({ category }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      {props.category.map((item) => (
+      {category.map((item) => (
         <div className={burgerConstructorStyles.constructor} key={item._id}>
           <ConstructorElement
             type="top"
@@ -54,10 +54,10 @@ function TopProduct(props) {
   );
 }
 
-function BottompProduct(props) {
+function BottompProduct({ category }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      {props.category.map((item) => (
+      {category.map((item) => (
         <div className={burgerConstructorStyles.constructor} key={item._id}>
           <ConstructorElement
             type="bottom"
@@ -72,10 +72,10 @@ function BottompProduct(props) {
   );
 }
 
-function ProductList(props) {
+function ProductList({ category }) {
   return (
     <section>
-      {props.category.map((card) => (
+      {category.map((card) => (
         <div
           className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`}
           key={card._id}
@@ -94,14 +94,14 @@ function ProductList(props) {
   );
 }
 
-function MakeAnOrder(props) {
+function MakeAnOrder({ onClick }) {
   return (
     <section className={`mr-4 ${burgerConstructorStyles.order}`}>
       <div className={burgerConstructorStyles.sum}>
         <p className="text text_type_digits-medium mr-2">610</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button type="primary" size="large" onClick={props.onClick}>
+      <Button type="primary" size="large" onClick={onClick}>
         Оформить заказ
       </Button>
     </section>
