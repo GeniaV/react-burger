@@ -109,7 +109,9 @@ function MakeAnOrder(props) {
 }
 
 // Проверка данных
-ProductList.propTypes = type;
+ProductList.propTypes = {
+  category: PropTypes.arrayOf(type)
+}
 
 BurgerConstructor.propTypes = {
   onClick: PropTypes.func

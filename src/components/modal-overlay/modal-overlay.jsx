@@ -1,5 +1,6 @@
 import React from "react";
 import modalOverlayStyles from "./modal-overlay.module.css";
+import PropTypes from "prop-types";
 
 export function ModalOverlay({ onClick }) {
   return (
@@ -8,4 +9,6 @@ export function ModalOverlay({ onClick }) {
   );
 }
 
-
+ModalOverlay.propTypes = {
+  onClick: PropTypes.func
+};
