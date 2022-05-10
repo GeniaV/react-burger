@@ -25,7 +25,7 @@ export function App() {
     setOrderDetailsOpened(false);
   };
 
-  const handleEscKeydown = (evt: { key: string; }) => {
+  const handleEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
       closeAllModals()
     }

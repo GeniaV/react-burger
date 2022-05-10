@@ -1,6 +1,6 @@
 # Project Stellar Burger
 
-Stack - React, CSS, JavaScript, JSX.
+Stack - React, CSS, JSX.
 
 An app for desktop that helps users create their own burgers using different ingredients and place orders.
 
