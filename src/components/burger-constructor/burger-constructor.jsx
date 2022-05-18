@@ -8,8 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
+import { IngredirntsContext } from "../../services/ingredientsContext";
 
-export function BurgerConstructor({ ingredients, onClick }) {
+export function BurgerConstructor({ onClick }) {
+  const ingredients = React.useContext(IngredirntsContext);
   return (
     <section className="mt-25 ml-4 mr-8">
       <div className="mb-10">

@@ -7,6 +7,7 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
 import { getIngredientsFromServer } from '../../utils/api';
+import { IngredirntsContext } from '../../services/ingredientsContext';
 
 export function App() {
   const [ingredients, setIngredients] = useState({
@@ -60,7 +61,9 @@ export function App() {
         <main className={appStyles.main}>
           <section className={appStyles.container}>
             <BurgerIngredients ingredients={ingredientsArray} onClick={openIngredientDetails}/>
-            <BurgerConstructor ingredients={ingredientsArray} onClick={openOrderDetailsModal} />
+            <IngredirntsContext.Provider value={ingredientsArray}>
+              <BurgerConstructor onClick={openOrderDetailsModal} />
+            </IngredirntsContext.Provider>
           </section>
         </main>}
       {isIngredientDetailsOpened &&
