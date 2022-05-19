@@ -6,7 +6,7 @@ import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
-import { getIngredientsFromServer } from '../../utils/api';
+import { getIngredientsFromServer, putAnOrder } from '../../utils/api';
 import { IngredirntsContext } from '../../services/ingredientsContext';
 
 export function App() {
@@ -19,6 +19,8 @@ export function App() {
 
   const [isIngredientDetailsOpened, setIngredientDetailsOpened] = useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
+
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const closeAllModals = () => {
     setIngredientDetailsOpened(false);
@@ -52,7 +54,15 @@ export function App() {
       });
   };
 
- const ingredientsArray = ingredients.data
+  const ingredientsArray = ingredients.data
+
+  useEffect(() => {
+    putAnOrder()
+      .then(res => setOrderNumber({ ...orderNumber, dataNumber: res.order.number }))
+      .catch(err => {
+        console.log('Ошибка размещения заказа', err.message);
+      });
+  }, [])
 
   return (
     <>
@@ -60,7 +70,7 @@ export function App() {
       {!ingredients.isLoading && !ingredients.hasError && ingredients &&
         <main className={appStyles.main}>
           <section className={appStyles.container}>
-            <BurgerIngredients ingredients={ingredientsArray} onClick={openIngredientDetails}/>
+            <BurgerIngredients ingredients={ingredientsArray} onClick={openIngredientDetails} />
             <IngredirntsContext.Provider value={ingredientsArray}>
               <BurgerConstructor onClick={openOrderDetailsModal} />
             </IngredirntsContext.Provider>
@@ -73,7 +83,7 @@ export function App() {
           onEscKeydown={handleEscKeydown}
           onCloseClick={closeAllModals}
         >
-          <IngredientDetails ingredientData={isIngredientDetailsOpened}/>
+          <IngredientDetails ingredientData={isIngredientDetailsOpened} />
         </Modal>}
       {isOrderDetailsOpened &&
         <Modal
@@ -82,7 +92,7 @@ export function App() {
           onEscKeydown={handleEscKeydown}
           onCloseClick={closeAllModals}
         >
-          <OrderDetails />
+          <OrderDetails orderNumber={orderNumber.dataNumber}/>
         </Modal>}
     </>
   )

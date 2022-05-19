@@ -15,7 +15,7 @@ export function putAnOrder() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ingredients: ["60d3b41abdacab0026a733c6"]
+      ingredients: ['60d3b41abdacab0026a733c6']
     }),
   })
   .then(checkReponse)

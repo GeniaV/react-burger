@@ -1,14 +1,15 @@
 import React from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
+import PropTypes from "prop-types";
 
-export function OrderDetails() {
+export function OrderDetails({ orderNumber }) {
   return (
     <>
       <h2
         className={`text_type_digits-large mt-15 mb-8 ${orderDetailsStyles.number}`}
       >
-        034536
+        {orderNumber}
       </h2>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img src={doneImage} alt="done" />
@@ -21,3 +22,7 @@ export function OrderDetails() {
     </>
   );
 }
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number
+};

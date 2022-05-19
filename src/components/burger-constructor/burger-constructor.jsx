@@ -12,26 +12,16 @@ import { IngredirntsContext } from "../../services/ingredientsContext";
 
 export function BurgerConstructor({ onClick }) {
   const ingredients = React.useContext(IngredirntsContext);
+
   return (
     <section className="mt-25 ml-4 mr-8">
       <div className="mb-10">
-        <TopProduct
-          category={ingredients.filter(
-            (data) => data._id === "60d3b41abdacab0026a733c6"
-          )}
-        />
+        <TopProduct category={ingredients.filter((data) => data.type === "bun").slice(0, 1)} />
         <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
           <ProductList
-            category={ingredients.filter(
-              (data) => data.type === "sauce" || data.type === "main"
-            )}
-          />
+            category={ingredients.filter((data) => data.type === "sauce" || data.type === "main")} />
         </section>
-        <BottompProduct
-          category={ingredients.filter(
-            (data) => data._id === "60d3b41abdacab0026a733c6"
-          )}
-        />
+        <BottompProduct category={ingredients.filter((data) => data.type === "bun").slice(0, 1)} />
       </div>
       <MakeAnOrder onClick={onClick} />
     </section>
