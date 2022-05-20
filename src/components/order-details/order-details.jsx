@@ -1,9 +1,10 @@
 import React from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
-import PropTypes from "prop-types";
+import { OrderNumberContext } from "../../services/appContext";
 
-export function OrderDetails({ orderNumber }) {
+export function OrderDetails() {
+  const orderNumber= React.useContext(OrderNumberContext);
   return (
     <>
       <h2
@@ -23,6 +24,3 @@ export function OrderDetails({ orderNumber }) {
   );
 }
 
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number
-};

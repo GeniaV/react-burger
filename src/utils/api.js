@@ -8,14 +8,14 @@ export function getIngredientsFromServer() {
   return fetch(`${API_URL}/ingredients`).then(checkReponse);
 }
 
-export function putAnOrder() {
+export function putAnOrder(id) {
   return fetch(`${API_URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ingredients: ['60d3b41abdacab0026a733c6']
+      ingredients: id
     }),
   })
   .then(checkReponse)
