@@ -7,7 +7,7 @@ import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
 import { getIngredientsFromServer, putAnOrder } from '../../utils/api';
-import { IngredientsContext, OrderNumberContext } from '../../services/appContext';
+import { IngredientsContext } from '../../services/appContext';
 
 export function App() {
   const [ingredients, setIngredients] = useState({
@@ -123,9 +123,7 @@ export function App() {
           onEscKeydown={handleEscKeydown}
           onCloseClick={closeAllModals}
         >
-          <OrderNumberContext.Provider value={orderNumber.dataNumber}>
-            <OrderDetails />
-          </OrderNumberContext.Provider>
+          <OrderDetails orderNumber={orderNumber.dataNumber}/>
         </Modal>}
     </>
   )

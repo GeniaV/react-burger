@@ -1,10 +1,9 @@
 import React from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
-import { OrderNumberContext } from "../../services/appContext";
+import PropTypes from "prop-types";
 
-export function OrderDetails() {
-  const orderNumber= React.useContext(OrderNumberContext);
+export function OrderDetails({ orderNumber }) {
   return (
     <>
       <h2
@@ -23,4 +22,9 @@ export function OrderDetails() {
     </>
   );
 }
+
+OrderDetails.propTypes = {
+  orderNumber: PropTypes.number
+};
+
 
