@@ -45,5 +45,5 @@ Modal.propTypes = {
   onOverlayClick: PropTypes.func,
   onEscKeydown: PropTypes.func,
   onCloseClick: PropTypes.func,
-  children: PropTypes.any
+  children: PropTypes.node
 };

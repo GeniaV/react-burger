@@ -97,14 +97,14 @@ function ProductList({ category, onClick }) {
 
 // Проверка данных
 ProductList.propTypes = {
-  category: PropTypes.arrayOf(type)
+  category: PropTypes.arrayOf(type).isRequired,
+  onClick: PropTypes.func
 }
 
 BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(type).isRequired,
   onClick: PropTypes.func
 };
 
-ProductList.propTypes = {
-  onClick: PropTypes.func
-};
+
 

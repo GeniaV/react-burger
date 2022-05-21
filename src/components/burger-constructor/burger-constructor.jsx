@@ -137,7 +137,7 @@ BottomProduct.propTypes = {
 }
 
 ProductList.propTypes = {
-  innerIngredients: PropTypes.arrayOf(type)
+  innerIngredients: PropTypes.arrayOf(type).isRequired
 }
 
 MakeAnOrder.propTypes = {
