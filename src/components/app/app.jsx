@@ -54,12 +54,6 @@ export function App() {
     setOrderDetailsOpened(false);
   };
 
-  const handleEscKeydown = (evt) => {
-    if (evt.key === 'Escape') {
-      closeAllModals()
-    }
-  }
-
   const openOrderDetailsModal = () => {
     setOrderDetailsOpened(true);
   }
@@ -111,7 +105,7 @@ export function App() {
         <Modal
           title="Детали ингредиента"
           onOverlayClick={closeAllModals}
-          onEscKeydown={handleEscKeydown}
+          close={closeAllModals}
           onCloseClick={closeAllModals}
         >
           <IngredientDetails ingredientData={isIngredientDetailsOpened} />
@@ -120,7 +114,7 @@ export function App() {
         <Modal
           title=""
           onOverlayClick={closeAllModals}
-          onEscKeydown={handleEscKeydown}
+          close={closeAllModals}
           onCloseClick={closeAllModals}
         >
           <OrderDetails orderNumber={orderNumber.dataNumber}/>
