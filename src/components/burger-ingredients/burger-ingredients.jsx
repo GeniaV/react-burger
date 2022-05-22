@@ -41,6 +41,18 @@ function Tabs() {
 }
 
 export function BurgerIngredients({ ingredients, onClick }) {
+  const bunCategory = React.useMemo(() => {
+    return ingredients.filter((data) => data.type === "bun")
+  }, [ingredients]);
+
+  const sausesCategory = React.useMemo(() => {
+    return ingredients.filter((data) => data.type === "sauce")
+  }, [ingredients]);
+
+  const mainCategory = React.useMemo(() => {
+    return ingredients.filter((data) => data.type === "main")
+  }, [ingredients]);
+
   return (
     <section className="pl-8">
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -49,15 +61,15 @@ export function BurgerIngredients({ ingredients, onClick }) {
         <h2 className="text text_type_main-medium" id="bun">
           Булки
         </h2>
-        <ProductList category={ingredients.filter((data) => data.type === "bun")} onClick={onClick}/>
+        <ProductList category={bunCategory} onClick={onClick}/>
         <h2 className="text text_type_main-medium" id="souses">
           Cоусы
         </h2>
-        <ProductList category={ingredients.filter((data) => data.type === "sauce")} onClick={onClick}/>
+        <ProductList category={sausesCategory} onClick={onClick}/>
         <h2 className="text text_type_main-medium" id="main">
           Начинки
         </h2>
-        <ProductList category={ingredients.filter((data) => data.type === "main")} onClick={onClick}/>
+        <ProductList category={mainCategory} onClick={onClick}/>
       </section>
     </section>
   );
@@ -105,6 +117,3 @@ BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(type).isRequired,
   onClick: PropTypes.func
 };
-
-
-

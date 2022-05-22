@@ -75,9 +75,12 @@ export function App() {
       });
   };
 
+  let ingredientsId = React.useMemo(() => {
+    return selectedIngredients.ingredients.map(ingredient => ingredient._id)
+  }, [selectedIngredients]);
+
   useEffect(() => {
     if (selectedIngredients.ingredients !== [] && selectedIngredients.bun !== null) {
-      let ingredientsId = selectedIngredients.ingredients.map(ingredient => ingredient._id)
       const bunId = selectedIngredients.bun._id
       ingredientsId.push(bunId)
 
