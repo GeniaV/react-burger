@@ -40,3 +40,8 @@ function Ingredient({ ingredientInfo, text}) {
 IngredientDetails.propTypes = {
   ingredientData: type
 }
+
+Ingredient.propTypes = {
+  ingredientInfo: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired
+}

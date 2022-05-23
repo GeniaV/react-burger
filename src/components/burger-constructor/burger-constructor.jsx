@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
@@ -8,74 +8,67 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
+import { IngredientsContext, TotalPriceContext } from "../../services/appContext";
 
-export function BurgerConstructor({ ingredients, onClick }) {
+export function BurgerConstructor({ onClick }) {
+
+  const totalPriceState = React.useState(null);
+
+  const constructorItems = React.useContext(IngredientsContext);
+
   return (
     <section className="mt-25 ml-4 mr-8">
       <div className="mb-10">
-        <TopProduct
-          category={ingredients.filter(
-            (data) => data._id === "60d3b41abdacab0026a733c6"
-          )}
-        />
+        {constructorItems.bun && <TopProduct bun={constructorItems.bun} />}
         <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
-          <ProductList
-            category={ingredients.filter(
-              (data) => data.type === "sauce" || data.type === "main"
-            )}
-          />
+          {constructorItems.ingredients && <ProductList innerIngredients={constructorItems.ingredients} />}
         </section>
-        <BottompProduct
-          category={ingredients.filter(
-            (data) => data._id === "60d3b41abdacab0026a733c6"
-          )}
-        />
+        {constructorItems.bun && <BottomProduct bun={constructorItems.bun} />}
       </div>
-      <MakeAnOrder onClick={onClick} />
+      <IngredientsContext.Provider value={constructorItems}>
+        <TotalPriceContext.Provider value={totalPriceState}>
+          <MakeAnOrder onClick={onClick} />
+        </TotalPriceContext.Provider>
+      </IngredientsContext.Provider>
     </section>
   );
 }
 
-function TopProduct({ category }) {
+function TopProduct({ bun }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      {category.map((item) => (
-        <div className={burgerConstructorStyles.constructor} key={item._id}>
+      <div className={burgerConstructorStyles.constructor} key={bun._id}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={item.name + " (верх)"}
-            price={item.price}
-            thumbnail={item.image}
+            text={bun.name + " (верх)"}
+            price={bun.price}
+            thumbnail={bun.image}
           />
-        </div>
-      ))}
-    </article>
-  );
+      </div>
+    </article>)
 }
 
-function BottompProduct({ category }) {
+function BottomProduct({ bun }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      {category.map((item) => (
-        <div className={burgerConstructorStyles.constructor} key={item._id}>
+        <div className={burgerConstructorStyles.constructor} key={bun._id}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={item.name + " (низ)"}
-            price={item.price}
-            thumbnail={item.image}
+            text={bun.name + " (низ)"}
+            price={bun.price}
+            thumbnail={bun.image}
           />
         </div>
-      ))}
     </article>
   );
 }
 
-function ProductList({ category }) {
+function ProductList({ innerIngredients }) {
   return (
     <section>
-      {category.map((card) => (
+      {innerIngredients.map((card) => (
         <div
           className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`}
           key={card._id}
@@ -84,7 +77,7 @@ function ProductList({ category }) {
           <div className={burgerConstructorStyles.inner}>
             <ConstructorElement
               text={card.name}
-              price={200}
+              price={card.price}
               thumbnail={card.image}
             />
           </div>
@@ -95,10 +88,32 @@ function ProductList({ category }) {
 }
 
 function MakeAnOrder({ onClick }) {
+  const [totalPrice, setTotalPrice] = React.useContext(TotalPriceContext);
+  const constructorItems = React.useContext(IngredientsContext);
+
+  useEffect(() => {
+      let total = 0;
+      if(constructorItems.ingredients === [] && constructorItems.bun === null) {
+        total = 0;
+      }
+      if(constructorItems.bun !== null && constructorItems.ingredients !== []) {
+        constructorItems.ingredients.map(item => total = item.price + constructorItems.bun.price*2);
+      }
+      if(constructorItems.bun !== null) {
+        total = constructorItems.bun.price*2
+      }
+      if(constructorItems.ingredients !== []) {
+        constructorItems.ingredients.map(item => total += item.price);
+      }
+      setTotalPrice(total);
+    },
+    [setTotalPrice]
+  );
+
   return (
     <section className={`mr-4 ${burgerConstructorStyles.order}`}>
       <div className={burgerConstructorStyles.sum}>
-        <p className="text text_type_digits-medium mr-2">610</p>
+        <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
       <Button type="primary" size="large" onClick={onClick}>
@@ -108,11 +123,23 @@ function MakeAnOrder({ onClick }) {
   );
 }
 
-// Проверка данных
-ProductList.propTypes = {
-  category: PropTypes.arrayOf(type)
+// // Проверка данных
+BurgerConstructor.propTypes = {
+  onClick: PropTypes.func
+};
+
+TopProduct.propTypes = {
+    bun: type
 }
 
-BurgerConstructor.propTypes = {
+BottomProduct.propTypes = {
+  bun: type
+}
+
+ProductList.propTypes = {
+  innerIngredients: PropTypes.arrayOf(type).isRequired
+}
+
+MakeAnOrder.propTypes = {
   onClick: PropTypes.func
 };

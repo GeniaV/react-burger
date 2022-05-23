@@ -10,15 +10,22 @@ const modalsContainer = document.querySelector("#modals");
 export function Modal({
   title,
   onOverlayClick,
-  onEscKeydown,
+  close,
   onCloseClick,
   children,
 }) {
+
+  const handleEscKeydown = (evt) => {
+    if (evt.key === 'Escape') {
+      close()
+    }
+  }
+
   useEffect(() => {
-    document.addEventListener("keydown", onEscKeydown);
+    document.addEventListener("keydown", handleEscKeydown);
 
     return () => {
-      document.removeEventListener("keydown", onEscKeydown);
+      document.removeEventListener("keydown", handleEscKeydown);
     };
   }, []);
 
@@ -45,5 +52,5 @@ Modal.propTypes = {
   onOverlayClick: PropTypes.func,
   onEscKeydown: PropTypes.func,
   onCloseClick: PropTypes.func,
-  children: PropTypes.any
+  children: PropTypes.node
 };
