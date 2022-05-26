@@ -8,7 +8,7 @@ import {
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 
-function Tabs({ bunRef, sauseRef, mainRef }) {
+const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
   const [current, setCurrent] = React.useState("Булки");
 
   const scrollToSection = (elementRef) => {
@@ -28,7 +28,7 @@ function Tabs({ bunRef, sauseRef, mainRef }) {
       </Tab>
     </div>
   );
-}
+});
 
 export function BurgerIngredients({ ingredients, onClick }) {
   const bunCategory = React.useMemo(() => {

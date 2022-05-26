@@ -2,7 +2,7 @@ import React from 'react';
 import appHeaderStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-function Navigator() {
+const Navigator = React.memo(() => {
   return (
     <nav className={`pl-5 ${appHeaderStyles.nav}`}>
       <ul className={appHeaderStyles.menu}>
@@ -21,16 +21,16 @@ function Navigator() {
       </ul>
     </nav>
   )
-}
+})
 
-function Account() {
+const Account = React.memo(() => {
   return (
     <div className={appHeaderStyles.item}>
       <ProfileIcon type="secondary" />
       <p className="text text_type_main-default text_color_inactive pl-2 pt-4 pb-4 pr-5">Личный кабинет</p>
     </div>
   )
-}
+})
 
 export function AppHeader() {
   return (
