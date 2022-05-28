@@ -6,16 +6,19 @@ import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
-import { getIngredientsFromServer, putAnOrder } from '../../utils/api';
+import { putAnOrder } from '../../utils/api';
 import { IngredientsContext } from '../../services/appContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngredients } from '../../services/actions/actions';
 
 export function App() {
-  const [ingredients, setIngredients] = useState({
-    isLoading: false,
-    hasError: false,
-    errorMessage: '',
-    data: []
-  });
+  const { ingredients, ingredientsRequest, ingredientsFailed}  = useSelector(store => store.ingredientsList);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [dispatch])
 
   const [isIngredientDetailsOpened, setIngredientDetailsOpened] = useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
@@ -23,7 +26,8 @@ export function App() {
   const [orderNumber, setOrderNumber] = useState(null);
 
   const [selectedIngredients, setSelectedIngredients] = useState({
-    bun: {calories: 420,
+    bun: {
+      calories: 420,
       carbohydrates: 53,
       fat: 24,
       image: "https://code.s3.yandex.net/react/code/bun-02.png",
@@ -34,8 +38,10 @@ export function App() {
       proteins: 80,
       type: "bun",
       __v: 0,
-      _id: "60d3b41abdacab0026a733c6"},
-    ingredients: [{calories: 99,
+      _id: "60d3b41abdacab0026a733c6"
+    },
+    ingredients: [{
+      calories: 99,
       carbohydrates: 42,
       fat: 24,
       image: "https://code.s3.yandex.net/react/code/sauce-03.png",
@@ -46,7 +52,8 @@ export function App() {
       proteins: 42,
       type: "sauce",
       __v: 0,
-      _id: "60d3b41abdacab0026a733ce"}]
+      _id: "60d3b41abdacab0026a733ce"
+    }]
   })
 
   const closeAllModals = () => {
@@ -61,19 +68,6 @@ export function App() {
   const openIngredientDetails = (data) => {
     setIngredientDetailsOpened(data);
   }
-
-  useEffect(() => {
-    getIngredients();
-  }, [])
-
-  const getIngredients = () => {
-    setIngredients({ ...ingredients, hasError: false, isLoading: true });
-    getIngredientsFromServer()
-      .then(res => setIngredients({ ...ingredients, data: res.data, isLoading: false }))
-      .catch(err => {
-        setIngredients({ ...ingredients, isLoading: false, hasError: true, errorMessage: err.message })
-      });
-  };
 
   let ingredientsId = React.useMemo(() => {
     return selectedIngredients.ingredients.map(ingredient => ingredient._id)
@@ -95,10 +89,10 @@ export function App() {
   return (
     <>
       <AppHeader />
-      {!ingredients.isLoading && !ingredients.hasError && ingredients &&
+      {!ingredientsRequest && !ingredientsFailed && ingredients &&
         <main className={appStyles.main}>
           <section className={appStyles.container}>
-            <BurgerIngredients ingredients={ingredients.data} onClick={openIngredientDetails} />
+            <BurgerIngredients ingredients={ingredients} onClick={openIngredientDetails} />
             <IngredientsContext.Provider value={selectedIngredients}>
               <BurgerConstructor onClick={openOrderDetailsModal} />
             </IngredientsContext.Provider>
@@ -120,7 +114,7 @@ export function App() {
           close={closeAllModals}
           onCloseClick={closeAllModals}
         >
-          <OrderDetails orderNumber={orderNumber.dataNumber}/>
+          <OrderDetails orderNumber={orderNumber.dataNumber} />
         </Modal>}
     </>
   )
