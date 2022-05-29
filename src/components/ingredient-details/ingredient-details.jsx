@@ -1,9 +1,11 @@
 import React from "react";
 import ingredientDetailsStyles from "./ingredient-details.module.css";
-import { type } from "../../utils/types";
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
 
-export function IngredientDetails({ ingredientData }) {
+export function IngredientDetails() {
+  const { ingredientData } = useSelector(store => store.ingredientData);
+
   return (
     <section className={ingredientDetailsStyles.container}>
       <div className={`pl-5 pr-5 ${ingredientDetailsStyles.photo}`}>
@@ -35,10 +37,6 @@ function Ingredient({ ingredientInfo, text}) {
     </p>
   </li>
   )
-}
-
-IngredientDetails.propTypes = {
-  ingredientData: type
 }
 
 Ingredient.propTypes = {

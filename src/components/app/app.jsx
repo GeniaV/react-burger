@@ -6,13 +6,17 @@ import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
+import { removeIngredienFromModal } from '../../services/actions/actions';
+import { useSelector, useDispatch } from 'react-redux';
 
 export function App() {
-  const [isIngredientDetailsOpened, setIngredientDetailsOpened] = useState(false);
+  const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
 
+  const dispatch = useDispatch();
+
   const closeAllModals = () => {
-    setIngredientDetailsOpened(false);
+    dispatch(removeIngredienFromModal())
     setOrderDetailsOpened(false);
   };
 
@@ -20,16 +24,12 @@ export function App() {
     setOrderDetailsOpened(true);
   }
 
-  const openIngredientDetails = (data) => {
-    setIngredientDetailsOpened(data);
-  }
-
   return (
     <>
       <AppHeader />
       <main className={appStyles.main}>
         <section className={appStyles.container}>
-          <BurgerIngredients onClick={openIngredientDetails} />
+          <BurgerIngredients />
           <BurgerConstructor onClick={openOrderDetailsModal} />
         </section>
       </main>
@@ -40,7 +40,7 @@ export function App() {
           close={closeAllModals}
           onCloseClick={closeAllModals}
         >
-          <IngredientDetails ingredientData={isIngredientDetailsOpened} />
+          <IngredientDetails />
         </Modal>}
       {isOrderDetailsOpened &&
         <Modal

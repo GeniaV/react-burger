@@ -1,4 +1,5 @@
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED, GET_SELECTED_INGREDIENTS, PUT_AN_ORDER, PUT_AN_ORDER_FAILED } from "../actions/actions"
+import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED, GET_SELECTED_INGREDIENTS,
+  PUT_AN_ORDER, PUT_AN_ORDER_FAILED, ADD_INGREDIENT_DATA_IN_MODAL, REMOVE_INGREDIENT_DATA_FROM_MODAL } from "../actions/actions"
 
 const initiaIngredientsState = {
   ingredients: [],
@@ -71,7 +72,8 @@ export const selectedIngredientsReducer = (state = constructorInitialState, acti
 };
 
 const initialIngredientState = {
-  ingredient: []
+  ingredientData: null,
+  isIngredientDetailsOpened: false
 };
 
 const initialOrderNumberState = {
@@ -86,6 +88,20 @@ export const orderNumbertReducer = (state = initialOrderNumberState, action) => 
     }
     case PUT_AN_ORDER_FAILED: {
       return { ...state, putAnOrderFailed: true };
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+export const ingredientDataReducer = (state = initialIngredientState, action) => {
+  switch (action.type) {
+    case ADD_INGREDIENT_DATA_IN_MODAL: {
+      return { ...state, ingredientData: action.ingredientData, isIngredientDetailsOpened: true };
+    }
+    case REMOVE_INGREDIENT_DATA_FROM_MODAL: {
+      return { ...state, ingredientData: action.ingredientData, isIngredientDetailsOpened: false };
     }
     default: {
       return state;

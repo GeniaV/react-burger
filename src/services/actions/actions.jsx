@@ -54,3 +54,19 @@ export function sendOrder(id) {
   };
 }
 
+export const ADD_INGREDIENT_DATA_IN_MODAL = 'ADD_INGREDIENT_DATA_IN_MODAL';
+export const REMOVE_INGREDIENT_DATA_FROM_MODAL = 'REMOVE_INGREDIENT_DATA_FROM_MODAL';
+
+export function addIngredientInModal(ingredietData) {
+  return {
+    type: 'ADD_INGREDIENT_DATA_IN_MODAL',
+    ingredientData: ingredietData
+  }
+}
+
+export function removeIngredienFromModal() {
+  return {
+    type: 'REMOVE_INGREDIENT_DATA_FROM_MODAL',
+    ingredientData: ''
+  }
+}

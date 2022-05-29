@@ -9,6 +9,7 @@ import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from "../../services/actions/actions";
+import { addIngredientInModal } from "../../services/actions/actions";
 
 const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
   const [current, setCurrent] = React.useState("Булки");
@@ -32,7 +33,7 @@ const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
   );
 });
 
-export function BurgerIngredients({ onClick }) {
+export function BurgerIngredients() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredientsList);
 
   const dispatch = useDispatch();
@@ -67,15 +68,15 @@ export function BurgerIngredients({ onClick }) {
             <h2 className="text text_type_main-medium" ref={bunRef}>
               Булки
             </h2>
-            <ProductList category={bunCategory} onClick={onClick} />
+            <ProductList category={bunCategory} />
             <h2 className="text text_type_main-medium" ref={sauseRef}>
               Cоусы
             </h2>
-            <ProductList category={sausesCategory} onClick={onClick} />
+            <ProductList category={sausesCategory} />
             <h2 className="text text_type_main-medium" ref={mainRef}>
               Начинки
             </h2>
-            <ProductList category={mainCategory} onClick={onClick} />
+            <ProductList category={mainCategory} />
           </section>
         </section>
       }
@@ -83,13 +84,19 @@ export function BurgerIngredients({ onClick }) {
   );
 }
 
-function ProductList({ category, onClick }) {
+function ProductList({ category }) {
+  const dispatch = useDispatch();
+
+  const openIngredientDetails = (data) => {
+    dispatch(addIngredientInModal(data))
+  }
+
   return (
     <section
       className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
     >
       {category.map((card) => (
-        <article className={burgerIngredientsStyles.card} key={card._id} onClick={() => onClick(card)}>
+        <article className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
           <Counter
             count={1}
             size="default"
@@ -117,13 +124,8 @@ function ProductList({ category, onClick }) {
 
 // Проверка данных
 ProductList.propTypes = {
-  category: PropTypes.arrayOf(type).isRequired,
-  onClick: PropTypes.func
+  category: PropTypes.arrayOf(type).isRequired
 }
-
-BurgerIngredients.propTypes = {
-  onClick: PropTypes.func
-};
 
 Tabs.propTypes = {
   bunRef: PropTypes.oneOfType([
