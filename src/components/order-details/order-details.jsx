@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from 'react-redux';
+import { sendOrder } from "../../services/actions/actions";
 
-export function OrderDetails({ orderNumber }) {
+export function OrderDetails() {
+  const { orderNumber } = useSelector(store => store.orderNumber);
+  const selectedIngredients = useSelector(store => store.selectedIngredients);
+
+  const dispatch = useDispatch();
+
+  let ingredientsId = React.useMemo(() => {
+    return selectedIngredients.ingredients.map(ingredient => ingredient._id)
+  }, [selectedIngredients]);
+
+  useEffect(() => {
+    if (selectedIngredients.ingredients !== [] && selectedIngredients.bun !== null) {
+      const bunId = selectedIngredients.bun._id;
+      ingredientsId.push(bunId);
+      dispatch(sendOrder(ingredientsId));
+    }
+  }, [dispatch, selectedIngredients, ingredientsId])
+
   return (
     <>
       <h2
@@ -22,9 +40,4 @@ export function OrderDetails({ orderNumber }) {
     </>
   );
 }
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired
-};
-
 

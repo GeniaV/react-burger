@@ -1,4 +1,4 @@
-import { getIngredientsFromServer } from "../../utils/api";
+import { getIngredientsFromServer, putAnOrder } from "../../utils/api";
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -23,9 +23,34 @@ export function getIngredients() {
         }
       })
       .catch(err => {
+        console.log(err);
         dispatch({
           type: GET_INGREDIENTS_FAILED
         })
       })
   };
 }
+
+export const GET_SELECTED_INGREDIENTS = 'GET_SELECTED_INGREDIENTS ';
+
+export const PUT_AN_ORDER = 'PUT_AN_ORDER';
+export const PUT_AN_ORDER_FAILED = 'PUT_AN_ORDER_FAILED';
+
+export function sendOrder(id) {
+  return function (dispatch) {
+    putAnOrder(id)
+      .then(res => {
+        dispatch({
+          type: PUT_AN_ORDER,
+          orderNumber: res.order.number,
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: PUT_AN_ORDER_FAILED,
+        })
+      })
+  };
+}
+

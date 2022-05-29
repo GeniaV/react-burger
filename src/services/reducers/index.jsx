@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
-import { ingredientsListReducer } from './reducers';
+import { ingredientsListReducer, selectedIngredientsReducer, orderNumbertReducer } from './reducers';
 
 export const rootReducer = combineReducers({
-  ingredientsList: ingredientsListReducer
+  ingredientsList: ingredientsListReducer,
+  selectedIngredients: selectedIngredientsReducer,
+  orderNumber: orderNumbertReducer
 });
+
