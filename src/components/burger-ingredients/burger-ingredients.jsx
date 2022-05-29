@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import {
   Tab,
@@ -7,6 +7,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngredients } from "../../services/actions/actions";
 
 const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
   const [current, setCurrent] = React.useState("Булки");
@@ -30,7 +32,15 @@ const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
   );
 });
 
-export function BurgerIngredients({ ingredients, onClick }) {
+export function BurgerIngredients({ onClick }) {
+  const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredientsList);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [dispatch])
+
   const bunCategory = React.useMemo(() => {
     return ingredients.filter((data) => data.type === "bun")
   }, [ingredients]);
@@ -48,24 +58,28 @@ export function BurgerIngredients({ ingredients, onClick }) {
   const mainRef = React.useRef(null);
 
   return (
-    <section className="pl-8">
-      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <Tabs bunRef={bunRef} sauseRef={sauseRef} mainRef={mainRef} />
-      <section className={`mt-10 ${burgerIngredientsStyles.section}`}>
-        <h2 className="text text_type_main-medium" ref={bunRef}>
-          Булки
-        </h2>
-        <ProductList category={bunCategory} onClick={onClick} />
-        <h2 className="text text_type_main-medium" ref={sauseRef}>
-          Cоусы
-        </h2>
-        <ProductList category={sausesCategory} onClick={onClick} />
-        <h2 className="text text_type_main-medium" ref={mainRef}>
-          Начинки
-        </h2>
-        <ProductList category={mainCategory} onClick={onClick} />
-      </section>
-    </section>
+    <>
+      {!ingredientsRequest && !ingredientsFailed && ingredients &&
+        <section className="pl-8">
+          <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+          <Tabs bunRef={bunRef} sauseRef={sauseRef} mainRef={mainRef} />
+          <section className={`mt-10 ${burgerIngredientsStyles.section}`}>
+            <h2 className="text text_type_main-medium" ref={bunRef}>
+              Булки
+            </h2>
+            <ProductList category={bunCategory} onClick={onClick} />
+            <h2 className="text text_type_main-medium" ref={sauseRef}>
+              Cоусы
+            </h2>
+            <ProductList category={sausesCategory} onClick={onClick} />
+            <h2 className="text text_type_main-medium" ref={mainRef}>
+              Начинки
+            </h2>
+            <ProductList category={mainCategory} onClick={onClick} />
+          </section>
+        </section>
+      }
+    </>
   );
 }
 
@@ -108,7 +122,6 @@ ProductList.propTypes = {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(type).isRequired,
   onClick: PropTypes.func
 };
 

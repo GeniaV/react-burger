@@ -8,18 +8,8 @@ import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
 import { putAnOrder } from '../../utils/api';
 import { IngredientsContext } from '../../services/appContext';
-import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/actions/actions';
 
 export function App() {
-  const { ingredients, ingredientsRequest, ingredientsFailed}  = useSelector(store => store.ingredientsList);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch])
-
   const [isIngredientDetailsOpened, setIngredientDetailsOpened] = useState(false);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
 
@@ -89,15 +79,14 @@ export function App() {
   return (
     <>
       <AppHeader />
-      {!ingredientsRequest && !ingredientsFailed && ingredients &&
         <main className={appStyles.main}>
           <section className={appStyles.container}>
-            <BurgerIngredients ingredients={ingredients} onClick={openIngredientDetails} />
+            <BurgerIngredients onClick={openIngredientDetails} />
             <IngredientsContext.Provider value={selectedIngredients}>
               <BurgerConstructor onClick={openOrderDetailsModal} />
             </IngredientsContext.Provider>
           </section>
-        </main>}
+        </main>
       {isIngredientDetailsOpened &&
         <Modal
           title="Детали ингредиента"
