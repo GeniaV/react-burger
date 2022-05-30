@@ -23,9 +23,9 @@ export function getIngredients() {
         }
       })
       .catch(err => {
-        console.log(err);
         dispatch({
-          type: GET_INGREDIENTS_FAILED
+          type: GET_INGREDIENTS_FAILED,
+          payload: `Произошла Ошибка получения данных об ингредиентах: ${err.message}`
         })
       })
   };
@@ -33,22 +33,26 @@ export function getIngredients() {
 
 export const GET_SELECTED_INGREDIENTS = 'GET_SELECTED_INGREDIENTS ';
 
+export const PUT_AN_ORDER_REQUEST = 'PUT_AN_ORDER_REQUEST';
 export const PUT_AN_ORDER = 'PUT_AN_ORDER';
 export const PUT_AN_ORDER_FAILED = 'PUT_AN_ORDER_FAILED';
 
 export function sendOrder(id) {
   return function (dispatch) {
+    dispatch({
+      type: PUT_AN_ORDER_REQUEST
+    });
     putAnOrder(id)
       .then(res => {
         dispatch({
           type: PUT_AN_ORDER,
-          orderNumber: res.order.number,
+          orderNumber: res.order.number
         });
       })
       .catch(err => {
-        console.log(err);
         dispatch({
           type: PUT_AN_ORDER_FAILED,
+          payload: `Произошла Ошибка размещения заказа: ${err.message}`
         })
       })
   };
