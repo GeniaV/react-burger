@@ -10,23 +10,36 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from "../../services/actions/actions";
 import { addIngredientInModal } from "../../services/actions/actions";
+import { useInView } from 'react-intersection-observer';
 
-const Tabs = React.memo(({ bunRef, sauceRef, mainRef }) => {
+const Tabs = React.memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
   const [current, setCurrent] = React.useState("Булки");
 
-  const scrollToSection = (elementRef) => {
-    elementRef.current.scrollIntoView({ behavior: "smooth" });
+  React.useEffect(() => {
+    if (inViewBuns) {
+      setCurrent("Булки");
+    } else if (inViewSaucess) {
+      setCurrent("Соусы");
+    } else if (inViewFilling) {
+      setCurrent("Начинки");
+    }
+  }, [inViewBuns, inViewFilling, inViewSaucess]);
+
+  const scrollToSection = (current, id) => {
+    setCurrent(current);
+    const element = document.getElementById(id);
+    element.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
     <div className={burgerIngredientsStyles.tabs}>
-      <Tab value="Булки" active={current === "Булки"} onClick={() => { setCurrent("Булки"); scrollToSection(bunRef) }}>
+      <Tab value="Булки" active={current === "Булки"} onClick={() => { scrollToSection("Булки", 'buns') }}>
         Булки
       </Tab>
-      <Tab value="Соусы" active={current === "Соусы"} onClick={() => { setCurrent("Соусы"); scrollToSection(sauceRef) }}>
+      <Tab value="Соусы" active={current === "Соусы"} onClick={() => { scrollToSection("Соусы", 'sauces') }}>
         Соусы
       </Tab>
-      <Tab value="Начинки" active={current === "Начинки"} onClick={() => { setCurrent("Начинки"); scrollToSection(mainRef) }}>
+      <Tab value="Начинки" active={current === "Начинки"} onClick={() => { scrollToSection("Начинки", 'main') }}>
         Начинки
       </Tab>
     </div>
@@ -54,26 +67,26 @@ export function BurgerIngredients() {
     return ingredients.filter((data) => data.type === "main")
   }, [ingredients]);
 
-  const bunRef = React.useRef(null);
-  const sauceRef = React.useRef(null);
-  const mainRef = React.useRef(null);
+  const [bunRef, inViewBuns ] = useInView({ threshold: 0 });
+  const [sauceRef, inViewSaucess] = useInView({ threshold: 0 });
+  const [mainRef, inViewFilling] = useInView({ threshold: 0 });
 
   return (
     <>
       {!ingredientsRequest && !ingredientsFailed && ingredients &&
         <section className="pl-8">
           <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-          <Tabs bunRef={bunRef} sauceRef={sauceRef} mainRef={mainRef} />
+          <Tabs inViewBuns={inViewBuns} inViewSaucess={inViewSaucess} inViewFilling={inViewFilling} />
           <section className={`mt-10 ${burgerIngredientsStyles.section}`}>
-            <h2 className="text text_type_main-medium" ref={bunRef}>
+            <h2 className="text text_type_main-medium" ref={bunRef} id="buns" >
               Булки
             </h2>
             <ProductList category={bunCategory} />
-            <h2 className="text text_type_main-medium" ref={sauceRef}>
+            <h2 className="text text_type_main-medium" ref={sauceRef} id="sauces">
               Cоусы
             </h2>
             <ProductList category={sausesCategory} />
-            <h2 className="text text_type_main-medium" ref={mainRef}>
+            <h2 className="text text_type_main-medium" ref={mainRef} id="main">
               Начинки
             </h2>
             <ProductList category={mainCategory} />
@@ -128,16 +141,7 @@ ProductList.propTypes = {
 }
 
 Tabs.propTypes = {
-  bunRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-  ]),
-  sauceRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-  ]),
-  mainRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-  ])
+  inViewBuns: PropTypes.bool,
+  inViewSaucess: PropTypes.bool,
+  inViewFilling: PropTypes.bool
 };
