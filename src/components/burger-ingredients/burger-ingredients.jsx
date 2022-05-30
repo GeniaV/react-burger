@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from "../../services/actions/actions";
 import { addIngredientInModal } from "../../services/actions/actions";
 
-const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
+const Tabs = React.memo(({ bunRef, sauceRef, mainRef }) => {
   const [current, setCurrent] = React.useState("Булки");
 
   const scrollToSection = (elementRef) => {
@@ -23,7 +23,7 @@ const Tabs = React.memo(({ bunRef, sauseRef, mainRef }) => {
       <Tab value="Булки" active={current === "Булки"} onClick={() => { setCurrent("Булки"); scrollToSection(bunRef) }}>
         Булки
       </Tab>
-      <Tab value="Соусы" active={current === "Соусы"} onClick={() => { setCurrent("Соусы"); scrollToSection(sauseRef) }}>
+      <Tab value="Соусы" active={current === "Соусы"} onClick={() => { setCurrent("Соусы"); scrollToSection(sauceRef) }}>
         Соусы
       </Tab>
       <Tab value="Начинки" active={current === "Начинки"} onClick={() => { setCurrent("Начинки"); scrollToSection(mainRef) }}>
@@ -55,7 +55,7 @@ export function BurgerIngredients() {
   }, [ingredients]);
 
   const bunRef = React.useRef(null);
-  const sauseRef = React.useRef(null);
+  const sauceRef = React.useRef(null);
   const mainRef = React.useRef(null);
 
   return (
@@ -63,13 +63,13 @@ export function BurgerIngredients() {
       {!ingredientsRequest && !ingredientsFailed && ingredients &&
         <section className="pl-8">
           <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-          <Tabs bunRef={bunRef} sauseRef={sauseRef} mainRef={mainRef} />
+          <Tabs bunRef={bunRef} sauceRef={sauceRef} mainRef={mainRef} />
           <section className={`mt-10 ${burgerIngredientsStyles.section}`}>
             <h2 className="text text_type_main-medium" ref={bunRef}>
               Булки
             </h2>
             <ProductList category={bunCategory} />
-            <h2 className="text text_type_main-medium" ref={sauseRef}>
+            <h2 className="text text_type_main-medium" ref={sauceRef}>
               Cоусы
             </h2>
             <ProductList category={sausesCategory} />
@@ -132,7 +132,7 @@ Tabs.propTypes = {
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
-  sauseRef: PropTypes.oneOfType([
+  sauceRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
