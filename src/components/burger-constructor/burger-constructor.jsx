@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
@@ -8,12 +8,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
-import { TotalPriceContext } from "../../services/appContext";
 import { useSelector } from 'react-redux';
 
 export function BurgerConstructor({ onClick }) {
-  const totalPriceState = React.useState(null);
-
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
 
   return (
@@ -25,9 +22,7 @@ export function BurgerConstructor({ onClick }) {
         </section>
         {bun && <BottomProduct bun={bun} />}
       </div>
-      <TotalPriceContext.Provider value={totalPriceState}>
-        <MakeAnOrder onClick={onClick} bun={bun} ingredients={ingredients} />
-      </TotalPriceContext.Provider>
+      <MakeAnOrder onClick={onClick} bun={bun} ingredients={ingredients} />
     </section>
   );
 }
@@ -85,32 +80,20 @@ function ProductList({ innerIngredients }) {
   );
 }
 
-function MakeAnOrder({ onClick, bun, ingredients }) {
-  const [totalPrice, setTotalPrice] = React.useContext(TotalPriceContext);
+function MakeAnOrder({ onClick }) {
+  const constructorItems = useSelector(store => store.selectedIngredients);
 
-  useEffect(() => {
-    let total = 0;
-    if (ingredients === [] && bun === null) {
-      total = 0;
-    }
-    if (bun !== null && ingredients !== []) {
-      ingredients.map(item => total = item.price + bun.price * 2);
-    }
-    if (bun !== null) {
-      total = bun.price * 2
-    }
-    if (ingredients !== []) {
-      ingredients.map(item => total += item.price);
-    }
-    setTotalPrice(total);
-  },
-    [setTotalPrice]
-  );
+  const price = React.useMemo(() => {
+    return (
+      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
+      constructorItems.ingredients.reduce((s, v) => s + v.price, 0)
+    );
+  }, [constructorItems]);
 
   return (
     <section className={`mr-4 ${burgerConstructorStyles.order}`}>
       <div className={burgerConstructorStyles.sum}>
-        <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
+        <p className="text text_type_digits-medium mr-2">{price}</p>
         <CurrencyIcon type="primary" />
       </div>
       <Button type="primary" size="large" onClick={onClick}>
@@ -138,7 +121,5 @@ ProductList.propTypes = {
 }
 
 MakeAnOrder.propTypes = {
-  onClick: PropTypes.func,
-  bun: type,
-  ingredients: PropTypes.arrayOf(type).isRequired
+  onClick: PropTypes.func
 };
