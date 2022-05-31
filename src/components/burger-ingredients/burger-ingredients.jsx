@@ -67,9 +67,9 @@ export function BurgerIngredients() {
     return ingredients.filter((data) => data.type === "main")
   }, [ingredients]);
 
-  const [bunRef, inViewBuns ] = useInView({ threshold: 0 });
-  const [sauceRef, inViewSaucess] = useInView({ threshold: 0 });
-  const [mainRef, inViewFilling] = useInView({ threshold: 0 });
+  const [bunRef, inViewBuns] = useInView({ threshold: 1 });
+  const [sauceRef, inViewSaucess] = useInView({ threshold: 1 });
+  const [mainRef, inViewFilling] = useInView({ threshold: 0.5 });
 
   return (
     <>
@@ -78,24 +78,25 @@ export function BurgerIngredients() {
           <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
           <Tabs inViewBuns={inViewBuns} inViewSaucess={inViewSaucess} inViewFilling={inViewFilling} />
           <section className={`mt-10 ${burgerIngredientsStyles.section}`}>
-            <h2 className="text text_type_main-medium" ref={bunRef} id="buns" >
-              Булки
-            </h2>
-            <ProductList category={bunCategory} />
-            <h2 className="text text_type_main-medium" ref={sauceRef} id="sauces">
-              Cоусы
-            </h2>
-            <ProductList category={sausesCategory} />
-            <h2 className="text text_type_main-medium" ref={mainRef} id="main">
-              Начинки
-            </h2>
-            <ProductList category={mainCategory} />
+            <IngredientsCategory name="Булки" ref={bunRef} category={bunCategory} id="buns" />
+            <IngredientsCategory name="Cоусы" ref={sauceRef} category={sausesCategory} id="sauces" />
+            <IngredientsCategory name="Начинки" ref={mainRef} category={mainCategory} id="main" />
           </section>
         </section>
       }
     </>
   );
 }
+
+const IngredientsCategory = React.forwardRef(({ name, category, id }, ref) => {
+  return (
+    <div ref={ref}>
+      <h2 className="text text_type_main-medium" id={id} >
+        {name}
+      </h2>
+      <ProductList category={category} />
+    </div>)
+})
 
 function ProductList({ category }) {
   const dispatch = useDispatch();
@@ -141,7 +142,13 @@ ProductList.propTypes = {
 }
 
 Tabs.propTypes = {
-  inViewBuns: PropTypes.bool,
-  inViewSaucess: PropTypes.bool,
-  inViewFilling: PropTypes.bool
+  inViewBuns: PropTypes.bool.isRequired,
+  inViewSaucess: PropTypes.bool.isRequired,
+  inViewFilling: PropTypes.bool.isRequired
+};
+
+IngredientsCategory.propTypes = {
+  name: PropTypes.string,
+  category: PropTypes.arrayOf(type).isRequired,
+  id: PropTypes.string
 };
