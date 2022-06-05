@@ -9,6 +9,8 @@ import {
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector } from 'react-redux';
+import { useDrop } from "react-dnd";
+
 
 export function BurgerConstructor({ onClick }) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);

@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from "../../services/actions/actions";
 import { addIngredientInModal } from "../../services/actions/actions";
 import { useInView } from 'react-intersection-observer';
+import { useDrag } from "react-dnd";
 
 const Tabs = React.memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
   const [current, setCurrent] = React.useState("Булки");
@@ -98,41 +99,58 @@ const IngredientsCategory = React.forwardRef(({ name, category, id }, ref) => {
     </div>)
 })
 
-function ProductList({ category }) {
+const ProductList = ({ category }) => {
+  return (
+    <section
+      className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
+    >
+      {category.map((card, index) => {
+        return <Product key={index} card={card} />
+      })}
+    </section>
+  );
+}
+
+const Product = ({ card }) => {
+  const { id } = card;
   const dispatch = useDispatch();
 
   const openIngredientDetails = (data) => {
     dispatch(addIngredientInModal(data))
   }
 
+  const [{ isDrag }, dragRef] = useDrag({
+    type: "ingredient",
+    item: { id },
+    collect: monitor => ({
+      isDrag: monitor.isDragging()
+    })
+  });
+
+
   return (
-    <section
-      className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
-    >
-      {category.map((card) => (
-        <article className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
-          <Counter
-            count={1}
-            size="default"
-            className={burgerIngredientsStyles.counter}
-          />
-          <img
-            className={`ml-4 mr-4 ${burgerIngredientsStyles.image}`}
-            src={card.image}
-            alt={card.name}
-          />
-          <div className={burgerIngredientsStyles.price}>
-            <p className="text text_type_digits-default mt-1 mb-1">
-              {card.price}
-            </p>
-            <CurrencyIcon type="primary" />
-          </div>
-          <div className={burgerIngredientsStyles.name}>
-            <p className="text text_type_main-default">{card.name}</p>
-          </div>
-        </article>
-      ))}
-    </section>
+    !isDrag &&
+    <article ref={dragRef} className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
+      <Counter
+        count={1}
+        size="default"
+        className={burgerIngredientsStyles.counter}
+      />
+      <img
+        className={`ml-4 mr-4 ${burgerIngredientsStyles.image}`}
+        src={card.image}
+        alt={card.name}
+      />
+      <div className={burgerIngredientsStyles.price}>
+        <p className="text text_type_digits-default mt-1 mb-1">
+          {card.price}
+        </p>
+        <CurrencyIcon type="primary" />
+      </div>
+      <div className={burgerIngredientsStyles.name}>
+        <p className="text text_type_main-default">{card.name}</p>
+      </div>
+    </article>
   );
 }
 
@@ -151,4 +169,8 @@ IngredientsCategory.propTypes = {
   name: PropTypes.string,
   category: PropTypes.arrayOf(type).isRequired,
   id: PropTypes.string
+};
+
+Product.propTypes = {
+  card: type
 };

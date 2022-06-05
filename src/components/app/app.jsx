@@ -8,6 +8,9 @@ import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
 import { removeIngredienFromModal } from '../../services/actions/actions';
 import { useSelector, useDispatch } from 'react-redux';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+
 
 export function App() {
   const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
@@ -29,8 +32,10 @@ export function App() {
       <AppHeader />
       <main className={appStyles.main}>
         <section className={appStyles.container}>
-          <BurgerIngredients />
-          <BurgerConstructor onClick={openOrderDetailsModal} />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor onClick={openOrderDetailsModal} />
+          </DndProvider>
         </section>
       </main>
       {isIngredientDetailsOpened &&
