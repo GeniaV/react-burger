@@ -8,15 +8,27 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
-
+import { addToConstructor } from "../../services/actions/actions";
+import { nanoid } from 'nanoid';
 
 export function BurgerConstructor({ onClick }) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
+  const items = useSelector(store => store.ingredientsList.ingredients)
+
+  const dispatch = useDispatch();
+
+  const [, dropTarget] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      const draggedCard = items.find((el) => el.id === item._id)
+      dispatch(addToConstructor(draggedCard));
+    }
+  })
 
   return (
-    <section className="mt-25 ml-4 mr-8">
+    <section className="mt-25 ml-4 mr-8" ref={dropTarget}>
       <div className="mb-10">
         {bun && <TopProduct bun={bun} />}
         <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
@@ -32,7 +44,7 @@ export function BurgerConstructor({ onClick }) {
 function TopProduct({ bun }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor} key={bun._id}>
+      <div className={burgerConstructorStyles.constructor} key={nanoid()}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -47,7 +59,7 @@ function TopProduct({ bun }) {
 function BottomProduct({ bun }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor} key={bun._id}>
+      <div className={burgerConstructorStyles.constructor} key={nanoid()}>
         <ConstructorElement
           type="bottom"
           isLocked={true}
@@ -66,7 +78,7 @@ function ProductList({ innerIngredients }) {
       {innerIngredients.map((card) => (
         <div
           className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`}
-          key={card._id}
+          key={nanoid()}
         >
           <DragIcon />
           <div className={burgerConstructorStyles.inner}>

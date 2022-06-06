@@ -12,6 +12,7 @@ import { getIngredients } from "../../services/actions/actions";
 import { addIngredientInModal } from "../../services/actions/actions";
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
+import { nanoid } from 'nanoid';
 
 const Tabs = React.memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
   const [current, setCurrent] = React.useState("Булки");
@@ -112,7 +113,7 @@ const ProductList = ({ category }) => {
 }
 
 const Product = ({ card }) => {
-  const { id } = card;
+  const id  = card._id;
   const dispatch = useDispatch();
 
   const openIngredientDetails = (data) => {
@@ -120,7 +121,7 @@ const Product = ({ card }) => {
   }
 
   const [{ isDrag }, dragRef] = useDrag({
-    type: "ingredient",
+    type: 'ingredient',
     item: { id },
     collect: monitor => ({
       isDrag: monitor.isDragging()
@@ -130,7 +131,7 @@ const Product = ({ card }) => {
 
   return (
     !isDrag &&
-    <article ref={dragRef} className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
+    <article ref={dragRef} className={burgerIngredientsStyles.card} key={nanoid()} onClick={() => openIngredientDetails(card)}>
       <Counter
         count={1}
         size="default"

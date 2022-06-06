@@ -1,4 +1,5 @@
 import { getIngredientsFromServer, putAnOrder } from "../../utils/api";
+import { nanoid } from 'nanoid';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -77,3 +78,13 @@ export function removeIngredienFromModal() {
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+
+export function addToConstructor(ingredient) {
+  return {
+    type: ADD_INGREDIENT,
+    payload: {
+      ...ingredient,
+      id: nanoid()
+    }
+  }
+}
