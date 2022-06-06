@@ -77,14 +77,18 @@ export function removeIngredienFromModal() {
 }
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
-export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const ADD_BUN = 'ADD_BUN';
 
-export function addToConstructor(ingredient) {
+export function addToConstructorIngredient(ingredient) {
   return {
     type: ADD_INGREDIENT,
-    payload: {
-      ...ingredient,
-      id: nanoid()
-    }
+    payload: ingredient
+  }
+}
+
+export function addToConstructorBun(ingredient) {
+  return {
+    type: ADD_BUN,
+    payload: ingredient
   }
 }

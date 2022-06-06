@@ -1,7 +1,7 @@
 import {
   GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED, GET_SELECTED_INGREDIENTS,
   PUT_AN_ORDER, PUT_AN_ORDER_FAILED, ADD_INGREDIENT_DATA_IN_MODAL, REMOVE_INGREDIENT_DATA_FROM_MODAL,
-  PUT_AN_ORDER_REQUEST, ADD_INGREDIENT, addToConstructor
+  PUT_AN_ORDER_REQUEST, ADD_INGREDIENT, ADD_BUN
 } from "../actions/actions"
 
 const initiaIngredientsState = {
@@ -42,12 +42,17 @@ export const selectedIngredientsReducer = (state = constructorInitialState, acti
         ...state,
       };
     }
+    case ADD_BUN: {
+      return {
+        ...state,
+        bun: action.payload
+      }
+    }
     case ADD_INGREDIENT: {
       return {
         ...state,
-        bun: action.payload,
         ingredients: [...state.ingredients, action.payload]
-      };
+      }
     }
     default: {
       return state;

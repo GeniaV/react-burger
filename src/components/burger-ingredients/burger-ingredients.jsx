@@ -128,7 +128,6 @@ const Product = ({ card }) => {
     })
   });
 
-
   return (
     !isDrag &&
     <article ref={dragRef} className={burgerIngredientsStyles.card} key={nanoid()} onClick={() => openIngredientDetails(card)}>

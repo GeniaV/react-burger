@@ -10,20 +10,23 @@ import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
-import { addToConstructor } from "../../services/actions/actions";
+import { addToConstructorBun, addToConstructorIngredient } from "../../services/actions/actions";
 import { nanoid } from 'nanoid';
 
 export function BurgerConstructor({ onClick }) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
-  const items = useSelector(store => store.ingredientsList.ingredients)
-
+  const items = useSelector(store => store.ingredientsList.ingredients);
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      const draggedCard = items.find((el) => el.id === item._id)
-      dispatch(addToConstructor(draggedCard));
+      const draggedCard = items.find((el) => el._id === item.id);
+      if (draggedCard.type !== "bun") {
+        dispatch(addToConstructorIngredient(draggedCard));
+      } else {
+        dispatch(addToConstructorBun(draggedCard));
+      }
     }
   })
 
