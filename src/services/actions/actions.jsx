@@ -82,7 +82,10 @@ export const ADD_BUN = 'ADD_BUN';
 export function addToConstructorIngredient(ingredient) {
   return {
     type: ADD_INGREDIENT,
-    payload: ingredient
+    payload: {
+      ...ingredient,
+      id: nanoid()
+    }
   }
 }
 
@@ -90,5 +93,16 @@ export function addToConstructorBun(ingredient) {
   return {
     type: ADD_BUN,
     payload: ingredient
+  }
+}
+
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+
+export function deleteIngredientFromConstructor(ingredient) {
+  return {
+    type: DELETE_INGREDIENT,
+    payload: {
+      ...ingredient
+    }
   }
 }

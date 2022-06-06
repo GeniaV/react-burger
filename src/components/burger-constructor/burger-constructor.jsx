@@ -10,7 +10,7 @@ import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
-import { addToConstructorBun, addToConstructorIngredient } from "../../services/actions/actions";
+import { addToConstructorBun, addToConstructorIngredient, deleteIngredientFromConstructor } from "../../services/actions/actions";
 import { nanoid } from 'nanoid';
 
 export function BurgerConstructor({ onClick }) {
@@ -76,6 +76,7 @@ function BottomProduct({ bun }) {
 }
 
 function ProductList({ innerIngredients }) {
+  const dispatch = useDispatch();
   return (
     <section>
       {innerIngredients.map((card) => (
@@ -89,6 +90,7 @@ function ProductList({ innerIngredients }) {
               text={card.name}
               price={card.price}
               thumbnail={card.image}
+              handleClose={() => dispatch(deleteIngredientFromConstructor(card))}
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import {
   GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED, GET_SELECTED_INGREDIENTS,
   PUT_AN_ORDER, PUT_AN_ORDER_FAILED, ADD_INGREDIENT_DATA_IN_MODAL, REMOVE_INGREDIENT_DATA_FROM_MODAL,
-  PUT_AN_ORDER_REQUEST, ADD_INGREDIENT, ADD_BUN
+  PUT_AN_ORDER_REQUEST, ADD_INGREDIENT, ADD_BUN, DELETE_INGREDIENT
 } from "../actions/actions"
 
 const initiaIngredientsState = {
@@ -54,6 +54,12 @@ export const selectedIngredientsReducer = (state = constructorInitialState, acti
         ingredients: [...state.ingredients, action.payload]
       }
     }
+    case DELETE_INGREDIENT: {
+      return {
+        ...state,
+        ingredients: [...state.ingredients].filter(item => item.id !== action.payload.id)
+      }
+    }
     default: {
       return state;
     }
@@ -104,6 +110,5 @@ export const ingredientDataReducer = (state = initialIngredientState, action) =>
     }
   }
 };
-
 
 
