@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState, memo, useMemo, forwardRef } from "react";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import {
   Tab,
@@ -12,12 +12,11 @@ import { getIngredients } from "../../services/actions/actions";
 import { addIngredientInModal } from "../../services/actions/actions";
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
-import { nanoid } from 'nanoid';
 
-const Tabs = React.memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
-  const [current, setCurrent] = React.useState("Булки");
+const Tabs = memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
+  const [current, setCurrent] = useState("Булки");
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (inViewBuns) {
       setCurrent("Булки");
     } else if (inViewSaucess) {
@@ -57,15 +56,15 @@ export function BurgerIngredients() {
     dispatch(getIngredients())
   }, [dispatch])
 
-  const bunCategory = React.useMemo(() => {
+  const bunCategory = useMemo(() => {
     return ingredients.filter((data) => data.type === "bun")
   }, [ingredients]);
 
-  const sausesCategory = React.useMemo(() => {
+  const sausesCategory = useMemo(() => {
     return ingredients.filter((data) => data.type === "sauce")
   }, [ingredients]);
 
-  const mainCategory = React.useMemo(() => {
+  const mainCategory = useMemo(() => {
     return ingredients.filter((data) => data.type === "main")
   }, [ingredients]);
 
@@ -90,7 +89,7 @@ export function BurgerIngredients() {
   );
 }
 
-const IngredientsCategory = React.forwardRef(({ name, category, id }, ref) => {
+const IngredientsCategory = forwardRef(({ name, category, id }, ref) => {
   return (
     <div ref={ref}>
       <h2 className="text text_type_main-medium" id={id} >
@@ -113,8 +112,20 @@ const ProductList = ({ category }) => {
 }
 
 const Product = ({ card }) => {
-  const id  = card._id;
+  const id = card._id;
   const dispatch = useDispatch();
+
+  const [count, setCount] = useState(0);
+  const { bun, ingredients } = useSelector(store => store.selectedIngredients);
+
+  useEffect(() => {
+    if (card.type === 'bun' && bun !== null && bun._id === card._id) {
+      setCount(2);
+    } else {
+      const ingredientsWithEqualIds = ingredients.filter((item) => item._id === id);
+      setCount(ingredientsWithEqualIds.length);
+    }
+  }, [ingredients, bun])
 
   const openIngredientDetails = (data) => {
     dispatch(addIngredientInModal(data))
@@ -122,20 +133,17 @@ const Product = ({ card }) => {
 
   const [{ isDrag }, dragRef] = useDrag({
     type: 'ingredient',
-    item: { id },
-    collect: monitor => ({
-      isDrag: monitor.isDragging()
-    })
+    item: { id }
   });
 
   return (
-    !isDrag &&
     <article ref={dragRef} className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
-      <Counter
-        count={1}
-        size="default"
-        className={burgerIngredientsStyles.counter}
-      />
+      {count > 0 &&
+        <Counter
+          count={count}
+          size="default"
+          className={burgerIngredientsStyles.counter}
+        />}
       <img
         className={`ml-4 mr-4 ${burgerIngredientsStyles.image}`}
         src={card.image}

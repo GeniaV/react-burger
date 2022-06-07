@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
@@ -102,7 +102,7 @@ function ProductList({ innerIngredients }) {
 function MakeAnOrder({ onClick }) {
   const constructorItems = useSelector(store => store.selectedIngredients);
 
-  const price = React.useMemo(() => {
+  const price = useMemo(() => {
     return (
       (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
       constructorItems.ingredients.reduce((s, v) => s + v.price, 0)

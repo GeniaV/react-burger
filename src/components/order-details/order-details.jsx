@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ export function OrderDetails() {
 
   const dispatch = useDispatch();
 
-  let ingredientsId = React.useMemo(() => {
+  let ingredientsId = useMemo(() => {
     return selectedIngredients.ingredients.map(ingredient => ingredient._id)
   }, [selectedIngredients]);
 

@@ -1,8 +1,8 @@
-import React from 'react';
+import { memo } from 'react';
 import appHeaderStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const Navigator = React.memo(() => {
+const Navigator = memo(() => {
   return (
     <nav className={`pl-5 ${appHeaderStyles.nav}`}>
       <ul className={appHeaderStyles.menu}>
@@ -23,7 +23,7 @@ const Navigator = React.memo(() => {
   )
 })
 
-const Account = React.memo(() => {
+const Account = memo(() => {
   return (
     <div className={appHeaderStyles.item}>
       <ProfileIcon type="secondary" />
