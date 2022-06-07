@@ -47,7 +47,7 @@ export function BurgerConstructor({ onClick }) {
 function TopProduct({ bun }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor} key={nanoid()}>
+      <div className={burgerConstructorStyles.constructor} key={bun._id}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -62,7 +62,7 @@ function TopProduct({ bun }) {
 function BottomProduct({ bun }) {
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor} key={nanoid()}>
+      <div className={burgerConstructorStyles.constructor} key={bun._id}>
         <ConstructorElement
           type="bottom"
           isLocked={true}

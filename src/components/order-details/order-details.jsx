@@ -18,6 +18,7 @@ export function OrderDetails() {
     if (selectedIngredients.ingredients !== [] && selectedIngredients.bun !== null) {
       const bunId = selectedIngredients.bun._id;
       ingredientsId.push(bunId);
+      ingredientsId.unshift(bunId)
       dispatch(sendOrder(ingredientsId));
     }
   }, [dispatch, selectedIngredients, ingredientsId])

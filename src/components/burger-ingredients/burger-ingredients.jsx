@@ -130,7 +130,7 @@ const Product = ({ card }) => {
 
   return (
     !isDrag &&
-    <article ref={dragRef} className={burgerIngredientsStyles.card} key={nanoid()} onClick={() => openIngredientDetails(card)}>
+    <article ref={dragRef} className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
       <Counter
         count={1}
         size="default"
