@@ -15,13 +15,13 @@ import { nanoid } from 'nanoid';
 
 export function BurgerConstructor({ onClick }) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
-  const items = useSelector(store => store.ingredientsList.ingredients);
+  const allIngredients = useSelector(store => store.ingredientsList.ingredients);
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      const draggedCard = items.find((el) => el._id === item.id);
+      const draggedCard = allIngredients.find((el) => el._id === item.id);
       if (draggedCard.type !== "bun") {
         dispatch(addToConstructorIngredient(draggedCard));
       } else {
@@ -33,18 +33,19 @@ export function BurgerConstructor({ onClick }) {
   return (
     <section className="mt-25 ml-4 mr-8" ref={dropTarget}>
       <div className="mb-10">
-        {bun && <TopProduct bun={bun} />}
+        {bun && <TopProduct />}
         <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
-          {ingredients && <ProductList innerIngredients={ingredients} />}
+          {ingredients && <ProductList />}
         </section>
-        {bun && <BottomProduct bun={bun} />}
+        {bun && <BottomProduct />}
       </div>
-      <MakeAnOrder onClick={onClick} bun={bun} ingredients={ingredients} />
+      <MakeAnOrder onClick={onClick} />
     </section>
   );
 }
 
-function TopProduct({ bun }) {
+function TopProduct() {
+  const { bun } = useSelector(store => store.selectedIngredients);
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
       <div className={burgerConstructorStyles.constructor} key={bun._id}>
@@ -59,7 +60,8 @@ function TopProduct({ bun }) {
     </article>)
 }
 
-function BottomProduct({ bun }) {
+function BottomProduct() {
+  const { bun } = useSelector(store => store.selectedIngredients);
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
       <div className={burgerConstructorStyles.constructor} key={bun._id}>
@@ -75,28 +77,34 @@ function BottomProduct({ bun }) {
   );
 }
 
-function ProductList({ innerIngredients }) {
-  const dispatch = useDispatch();
+function ProductList() {
+  const { ingredients } = useSelector(store => store.selectedIngredients);
   return (
     <section>
-      {innerIngredients.map((card) => (
-        <div
-          className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`}
-          key={nanoid()}
-        >
-          <DragIcon />
-          <div className={burgerConstructorStyles.inner}>
-            <ConstructorElement
-              text={card.name}
-              price={card.price}
-              thumbnail={card.image}
-              handleClose={() => dispatch(deleteIngredientFromConstructor(card))}
-            />
-          </div>
+      {ingredients.map((card) => (
+        <div className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`} key={nanoid()}>
+          <ProductCard card={card} />
         </div>
       ))}
     </section>
   );
+}
+
+function ProductCard({ card }) {
+  const dispatch = useDispatch();
+  return (
+    <>
+      <DragIcon />
+      <div className={burgerConstructorStyles.inner}>
+        <ConstructorElement
+          text={card.name}
+          price={card.price}
+          thumbnail={card.image}
+          handleClose={() => dispatch(deleteIngredientFromConstructor(card))}
+        />
+      </div>
+    </>
+  )
 }
 
 function MakeAnOrder({ onClick }) {
@@ -122,23 +130,15 @@ function MakeAnOrder({ onClick }) {
   );
 }
 
-// // Проверка данных
+// Проверка данных
 BurgerConstructor.propTypes = {
   onClick: PropTypes.func
 };
 
-TopProduct.propTypes = {
-  bun: type
-}
-
-BottomProduct.propTypes = {
-  bun: type
-}
-
-ProductList.propTypes = {
-  innerIngredients: PropTypes.arrayOf(type).isRequired
-}
-
 MakeAnOrder.propTypes = {
   onClick: PropTypes.func
 };
+
+ProductCard.propTypes = {
+  card: type
+}

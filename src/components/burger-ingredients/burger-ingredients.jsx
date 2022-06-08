@@ -131,7 +131,7 @@ const Product = ({ card }) => {
     dispatch(addIngredientInModal(data))
   }
 
-  const [{ isDrag }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: 'ingredient',
     item: { id }
   });
