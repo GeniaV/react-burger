@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import {
   CurrencyIcon,
@@ -9,8 +9,8 @@ import {
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from "react-dnd";
-import { addToConstructorBun, addToConstructorIngredient, deleteIngredientFromConstructor } from "../../services/actions/actions";
+import { useDrop, useDrag } from "react-dnd";
+import { addToConstructorBun, addToConstructorIngredient, deleteIngredientFromConstructor, reorderIngredientsInConstructor } from "../../services/actions/actions";
 import { nanoid } from 'nanoid';
 
 export function BurgerConstructor({ onClick }) {
@@ -81,21 +81,65 @@ function ProductList() {
   const { ingredients } = useSelector(store => store.selectedIngredients);
   return (
     <section>
-      {ingredients.map((card) => (
-        <div className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`} key={nanoid()}>
-          <ProductCard card={card} />
-        </div>
+      {ingredients.map((card, index) => (
+        <ProductCard card={card} key={nanoid()} index={index} />
       ))}
     </section>
   );
 }
 
-function ProductCard({ card }) {
+function ProductCard({ card, index }) {
+  const { ingredients } = useSelector(store => store.selectedIngredients);
+  const id = card.id;
+  const ref = useRef(null);
   const dispatch = useDispatch();
+
+  const [{ isDragging }, dragRef] = useDrag(() => ({
+    type: "ingredient-item",
+    item: { id },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  }));
+
+  const [{ isOver, canDrop }, dropTarget] = useDrop({
+    accept: 'ingredient-item',
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop()
+    }),
+
+    drop(item) {
+      const dragIndex = ingredients.findIndex((elem) => elem.id === item.id);
+      const hoverIndex = index;
+
+      const newIngredients = [...ingredients];
+
+      let hoverIngredient = newIngredients[hoverIndex];
+
+      newIngredients[hoverIndex] = newIngredients[dragIndex];
+      newIngredients[dragIndex] = hoverIngredient;
+
+      dispatch(reorderIngredientsInConstructor(newIngredients))
+    }
+  })
+
+  const dragAndDropItem = dragRef(dropTarget(ref));
+
+  const isActive = canDrop && isOver
+  let boxShadow = 'none';
+  let borderRadius = 'none';
+  if (isActive) {
+    boxShadow = '0px 4px 8px #4C4CFF';
+    borderRadius = '40px';
+  } else if (canDrop) {
+    boxShadow  = 'none'
+  }
+
   return (
-    <>
+    <section className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`} ref={dragAndDropItem}>
       <DragIcon />
-      <div className={burgerConstructorStyles.inner}>
+      <div className={burgerConstructorStyles.inner} style={{ boxShadow, borderRadius }}>
         <ConstructorElement
           text={card.name}
           price={card.price}
@@ -103,7 +147,7 @@ function ProductCard({ card }) {
           handleClose={() => dispatch(deleteIngredientFromConstructor(card))}
         />
       </div>
-    </>
+    </section>
   )
 }
 
@@ -140,5 +184,6 @@ MakeAnOrder.propTypes = {
 };
 
 ProductCard.propTypes = {
-  card: type
+  card: type,
+  index: PropTypes.number
 }

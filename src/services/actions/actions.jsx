@@ -106,3 +106,12 @@ export function deleteIngredientFromConstructor(ingredient) {
     }
   }
 }
+
+export const REORDER_INGREDIENTS_IN_CONSTRUCTOR = 'REORDER_INGREDIENTS_IN_CONSTRUCTOR';
+
+export const reorderIngredientsInConstructor = (ingredientsArray) => {
+  return {
+    type: REORDER_INGREDIENTS_IN_CONSTRUCTOR,
+    payload: ingredientsArray
+  }
+}
