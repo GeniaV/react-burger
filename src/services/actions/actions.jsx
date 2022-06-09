@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import {
   GET_INGREDIENTS_REQUEST, PUT_AN_ORDER, PUT_AN_ORDER_FAILED, PUT_AN_ORDER_REQUEST, ADD_INGREDIENT,
   ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS_IN_CONSTRUCTOR, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED,
-  ADD_INGREDIENT_DATA_IN_MODAL, REMOVE_INGREDIENT_DATA_FROM_MODAL
+  ADD_INGREDIENT_DATA_IN_MODAL, REMOVE_INGREDIENT_DATA_FROM_MODAL, RESET_CONSTRUCTOR
 } from "./types";
 
 function getIngredientsFromServerSuccess(res) {
@@ -61,6 +61,7 @@ export function sendOrder(id) {
     putAnOrder(id)
       .then(res => {
         dispatch(putAnOrderOnServer(res));
+        dispatch(resetConstructor());
       })
       .catch(err => {
         dispatch(showErrorWhenPutAnOrderFailed(err))
@@ -112,5 +113,11 @@ export const reorderIngredientsInConstructor = (ingredientsArray) => {
   return {
     type: REORDER_INGREDIENTS_IN_CONSTRUCTOR,
     payload: ingredientsArray
+  }
+}
+
+export const resetConstructor = () => {
+  return {
+    type: RESET_CONSTRUCTOR
   }
 }
