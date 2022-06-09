@@ -1,9 +1,10 @@
 import { getIngredientsFromServer, putAnOrder } from "../../utils/api";
 import { nanoid } from 'nanoid';
-
-export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+import {
+  GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED,
+  PUT_AN_ORDER, PUT_AN_ORDER_FAILED, PUT_AN_ORDER_REQUEST, ADD_INGREDIENT,
+  ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS_IN_CONSTRUCTOR
+} from "./types";
 
 export function getIngredients() {
   return function (dispatch) {
@@ -32,12 +33,6 @@ export function getIngredients() {
   };
 }
 
-export const GET_SELECTED_INGREDIENTS = 'GET_SELECTED_INGREDIENTS ';
-
-export const PUT_AN_ORDER_REQUEST = 'PUT_AN_ORDER_REQUEST';
-export const PUT_AN_ORDER = 'PUT_AN_ORDER';
-export const PUT_AN_ORDER_FAILED = 'PUT_AN_ORDER_FAILED';
-
 export function sendOrder(id) {
   return function (dispatch) {
     dispatch({
@@ -59,9 +54,6 @@ export function sendOrder(id) {
   };
 }
 
-export const ADD_INGREDIENT_DATA_IN_MODAL = 'ADD_INGREDIENT_DATA_IN_MODAL';
-export const REMOVE_INGREDIENT_DATA_FROM_MODAL = 'REMOVE_INGREDIENT_DATA_FROM_MODAL';
-
 export function addIngredientInModal(ingredietData) {
   return {
     type: 'ADD_INGREDIENT_DATA_IN_MODAL',
@@ -75,9 +67,6 @@ export function removeIngredienFromModal() {
     ingredientData: ''
   }
 }
-
-export const ADD_INGREDIENT = 'ADD_INGREDIENT';
-export const ADD_BUN = 'ADD_BUN';
 
 export function addToConstructorIngredient(ingredient) {
   return {
@@ -96,8 +85,6 @@ export function addToConstructorBun(ingredient) {
   }
 }
 
-export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
-
 export function deleteIngredientFromConstructor(ingredient) {
   return {
     type: DELETE_INGREDIENT,
@@ -106,8 +93,6 @@ export function deleteIngredientFromConstructor(ingredient) {
     }
   }
 }
-
-export const REORDER_INGREDIENTS_IN_CONSTRUCTOR = 'REORDER_INGREDIENTS_IN_CONSTRUCTOR';
 
 export const reorderIngredientsInConstructor = (ingredientsArray) => {
   return {

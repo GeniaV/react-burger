@@ -82,7 +82,7 @@ function ProductList() {
   return (
     <section>
       {ingredients.map((card, index) => (
-        <ProductCard card={card} key={nanoid()} index={index} />
+        <ProductCard card={card} key={card.id} index={index} />
       ))}
     </section>
   );
