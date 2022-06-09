@@ -1,10 +1,24 @@
 import { getIngredientsFromServer, putAnOrder } from "../../utils/api";
 import { nanoid } from 'nanoid';
 import {
-  GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED,
-  PUT_AN_ORDER, PUT_AN_ORDER_FAILED, PUT_AN_ORDER_REQUEST, ADD_INGREDIENT,
-  ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS_IN_CONSTRUCTOR
+  GET_INGREDIENTS_REQUEST, PUT_AN_ORDER, PUT_AN_ORDER_FAILED, PUT_AN_ORDER_REQUEST, ADD_INGREDIENT,
+  ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS_IN_CONSTRUCTOR, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED,
+  ADD_INGREDIENT_DATA_IN_MODAL, REMOVE_INGREDIENT_DATA_FROM_MODAL
 } from "./types";
+
+function getIngredientsFromServerSuccess(res) {
+  return {
+    type: GET_INGREDIENTS_SUCCESS,
+    ingredients: res.data
+  }
+}
+
+function showErrorWhenGetIngredietsFailed(err) {
+  return {
+    type: GET_INGREDIENTS_FAILED,
+    payload: `Произошла Ошибка получения данных об ингредиентах: ${err.message}`
+  }
+}
 
 export function getIngredients() {
   return function (dispatch) {
@@ -14,56 +28,56 @@ export function getIngredients() {
     getIngredientsFromServer()
       .then(res => {
         if (res && res.success) {
-          dispatch({
-            type: GET_INGREDIENTS_SUCCESS,
-            ingredients: res.data
-          });
+          dispatch(getIngredientsFromServerSuccess(res));
         } else {
-          dispatch({
-            type: GET_INGREDIENTS_FAILED
-          });
+          dispatch(showErrorWhenGetIngredietsFailed());
         }
       })
       .catch(err => {
-        dispatch({
-          type: GET_INGREDIENTS_FAILED,
-          payload: `Произошла Ошибка получения данных об ингредиентах: ${err.message}`
-        })
+        dispatch(showErrorWhenGetIngredietsFailed(err));
       })
   };
 }
 
+function putAnOrderOnServer(res) {
+  return {
+    type: PUT_AN_ORDER,
+    orderNumber: res.order.number
+  }
+}
+
+function showErrorWhenPutAnOrderFailed(err) {
+  return {
+    type: PUT_AN_ORDER_FAILED,
+    payload: `Произошла Ошибка размещения заказа: ${err.message}`
+  }
+}
+
 export function sendOrder(id) {
-  return function (dispatch) {
+  return function(dispatch) {
     dispatch({
       type: PUT_AN_ORDER_REQUEST
     });
     putAnOrder(id)
       .then(res => {
-        dispatch({
-          type: PUT_AN_ORDER,
-          orderNumber: res.order.number
-        });
+        dispatch(putAnOrderOnServer(res));
       })
       .catch(err => {
-        dispatch({
-          type: PUT_AN_ORDER_FAILED,
-          payload: `Произошла Ошибка размещения заказа: ${err.message}`
-        })
+        dispatch(showErrorWhenPutAnOrderFailed(err))
       })
   };
 }
 
 export function addIngredientInModal(ingredietData) {
   return {
-    type: 'ADD_INGREDIENT_DATA_IN_MODAL',
+    type: ADD_INGREDIENT_DATA_IN_MODAL,
     ingredientData: ingredietData
   }
 }
 
 export function removeIngredienFromModal() {
   return {
-    type: 'REMOVE_INGREDIENT_DATA_FROM_MODAL',
+    type: REMOVE_INGREDIENT_DATA_FROM_MODAL,
     ingredientData: ''
   }
 }

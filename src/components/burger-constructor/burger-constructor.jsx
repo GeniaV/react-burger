@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop, useDrag } from "react-dnd";
 import { addToConstructorBun, addToConstructorIngredient, deleteIngredientFromConstructor, reorderIngredientsInConstructor } from "../../services/actions/actions";
-import { nanoid } from 'nanoid';
 
 export function BurgerConstructor({ onClick }) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
@@ -133,7 +132,7 @@ function ProductCard({ card, index }) {
     boxShadow = '0px 4px 8px #4C4CFF';
     borderRadius = '40px';
   } else if (canDrop) {
-    boxShadow  = 'none'
+    boxShadow = 'none'
   }
 
   return (
@@ -167,9 +166,14 @@ function MakeAnOrder({ onClick }) {
         <p className="text text_type_digits-medium mr-2">{price}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button type="primary" size="large" onClick={onClick}>
+      {!constructorItems.bun ? (
+        <Button type="primary" size="large" onClick={onClick} disabled>
+          Оформить заказ
+        </Button>
+      ) : (<Button type="primary" size="large" onClick={onClick}>
         Оформить заказ
-      </Button>
+      </Button>)}
+
     </section>
   );
 }

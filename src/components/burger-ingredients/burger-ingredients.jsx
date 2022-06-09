@@ -69,8 +69,8 @@ export function BurgerIngredients() {
   }, [ingredients]);
 
   const [bunRef, inViewBuns] = useInView({ threshold: 1 });
-  const [sauceRef, inViewSaucess] = useInView({ threshold: 1 });
-  const [mainRef, inViewFilling] = useInView({ threshold: 0.5 });
+  const [sauceRef, inViewSaucess] = useInView({ threshold: 0.8 });
+  const [mainRef, inViewFilling] = useInView({ threshold: 0.3 });
 
   return (
     <>
