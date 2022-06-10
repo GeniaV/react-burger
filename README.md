@@ -10,4 +10,5 @@ On the right side user see his order, burger contains and the total price.
 User can drag buns and ingredient from the left part and drop the into the right part (burger constructor).
 It is also possible to reorder innner ingredient in the burger constructor.
 
-[Link:](https://geniav.github.io/react-burger/)
+[Link](https://geniav.github.io/react-burger/)
+-------------------------
