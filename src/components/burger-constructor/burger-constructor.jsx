@@ -31,13 +31,16 @@ export function BurgerConstructor({ onClick }) {
 
   return (
     <section className="mt-25 ml-4 mr-8" ref={dropTarget}>
-      <div className="mb-10">
-        {bun && <TopProduct />}
-        <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
-          {ingredients && <ProductList />}
-        </section>
-        {bun && <BottomProduct />}
-      </div>
+      {bun === null && ingredients.length === 0 ? (<div className={`mb-8 ${burgerConstructorStyles.containerForText}`}>
+        <p className={`text text_type_main-medium pt-8 pb-8 pl-8 pr-8 ${burgerConstructorStyles.empty}`}>Перетащите ингредиенты слева сюда</p>
+      </div>) :
+        (<div className="mb-10">
+          {bun && <TopProduct />}
+          {ingredients && <section className={`mt-4 mb-4 ${burgerConstructorStyles.section}`}>
+            <ProductList />
+          </section>}
+          {bun && <BottomProduct />}
+        </div>)}
       <MakeAnOrder onClick={onClick} />
     </section>
   );
