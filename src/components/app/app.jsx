@@ -10,11 +10,12 @@ import { removeIngredienFromModal } from '../../services/actions/actions';
 import { useSelector, useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-
+import { Preloader } from '../preloaders/preloader';
 
 export function App() {
   const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
+  const { ingredientsRequest } = useSelector(store => store.ingredientsList);
 
   const dispatch = useDispatch();
 
@@ -29,12 +30,13 @@ export function App() {
 
   return (
     <>
+      {ingredientsRequest && <Preloader />}
       <AppHeader />
       <main className={appStyles.main}>
         <section className={appStyles.container}>
           <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
-            <BurgerConstructor onClick={openOrderDetailsModal} />
+            {!ingredientsRequest && <BurgerConstructor onClick={openOrderDetailsModal} />}
           </DndProvider>
         </section>
       </main>
