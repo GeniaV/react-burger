@@ -1,22 +1,23 @@
 import { memo } from 'react';
 import appHeaderStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link } from "react-router-dom";
 
 const Navigator = memo(() => {
   return (
     <nav className={`pl-5 ${appHeaderStyles.nav}`}>
       <ul className={appHeaderStyles.menu}>
         <li>
-          <a href='/' className={appHeaderStyles.item}>
+          <Link to="/react-burger" className={appHeaderStyles.item}>
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default pl-2 pt-4 pb-4 pr-5">Конструктор</p>
-          </a>
+          </Link>
         </li>
         <li>
-          <a href='/' className={appHeaderStyles.item}>
+          <Link to="#" className={appHeaderStyles.item}>
             <ListIcon type="secondary" />
             <p className="text text_type_main-default text_color_inactive pl-2 pt-4 pb-4 pr-5">Лента заказов</p>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

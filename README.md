@@ -1,6 +1,6 @@
 # Project Stellar Burger
 
-Stack: React, CSS, JS, Redux.
+Stack: React, CSS, JS, Redux, React Router.
 
 An app for desktop that helps users create their own burgers using different ingredients and place orders.
 

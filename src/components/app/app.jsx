@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useState } from 'react';
 import appStyles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
@@ -11,6 +12,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { Preloader } from '../preloaders/preloader';
+import { LoginPage } from '../../pages/login/login';
+import { RegisterPage } from '../../pages/register/register';
+import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';
+import { ResetPasswordPage } from '../../pages/reset-password/reset-password';
 
 export function App() {
   const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
@@ -29,17 +34,33 @@ export function App() {
   }
 
   return (
-    <>
+    <Router>
       {ingredientsRequest && <Preloader />}
       <AppHeader />
-      <main className={appStyles.main}>
-        <section className={appStyles.container}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            {!ingredientsRequest && <BurgerConstructor onClick={openOrderDetailsModal} />}
-          </DndProvider>
-        </section>
-      </main>
+      <Switch>
+        <Route exact path="/react-burger">
+          <main className={appStyles.main}>
+            <section className={appStyles.container}>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients />
+                {!ingredientsRequest && <BurgerConstructor onClick={openOrderDetailsModal} />}
+              </DndProvider>
+            </section>
+          </main>
+        </Route>
+        <Route exact path="/react-burger/login">
+          <LoginPage />
+        </Route>
+        <Route exact path="/react-burger/register">
+          <RegisterPage />
+        </Route>
+        <Route exact path="/react-burger/forgot-password">
+          <ForgotPasswordPage />
+        </Route>
+        <Route exact path="/react-burger/reset-password">
+          <ResetPasswordPage />
+        </Route>
+      </Switch>
       {isIngredientDetailsOpened &&
         <Modal
           title="Детали ингредиента"
@@ -58,8 +79,6 @@ export function App() {
         >
           <OrderDetails />
         </Modal>}
-    </>
+    </Router>
   )
 }
-
-
