@@ -1,4 +1,4 @@
-import { PasswordInput, Button, Input, ShowIcon, HideIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input, ShowIcon, HideIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.css";
 import { Link } from 'react-router-dom';
 import { useState, useRef } from "react";

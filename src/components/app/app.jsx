@@ -16,6 +16,8 @@ import { LoginPage } from '../../pages/login/login';
 import { RegisterPage } from '../../pages/register/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';
 import { ResetPasswordPage } from '../../pages/reset-password/reset-password';
+import { NotFound } from '../../pages/not-found/not-found';
+import { ProfilePage } from '../../pages/profile/profile';
 
 export function App() {
   const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
@@ -59,6 +61,12 @@ export function App() {
         </Route>
         <Route exact path="/react-burger/reset-password">
           <ResetPasswordPage />
+        </Route>
+        <Route exact path="/react-burger/profile">
+          <ProfilePage />
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
       {isIngredientDetailsOpened &&

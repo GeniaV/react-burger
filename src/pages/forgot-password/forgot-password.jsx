@@ -2,10 +2,23 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import styles from "./forgot-password.module.css";
 import { Link } from 'react-router-dom';
 import { useState, useRef } from "react";
+import { passwordReset } from "../../utils/api";
 
 export function ForgotPasswordPage() {
   const [emailValue, setEmailValue] = useState('')
   const inputRef = useRef(null)
+
+
+  const passWordResetRequest = () => {
+    passwordReset(emailValue)
+    .then (res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log('Ошибка сброса пароля', err.message);
+    })
+  }
+
 
   return (
     <div className={styles.conatiner}>
@@ -22,7 +35,7 @@ export function ForgotPasswordPage() {
           errorText={'Ошибка ввода e-mail'}
           size={'default'}
         />
-        <Button type="primary" size="medium" >
+        <Button type="primary" size="medium" onClick={() => passWordResetRequest(emailValue)}>
           Восстановить
         </Button>
       </form>

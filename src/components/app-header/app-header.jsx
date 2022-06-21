@@ -26,10 +26,10 @@ const Navigator = memo(() => {
 
 const Account = memo(() => {
   return (
-    <div className={appHeaderStyles.item}>
+    <Link className={appHeaderStyles.item} to="/react-burger/profile">
       <ProfileIcon type="secondary" />
-      <p className="text text_type_main-default text_color_inactive pl-2 pt-4 pb-4 pr-5">Личный кабинет</p>
-    </div>
+      <p className="text text_type_main-default text_color_inactive ml-2 mt-4 mb-4 mr-5">Личный кабинет</p>
+    </Link>
   )
 })
 
