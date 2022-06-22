@@ -56,7 +56,7 @@ export function ResetPasswordPage() {
       </form>
       <div className={`mt-20 ${styles.options}`}>
         <p className="mr-2 text text_type_main-default text_color_inactive">Вспомнили пароль?</p>
-        <Link className={`text text_type_main-default text_color_inactive ${styles.link}`} to="/react-burger/login">
+        <Link className={`text text_type_main-default text_color_inactive ${styles.link}`} to="/login">
           Войти
         </Link>
       </div>

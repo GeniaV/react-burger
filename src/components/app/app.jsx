@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { useState } from 'react';
 import appStyles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
@@ -36,11 +36,11 @@ export function App() {
   }
 
   return (
-    <Router>
+    <>
       {ingredientsRequest && <Preloader />}
       <AppHeader />
       <Switch>
-        <Route exact path="/react-burger">
+        <Route exact path="/">
           <main className={appStyles.main}>
             <section className={appStyles.container}>
               <DndProvider backend={HTML5Backend}>
@@ -50,19 +50,19 @@ export function App() {
             </section>
           </main>
         </Route>
-        <Route exact path="/react-burger/login">
+        <Route exact path="/login">
           <LoginPage />
         </Route>
-        <Route exact path="/react-burger/register">
+        <Route exact path="/register">
           <RegisterPage />
         </Route>
-        <Route exact path="/react-burger/forgot-password">
+        <Route exact path="/forgot-password">
           <ForgotPasswordPage />
         </Route>
-        <Route exact path="/react-burger/reset-password">
+        <Route exact path="/reset-password">
           <ResetPasswordPage />
         </Route>
-        <Route exact path="/react-burger/profile">
+        <Route  path="/profile">
           <ProfilePage />
         </Route>
         <Route>
@@ -87,6 +87,6 @@ export function App() {
         >
           <OrderDetails />
         </Modal>}
-    </Router>
+    </>
   )
 }

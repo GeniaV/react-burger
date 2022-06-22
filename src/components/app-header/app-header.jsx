@@ -8,7 +8,7 @@ const Navigator = memo(() => {
     <nav className={`pl-5 ${appHeaderStyles.nav}`}>
       <ul className={appHeaderStyles.menu}>
         <li>
-          <Link to="/react-burger" className={appHeaderStyles.item}>
+          <Link to="/" className={appHeaderStyles.item}>
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default pl-2 pt-4 pb-4 pr-5">Конструктор</p>
           </Link>
@@ -26,7 +26,7 @@ const Navigator = memo(() => {
 
 const Account = memo(() => {
   return (
-    <Link className={appHeaderStyles.item} to="/react-burger/profile">
+    <Link className={appHeaderStyles.item} to="/profile">
       <ProfileIcon type="secondary" />
       <p className="text text_type_main-default text_color_inactive ml-2 mt-4 mb-4 mr-5">Личный кабинет</p>
     </Link>

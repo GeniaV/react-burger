@@ -35,13 +35,13 @@ export function LoginPage() {
       </form>
       <div className={`mt-20 ${loginStyles.options}`}>
         <p className="mr-2 text text_type_main-default text_color_inactive">Вы — новый пользователь?</p>
-        <Link className={`text text_type_main-default text_color_inactive ${loginStyles.link}`} to="/react-burger/register">
+        <Link className={`text text_type_main-default text_color_inactive ${loginStyles.link}`} to="/register">
           Зарегистрироваться
         </Link>
       </div>
       <div className={`mt-4 ${loginStyles.options}`}>
         <p className="mr-2 text text_type_main-default text_color_inactive">Забыли пароль?</p>
-        <Link className={`text text_type_main-default text_color_inactive ${loginStyles.link}`} to="/react-burger/forgot-password">
+        <Link className={`text text_type_main-default text_color_inactive ${loginStyles.link}`} to="/forgot-password">
           Восстановить пароль
         </Link>
       </div>

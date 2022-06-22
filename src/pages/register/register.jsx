@@ -49,7 +49,7 @@ export function RegisterPage() {
       </form>
       <div className={`mt-20 ${registerStyles.options}`}>
         <p className="mr-2 text text_type_main-default text_color_inactive">Уже зарегистрированы?</p>
-        <Link className={`text text_type_main-default text_color_inactive ${registerStyles.link}`} to="/react-burger/login">
+        <Link className={`text text_type_main-default text_color_inactive ${registerStyles.link}`} to="/login">
           Войти
         </Link>
       </div>
