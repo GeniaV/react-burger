@@ -7,7 +7,7 @@ import { BurgerConstructor } from '../burger-constructor/burger-constructor';
 import { Modal } from "../modal/modal";
 import { IngredientDetails } from '../ingredient-details/ingredient-details';
 import { OrderDetails } from '../order-details/order-details';
-import { removeIngredienFromModal } from '../../services/actions/actions';
+import { removeIngredienFromModal } from '../../services/actions/ingredient';
 import { useSelector, useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';

@@ -8,8 +8,8 @@ import {
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from "../../services/actions/actions";
-import { addIngredientInModal } from "../../services/actions/actions";
+import { getIngredients } from "../../services/actions/ingredients";
+import { addIngredientInModal } from "../../services/actions/ingredient";
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
 
