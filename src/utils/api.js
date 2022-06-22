@@ -34,5 +34,17 @@ export function passwordReset(email) {
   .then(checkReponse)
 }
 
-
+export function saveNewAccountPassword(password, token) {
+  return fetch(`${API_URL}/password-reset/reset`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      password: password,
+      token: token
+    }),
+  })
+  .then(checkReponse)
+}
 

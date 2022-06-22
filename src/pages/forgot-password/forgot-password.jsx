@@ -19,7 +19,6 @@ export function ForgotPasswordPage() {
     })
   }
 
-
   return (
     <div className={styles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Восстановление пароля</h2>

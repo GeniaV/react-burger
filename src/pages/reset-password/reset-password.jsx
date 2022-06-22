@@ -2,16 +2,18 @@ import { Button, Input, ShowIcon, HideIcon } from "@ya.praktikum/react-developer
 import styles from "./reset-password.module.css";
 import { Link } from 'react-router-dom';
 import { useState, useRef } from "react";
+import { saveNewAccountPassword } from "../../utils/api";
 
 export function ResetPasswordPage() {
   const [passwordValue, setPasswordValue] = useState('');
   const [icon, setIcon] = useState('ShowIcon');
   const [type, setType] = useState('password');
 
-  const inputRef = useRef(null);
+  const inputPasswordRef = useRef(null);
+  const inputCodRef = useRef(null);
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputPasswordRef.current.focus(), 0);
     setIcon('HideIcon');
     setType('text');
     if (icon === 'HideIcon' && type === 'text') {
@@ -34,7 +36,7 @@ export function ResetPasswordPage() {
           icon={icon}
           name={'email'}
           error={false}
-          ref={inputRef}
+          ref={inputPasswordRef}
           onIconClick={onIconClick}
           errorText={'Ошибка ввода e-mail'}
           size={'default'}
@@ -46,7 +48,7 @@ export function ResetPasswordPage() {
           onChange={e => setCode(e.target.value)}
           name={'code'}
           error={false}
-          ref={inputRef}
+          ref={inputCodRef}
           errorText={'Ошибка ввода кода'}
           size={'default'}
         />

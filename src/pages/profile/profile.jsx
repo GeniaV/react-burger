@@ -7,12 +7,42 @@ import { OrdersPage } from "./orders/orders";
 
 export function ProfilePage() {
   const [name, setName] = useState('');
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [disabledName, setDisabledName] = useState(true);
+  const [disabledLogin, setDisabledLogin] = useState(true);
+  const [disabledPassword, setDisabledPassword] = useState(true);
+
   const inutRefName = useRef(null);
+  const inutRefLogin = useRef(null);
+  const inutRefPassword = useRef(null);
 
-  const [disabled, setDisabled] = useState(true);
+  const inputNameOnEditIconClick = () => {
+    setTimeout(() => inutRefName.current.focus(), 0);
+    setDisabledName(false);
+  }
 
-  const onIconClick = () => {
-    setTimeout((inputRef) => inputRef.current.focus(), 0)
+  const inputNameOnBlur = () => {
+    setDisabledName(true);
+  }
+
+  const inputLoginOnEditIconClick = () => {
+    setTimeout(() => inutRefLogin.current.focus(), 0);
+    setDisabledLogin(false);
+  }
+
+  const inputLoginOnBlur = () => {
+    setDisabledLogin(true);
+  }
+
+  const inputPasswordOnEditIconClick = () => {
+    setTimeout(() => inutRefPassword.current.focus(), 0);
+    setDisabledPassword(false);
+  }
+
+  const inputPasswordOnBlur = () => {
+    setDisabledPassword(true);
   }
 
   return (
@@ -44,42 +74,45 @@ export function ProfilePage() {
               placeholder={'Имя'}
               onChange={e => setName(e.target.value)}
               value={name}
-              name={'name'}
               icon={'EditIcon'}
+              name={'name'}
               error={false}
-              onIconClick={(inutRefName) => onIconClick(inutRefName)}
               ref={inutRefName}
+              onIconClick={inputNameOnEditIconClick}
               errorText={'Ошибка ввода имени'}
               size={'default'}
-              disabled={disabled}
+              disabled={disabledName}
+              onBlur={inputNameOnBlur}
             />
             <Input
-              type={'text'}
-              placeholder={'Имя'}
-              onChange={e => setName(e.target.value)}
-              value={name}
-              name={'name'}
+              type={'email'}
+              placeholder={'Логин'}
+              onChange={e => setLogin(e.target.value)}
+              value={login}
               icon={'EditIcon'}
+              name={'login'}
               error={false}
-              onIconClick={(inutRefName) => onIconClick(inutRefName)}
-              ref={inutRefName}
-              errorText={'Ошибка ввода имени'}
+              ref={inutRefLogin}
+              onIconClick={inputLoginOnEditIconClick}
+              errorText={'Ошибка ввода логина'}
               size={'default'}
-              disabled={disabled}
+              disabled={disabledLogin}
+              onBlur={inputLoginOnBlur}
             />
             <Input
-              type={'text'}
-              placeholder={'Имя'}
-              onChange={e => setName(e.target.value)}
-              value={name}
-              name={'name'}
+              type={'password'}
+              placeholder={'Пароль'}
+              onChange={e => setPassword(e.target.value)}
+              value={password}
               icon={'EditIcon'}
+              name={'password'}
               error={false}
-              onIconClick={(inutRefName) => onIconClick(inutRefName)}
-              ref={inutRefName}
-              errorText={'Ошибка ввода имени'}
+              ref={inutRefPassword}
+              onIconClick={inputPasswordOnEditIconClick}
+              errorText={'Ошибка ввода пароля'}
               size={'default'}
-              disabled={disabled}
+              disabled={disabledPassword}
+              onBlur={inputPasswordOnBlur}
             />
           </form>
         </Route>
