@@ -28,9 +28,21 @@
 
 .item {
   display: flex;
-  color: rgba(242, 242, 243, 1);
   cursor: pointer;
   text-decoration: none;
   align-items: center;
   justify-self: end;
+  color: #8585AD;
+}
+
+.item:hover {
+  opacity: 0.8;
+}
+
+.activeLink {
+  color: white;
+}
+
+.activeLink:hover {
+  opacity: 0.8;
 }

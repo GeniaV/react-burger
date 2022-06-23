@@ -1,7 +1,7 @@
 import styles from "./profile.module.css"
 import { Input, EditIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import { OrdersPage } from "./orders/orders";
 
@@ -55,9 +55,9 @@ export function ProfilePage() {
           <NavLink exact to="/profile/orders" className={`text text_type_main-medium ${styles.link}`} activeClassName={styles.activeLink}>
             История заказов
           </NavLink>
-          <Link to="/" className={`text text_type_main-medium ${styles.link}`} >
+          <NavLink to="/" className={`text text_type_main-medium ${styles.link}`} >
             Выход
-          </Link>
+          </NavLink>
         </ul>
         <p className={`text text_type_main-default text_color_inactive ${styles.additional_text}`}>
           В этом разделе вы можете изменить&nbsp;свои персональные данные

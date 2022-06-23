@@ -2,7 +2,6 @@ import { Button, Input, ShowIcon, HideIcon } from "@ya.praktikum/react-developer
 import styles from "./reset-password.module.css";
 import { Link } from 'react-router-dom';
 import { useState, useRef } from "react";
-import { saveNewAccountPassword } from "../../utils/api";
 
 export function ResetPasswordPage() {
   const [passwordValue, setPasswordValue] = useState('');
