@@ -14,6 +14,8 @@ export function ProfilePage() {
   const [disabledLogin, setDisabledLogin] = useState(true);
   const [disabledPassword, setDisabledPassword] = useState(true);
 
+  const [showButtons, setShowButtons] = useState(false);
+
   const inutRefName = useRef(null);
   const inutRefLogin = useRef(null);
   const inutRefPassword = useRef(null);
@@ -21,6 +23,7 @@ export function ProfilePage() {
   const inputNameOnEditIconClick = () => {
     setTimeout(() => inutRefName.current.focus(), 0);
     setDisabledName(false);
+    setShowButtons(true);
   }
 
   const inputNameOnBlur = () => {
@@ -30,6 +33,7 @@ export function ProfilePage() {
   const inputLoginOnEditIconClick = () => {
     setTimeout(() => inutRefLogin.current.focus(), 0);
     setDisabledLogin(false);
+    setShowButtons(true);
   }
 
   const inputLoginOnBlur = () => {
@@ -39,6 +43,7 @@ export function ProfilePage() {
   const inputPasswordOnEditIconClick = () => {
     setTimeout(() => inutRefPassword.current.focus(), 0);
     setDisabledPassword(false);
+    setShowButtons(true);
   }
 
   const inputPasswordOnBlur = () => {
@@ -114,9 +119,19 @@ export function ProfilePage() {
               disabled={disabledPassword}
               onBlur={inputPasswordOnBlur}
             />
+            {showButtons &&
+            <div className={styles.buttons}>
+              <Button type="secondary" size="medium">
+                Отмена
+              </Button>
+              <Button type="primary" size="medium">
+                Cохранить
+              </Button>
+            </div>}
           </form>
         </Route>
       </Switch>
     </div>
   );
 }
+

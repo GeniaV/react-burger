@@ -63,3 +63,10 @@
 .activeLink {
   color: white;
 }
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  transition-timing-function: ease-in-out;
+  transition-duration: 2s;
+}
