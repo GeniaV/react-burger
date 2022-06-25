@@ -72,3 +72,21 @@ export function logInItoAccount(email, password) {
   })
   .then(checkReponse)
 }
+
+export function logOutFromAccount(refreshToken) {
+  return fetch(`${API_URL}/auth/logout `, {
+    method: "POST",
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: { refreshToken }
+    }),
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(checkReponse)
+}

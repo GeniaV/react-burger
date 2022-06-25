@@ -39,7 +39,7 @@ const Account = memo(() => {
   return (
     <NavLink className={appHeaderStyles.item} activeClassName={appHeaderStyles.activeLink} to="/profile">
       <ProfileIcon type="secondary" />
-      <p className="text text_type_main-default text_color_inactive ml-2 mt-4 mb-4 mr-5">Личный кабинет</p>
+      <p className="text text_type_main-default ml-2 mt-4 mb-4 mr-5">Личный кабинет</p>
     </NavLink>
   )
 })

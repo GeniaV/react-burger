@@ -1,5 +1,9 @@
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "./types";
-import { createUser, logInItoAccount } from "../../utils/api";
+import {
+  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED,
+  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED
+} from "./types";
+import { createUser, logInItoAccount, logOutFromAccount } from "../../utils/api";
+import { setCookie, deleteCookie } from "../../utils/utils";
 
 //Регистрация
 function registerUserOnServerSuccess(res) {
@@ -17,12 +21,15 @@ function registerUserOnServerFailed(err) {
 }
 
 export function register(email, password, name) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: REGISTER_REQUEST
     });
     createUser(email, password, name)
       .then(res => {
+        let authToken = res.accessToken.split('Bearer ')[1];
+        setCookie('token', authToken);
+        localStorage.setItem('token', res.refreshToken);
         if (res && res.success) {
           dispatch(registerUserOnServerSuccess(res));
         } else {
@@ -51,12 +58,15 @@ function loginOnServerFailed(err) {
 }
 
 export function login(email, password) {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({
       type: LOGIN_REQUEST
     });
     logInItoAccount(email, password)
       .then(res => {
+        let authToken = res.accessToken.split('Bearer ')[1];
+        setCookie('token', authToken);
+        localStorage.setItem('token', res.refreshToken);
         if (res && res.success) {
           dispatch(loginOnServerSuccess(res));
         } else {
@@ -68,3 +78,25 @@ export function login(email, password) {
       })
   };
 }
+
+//Выход из системы
+export function logout(refreshToken) {
+  return function (dispatch) {
+    dispatch({
+      type: LOGOUT_REQUEST
+    });
+    logOutFromAccount(refreshToken)
+      .then(res => {
+        deleteCookie('token');
+        localStorage.removeItem('refreshToken');
+      })
+      .catch(err => {
+
+      })
+  };
+}
+
+
+
+
+
