@@ -11,7 +11,7 @@ import { removeIngredienFromModal } from '../../services/actions/ingredient';
 import { useSelector, useDispatch } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
-import { Preloader } from '../preloaders/preloader';
+import { Preloader } from '../preloader/preloader';
 import { LoginPage } from '../../pages/login/login';
 import { RegisterPage } from '../../pages/register/register';
 import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';

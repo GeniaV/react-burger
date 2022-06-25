@@ -34,5 +34,41 @@ export function passwordReset(email) {
   .then(checkReponse)
 }
 
+export function createUser(email, password, name) {
+  return fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+      name: name
+    }),
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(checkReponse)
+}
 
-
+export function logInItoAccount(email, password) {
+  return fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      password: password
+    }),
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  })
+  .then(checkReponse)
+}

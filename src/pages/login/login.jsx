@@ -2,6 +2,8 @@ import { PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burg
 import loginStyles from "./login.module.css";
 import { Link } from 'react-router-dom';
 import { useState, useRef } from "react";
+import { useDispatch } from 'react-redux';
+import { login } from "../../services/actions/auth";
 
 export function LoginPage() {
   const [passwordValue, setPasswordValue] = useState('')
@@ -12,6 +14,13 @@ export function LoginPage() {
 
   const [emailValue, setEmailValue] = useState('')
   const inputRef = useRef(null)
+
+  const dispatch = useDispatch();
+
+  const submitLogin = (e) => {
+    e.preventDefault();
+    dispatch(login(emailValue, passwordValue));
+  }
 
   return (
     <div className={loginStyles.conatiner}>
@@ -29,7 +38,7 @@ export function LoginPage() {
           size={'default'}
         />
         <PasswordInput onChange={onChangePassword} value={passwordValue} name={'password'} />
-        <Button type="primary" size="medium" >
+        <Button type="primary" size="medium" onClick={submitLogin}>
           Войти
         </Button>
       </form>

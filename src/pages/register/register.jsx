@@ -2,19 +2,28 @@ import { PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burg
 import registerStyles from "./register.module.css";
 import { Link } from 'react-router-dom';
 import { useState, useRef } from "react";
+import { useDispatch } from 'react-redux';
+import { register } from "../../services/actions/auth";
 
 export function RegisterPage() {
-  const [passwordValue, setPasswordValue] = useState('')
+  const [passwordValue, setPasswordValue] = useState('');
 
   const onChangePassword = e => {
     setPasswordValue(e.target.value)
   }
 
-  const [emailValue, setEmailValue] = useState('')
-  const inputRef = useRef(null)
+  const [emailValue, setEmailValue] = useState('');
+  const inputRef = useRef(null);
 
-  const [namelValue, setnamelValue] = useState('')
-  const inputNemeRef = useRef(null)
+  const [namelValue, setnamelValue] = useState('');
+  const inputNemeRef = useRef(null);
+
+  const dispatch = useDispatch();
+
+  const userRegister = (e) => {
+    e.preventDefault();
+    dispatch(register(emailValue, passwordValue, namelValue));
+  }
 
   return (
     <div className={registerStyles.conatiner}>
@@ -43,7 +52,7 @@ export function RegisterPage() {
           size={'default'}
         />
         <PasswordInput onChange={onChangePassword} value={passwordValue} name={'password'} />
-        <Button type="primary" size="medium" >
+        <Button type="primary" size="medium" onClick={userRegister}>
           Зарегистрироваться
         </Button>
       </form>
