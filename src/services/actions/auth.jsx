@@ -142,7 +142,7 @@ export function forgotPassword(email) {
 }
 
 //Сброс пароля
-export function reserPassword(password, token) {
+export function resetPassword(password, token) {
   return function (dispatch) {
     dispatch({
       type: RESET_PASSWORD_REQUEST

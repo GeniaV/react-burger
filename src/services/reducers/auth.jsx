@@ -1,7 +1,7 @@
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, 
-  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, 
-  FORGOT_PASSWORD_FAILED, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILED, GET_USER_REQUEST, 
-  GET_USER_SUCCESS, GET_USER_FAILED, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED, UPDATE_TOKEN_REQUEST, 
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED,
+  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILED, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILED, GET_USER_REQUEST,
+  GET_USER_SUCCESS, GET_USER_FAILED, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED, UPDATE_TOKEN_REQUEST,
   UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED } from "../actions/types";
 
 const initialState = {
@@ -22,6 +22,7 @@ const initialState = {
   forgotPasswordSuccess: false,
 
   resetPasswordRequest: false,
+  resetPasswordSuccess: false,
   resetPasswordFailed: false,
 
   getUserRequest: false,
@@ -101,7 +102,7 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case RESET_PASSWORD_SUCCESS: {
-      return { ...state, resetPasswordFailed: false, resetPasswordRequest: false };
+      return { ...state, resetPasswordFailed: false, resetPasswordSuccess: true, resetPasswordRequest: false };
     }
     case RESET_PASSWORD_FAILED: {
       return { ...state, resetPasswordFailed: true, resetPasswordRequest: false };

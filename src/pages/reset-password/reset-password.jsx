@@ -3,7 +3,7 @@ import styles from "./reset-password.module.css";
 import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { reserPassword } from "../../services/actions/auth";
+import { resetPassword } from "../../services/actions/auth";
 
 export function ResetPasswordPage() {
   const [passwordValue, setPasswordValue] = useState('');
@@ -28,11 +28,12 @@ export function ResetPasswordPage() {
 
   const saveNewPassword = (e) => {
     e.preventDefault();
-    dispatch(reserPassword(passwordValue, token));
+    dispatch(resetPassword(passwordValue, token));
   }
 
   const forgotPasswordSuccess = useSelector(store => store.auth.forgotPasswordSuccess);
   const user = useSelector(store => store.auth.user);
+  const resetPasswordSuccess = useSelector(store => store.auth.resetPasswordSuccess);
 
   if (forgotPasswordSuccess === false) {
     return (
@@ -42,21 +43,30 @@ export function ResetPasswordPage() {
         }}
       />
     );
-  } 
+  }
 
-  
   if (user) {
     return (
       <Redirect
         to='/'
       />
     );
-  } 
-  
+  }
+
+  if (resetPasswordSuccess === true) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/login'
+        }}
+      />
+    );
+  }
+
   return (
     <div className={styles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Восстановление пароля</h2>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={saveNewPassword}>
         <Input
           type={type}
           placeholder={'Введите новый пароль'}
@@ -81,7 +91,7 @@ export function ResetPasswordPage() {
           errorText={'Ошибка ввода кода'}
           size={'default'}
         />
-        <Button type="primary" size="medium" onClick={saveNewPassword}>
+        <Button type="primary" size="medium">
           Сохранить
         </Button>
       </form>

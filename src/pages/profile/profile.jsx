@@ -67,6 +67,7 @@ export function ProfilePage() {
   const saveNewUserData = (e) => {
     e.preventDefault();
     dispatch(updateUser(name, login, password));
+    setShowButtons(false);
   }
 
   const resetUpdateUserData = (e) => {
@@ -104,7 +105,7 @@ export function ProfilePage() {
           <OrdersPage />
         </Route>
         <Route exact path="/profile">
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={saveNewUserData}>
             <Input
               type={'text'}
               placeholder={'Имя'}
@@ -155,7 +156,7 @@ export function ProfilePage() {
                 <Button type="secondary" size="medium" onClick={resetUpdateUserData}>
                   Отмена
                 </Button>
-                <Button type="primary" size="medium" onClick={saveNewUserData}>
+                <Button type="primary" size="medium">
                   Cохранить
                 </Button>
               </div>}

@@ -23,7 +23,7 @@ export function LoginPage() {
     e.preventDefault();
     dispatch(login(emailValue, passwordValue));
   }
-  
+
   let location = useLocation();
 
   if (user) {
@@ -32,12 +32,12 @@ export function LoginPage() {
         to={location.state?.from || '/'}
       />
     );
-  } 
-  
+  }
+
   return (
     <div className={loginStyles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Вход</h2>
-      <form className={loginStyles.form}>
+      <form className={loginStyles.form} onSubmit={submitLogin}>
         <Input
           type={'email'}
           placeholder={'E-mail'}
@@ -50,7 +50,7 @@ export function LoginPage() {
           size={'default'}
         />
         <PasswordInput onChange={onChangePassword} value={passwordValue} name={'password'} />
-        <Button type="primary" size="medium" onClick={submitLogin}>
+        <Button type="primary" size="medium" >
           Войти
         </Button>
       </form>

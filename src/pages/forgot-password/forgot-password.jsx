@@ -26,7 +26,7 @@ export function ForgotPasswordPage() {
         to='/'
       />
     );
-  }  
+  }
 
   if (forgotPasswordSuccess === true) {
     return (
@@ -41,7 +41,7 @@ export function ForgotPasswordPage() {
   return (
     <div className={styles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Восстановление пароля</h2>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={sentForgotPassword}>
         <Input
           type={'email'}
           placeholder={'Укажите e-mail'}
@@ -53,7 +53,7 @@ export function ForgotPasswordPage() {
           errorText={'Ошибка ввода e-mail'}
           size={'default'}
         />
-        <Button type="primary" size="medium" onClick={sentForgotPassword}>
+        <Button type="primary" size="medium">
           Восстановить
         </Button>
       </form>

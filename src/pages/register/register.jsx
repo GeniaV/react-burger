@@ -33,12 +33,12 @@ export function RegisterPage() {
         to='/'
       />
     );
-  }  
+  }
 
   return (
     <div className={registerStyles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Регистрация</h2>
-      <form className={registerStyles.form}>
+      <form className={registerStyles.form} onSubmit={userRegister}>
         <Input
           type={'text'}
           placeholder={'Имя'}
@@ -62,7 +62,7 @@ export function RegisterPage() {
           size={'default'}
         />
         <PasswordInput onChange={onChangePassword} value={passwordValue} name={'password'} />
-        <Button type="primary" size="medium" onClick={userRegister}>
+        <Button type="primary" size="medium" >
           Зарегистрироваться
         </Button>
       </form>

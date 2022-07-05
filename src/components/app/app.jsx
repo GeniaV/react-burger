@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import appStyles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
@@ -22,21 +22,28 @@ import { ProtectedRoute } from '../protected-route';
 import { getUser } from '../../services/actions/auth';
 import { refreshToken } from '../../services/actions/auth';
 import { getCookie } from '../../utils/utils';
+import { useLocation } from "react-router-dom";
 
 export function App() {
   const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
   const { ingredientsRequest } = useSelector(store => store.ingredientsList);
 
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const closeAllModals = () => {
     dispatch(removeIngredienFromModal())
     setOrderDetailsOpened(false);
+    history.replace('/');
   };
 
   const openOrderDetailsModal = () => {
-    setOrderDetailsOpened(true);
+    if (!user) {
+      history.replace('/login')
+    } if (user) {
+      setOrderDetailsOpened(true);
+    }
   }
 
   const cookie = getCookie('token')
@@ -56,11 +63,14 @@ export function App() {
     }
   }, [dispatch, refreshTokenData, user, cookie, updateTokenSuccess]);
 
+  const location = useLocation();
+  const background = location.state?.background;
+
   return (
     <>
       {ingredientsRequest && <Preloader />}
       <AppHeader />
-      <Switch>
+      <Switch location={background || location}>
         <Route exact path="/">
           <main className={appStyles.main}>
             <section className={appStyles.container}>
@@ -86,20 +96,28 @@ export function App() {
         <ProtectedRoute path="/profile">
           <ProfilePage />
         </ProtectedRoute>
+        <Route path="/ingredients/:id">
+          <h2 className={`mt-30 pb-3 text text_type_main-large ${appStyles.title}`}>Детали ингредиента</h2>
+          <IngredientDetails />
+        </Route>
         <Route>
           <NotFound />
         </Route>
       </Switch>
-      {isIngredientDetailsOpened &&
-        <Modal
-          title="Детали ингредиента"
-          onOverlayClick={closeAllModals}
-          close={closeAllModals}
-          onCloseClick={closeAllModals}
-        >
-          <IngredientDetails />
-        </Modal>}
-      {isOrderDetailsOpened &&
+      {background && (
+        <Route path="/ingredients/:id">
+          <Modal
+            title="Детали ингредиента"
+            onOverlayClick={closeAllModals}
+            close={closeAllModals}
+            onCloseClick={closeAllModals}
+          >
+            <IngredientDetails />
+          </Modal>
+        </Route>
+      )}
+      {
+        isOrderDetailsOpened &&
         <Modal
           title=""
           onOverlayClick={closeAllModals}
@@ -107,7 +125,8 @@ export function App() {
           onCloseClick={closeAllModals}
         >
           <OrderDetails />
-        </Modal>}
+        </Modal>
+      }
     </>
   )
 }
