@@ -1,8 +1,8 @@
 import { PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import loginStyles from "./login.module.css";
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useState, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from "../../services/actions/auth";
 
 export function LoginPage() {
@@ -17,11 +17,23 @@ export function LoginPage() {
 
   const dispatch = useDispatch();
 
+  const user = useSelector(store => store.auth.user);
+
   const submitLogin = (e) => {
     e.preventDefault();
     dispatch(login(emailValue, passwordValue));
   }
+  
+  let location = useLocation();
 
+  if (user) {
+    return (
+      <Redirect
+        to={location.state?.from || '/'}
+      />
+    );
+  } 
+  
   return (
     <div className={loginStyles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Вход</h2>

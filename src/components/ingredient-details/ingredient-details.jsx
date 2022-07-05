@@ -42,3 +42,4 @@ Ingredient.propTypes = {
   ingredientInfo: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired
 }
+

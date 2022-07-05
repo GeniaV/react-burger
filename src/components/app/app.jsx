@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import appStyles from './app.module.css';
 import { AppHeader } from '../app-header/app-header';
 import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
@@ -18,6 +18,10 @@ import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password'
 import { ResetPasswordPage } from '../../pages/reset-password/reset-password';
 import { NotFound } from '../../pages/not-found/not-found';
 import { ProfilePage } from '../../pages/profile/profile';
+import { ProtectedRoute } from '../protected-route';
+import { getUser } from '../../services/actions/auth';
+import { refreshToken } from '../../services/actions/auth';
+import { getCookie } from '../../utils/utils';
 
 export function App() {
   const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
@@ -34,6 +38,23 @@ export function App() {
   const openOrderDetailsModal = () => {
     setOrderDetailsOpened(true);
   }
+
+  const cookie = getCookie('token')
+  const user = useSelector(store => store.auth.user);
+  const refreshTokenData = localStorage.getItem('token');
+  const updateTokenSuccess = useSelector(store => store.auth.updateTokenSuccess);
+
+  useEffect(() => {
+    if (!user && refreshTokenData && cookie) {
+      dispatch(getUser());
+    }
+    if (!cookie && refreshTokenData) {
+      dispatch(refreshToken());
+    }
+    if (cookie && updateTokenSuccess && refreshTokenData && !user) {
+      dispatch(getUser());
+    }
+  }, [dispatch, refreshTokenData, user, cookie, updateTokenSuccess]);
 
   return (
     <>
@@ -62,9 +83,9 @@ export function App() {
         <Route exact path="/reset-password">
           <ResetPasswordPage />
         </Route>
-        <Route path="/profile">
+        <ProtectedRoute path="/profile">
           <ProfilePage />
-        </Route>
+        </ProtectedRoute>
         <Route>
           <NotFound />
         </Route>
@@ -90,3 +111,5 @@ export function App() {
     </>
   )
 }
+
+

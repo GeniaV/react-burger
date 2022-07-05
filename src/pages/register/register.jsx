@@ -1,8 +1,8 @@
 import { PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import registerStyles from "./register.module.css";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from "../../services/actions/auth";
 
 export function RegisterPage() {
@@ -24,6 +24,16 @@ export function RegisterPage() {
     e.preventDefault();
     dispatch(register(emailValue, passwordValue, namelValue));
   }
+
+  const user = useSelector(store => store.auth.user);
+
+  if (user) {
+    return (
+      <Redirect
+        to='/'
+      />
+    );
+  }  
 
   return (
     <div className={registerStyles.conatiner}>
@@ -65,3 +75,4 @@ export function RegisterPage() {
     </div>
   );
 }
+

@@ -1,10 +1,13 @@
-import { Button, Input, ShowIcon, HideIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.css";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { reserPassword } from "../../services/actions/auth";
 
 export function ResetPasswordPage() {
   const [passwordValue, setPasswordValue] = useState('');
+  const [token, setToken] = useState('');
   const [icon, setIcon] = useState('ShowIcon');
   const [type, setType] = useState('password');
 
@@ -21,8 +24,35 @@ export function ResetPasswordPage() {
     }
   }
 
-  const [code, setCode] = useState('');
+  const dispatch = useDispatch();
 
+  const saveNewPassword = (e) => {
+    e.preventDefault();
+    dispatch(reserPassword(passwordValue, token));
+  }
+
+  const forgotPasswordSuccess = useSelector(store => store.auth.forgotPasswordSuccess);
+  const user = useSelector(store => store.auth.user);
+
+  if (forgotPasswordSuccess === false) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/forgot-password'
+        }}
+      />
+    );
+  } 
+
+  
+  if (user) {
+    return (
+      <Redirect
+        to='/'
+      />
+    );
+  } 
+  
   return (
     <div className={styles.conatiner}>
       <h2 className="mb-6 text text_type_main-medium">Восстановление пароля</h2>
@@ -43,15 +73,15 @@ export function ResetPasswordPage() {
         <Input
           type={'text'}
           placeholder={'Введите код из письма'}
-          value={code}
-          onChange={e => setCode(e.target.value)}
-          name={'code'}
+          value={token}
+          onChange={e => setToken(e.target.value)}
+          name={'token'}
           error={false}
           ref={inputCodRef}
           errorText={'Ошибка ввода кода'}
           size={'default'}
         />
-        <Button type="primary" size="medium" >
+        <Button type="primary" size="medium" onClick={saveNewPassword}>
           Сохранить
         </Button>
       </form>
@@ -64,5 +94,3 @@ export function ResetPasswordPage() {
     </div>
   );
 }
-
-

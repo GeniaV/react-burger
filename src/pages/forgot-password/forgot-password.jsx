@@ -1,22 +1,41 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./forgot-password.module.css";
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
-import { passwordReset } from "../../utils/api";
+import { useDispatch, useSelector } from 'react-redux';
+import { forgotPassword } from "../../services/actions/auth";
 
 export function ForgotPasswordPage() {
   const [emailValue, setEmailValue] = useState('')
   const inputRef = useRef(null)
 
+  const dispatch = useDispatch();
 
-  const passWordResetRequest = () => {
-    passwordReset(emailValue)
-    .then (res => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log('Ошибка сброса пароля', err.message);
-    })
+  const sentForgotPassword = (e) => {
+    e.preventDefault();
+    dispatch(forgotPassword(emailValue));
+  }
+
+  const forgotPasswordSuccess = useSelector(store => store.auth.forgotPasswordSuccess);
+
+  const user = useSelector(store => store.auth.user);
+
+  if (user) {
+    return (
+      <Redirect
+        to='/'
+      />
+    );
+  }  
+
+  if (forgotPasswordSuccess === true) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/reset-password'
+        }}
+      />
+    );
   }
 
   return (
@@ -34,7 +53,7 @@ export function ForgotPasswordPage() {
           errorText={'Ошибка ввода e-mail'}
           size={'default'}
         />
-        <Button type="primary" size="medium" onClick={() => passWordResetRequest(emailValue)}>
+        <Button type="primary" size="medium" onClick={sentForgotPassword}>
           Восстановить
         </Button>
       </form>

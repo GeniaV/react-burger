@@ -1,12 +1,12 @@
 import { memo, useEffect, useState } from 'react';
 import appHeaderStyles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, NavLink, useRouteMatch } from "react-router-dom";
+import { NavLink, useRouteMatch } from "react-router-dom";
 
 const Navigator = memo(() => {
   const { isExact } = useRouteMatch("/");
   const [iconColor, setIconColor] = useState(null);
-
+ 
   useEffect(()=> {
     if(isExact  === true) {
       setIconColor('primary');

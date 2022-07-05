@@ -1,13 +1,17 @@
 import styles from "./profile.module.css"
-import { Input, EditIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef } from "react";
+import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { NavLink } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import { OrdersPage } from "./orders/orders";
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, getUser, updateUser } from "../../services/actions/auth";
 
 export function ProfilePage() {
-  const [name, setName] = useState('');
-  const [login, setLogin] = useState('');
+  const user = useSelector(store => store.auth.user);
+
+  const [name, setName] = useState(user.name);
+  const [login, setLogin] = useState(user.email);
   const [password, setPassword] = useState('');
 
   const [disabledName, setDisabledName] = useState(true);
@@ -50,6 +54,33 @@ export function ProfilePage() {
     setDisabledPassword(true);
   }
 
+  const dispatch = useDispatch();
+
+  const logoutSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(logout());
+    },
+    [dispatch]
+  );
+
+  const saveNewUserData = (e) => {
+    e.preventDefault();
+    dispatch(updateUser(name, login, password));
+  }
+
+  const resetUpdateUserData = (e) => {
+    e.preventDefault();
+    setName(user.name);
+    setLogin(user.email);
+    setPassword(password);
+    setShowButtons(false);
+  }
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch])
+
   return (
     <div className={styles.wrapper}>
       <nav>
@@ -60,9 +91,9 @@ export function ProfilePage() {
           <NavLink exact to="/profile/orders" className={`text text_type_main-medium ${styles.link}`} activeClassName={styles.activeLink}>
             История заказов
           </NavLink>
-          <NavLink to="/" className={`text text_type_main-medium ${styles.link}`} >
+          <button  className={`text text_type_main-medium ${styles.button}`} onClick={logoutSubmit} type="secondary" size="large">
             Выход
-          </NavLink>
+          </button>
         </ul>
         <p className={`text text_type_main-default text_color_inactive ${styles.additional_text}`}>
           В этом разделе вы можете изменить&nbsp;свои персональные данные
@@ -120,14 +151,14 @@ export function ProfilePage() {
               onBlur={inputPasswordOnBlur}
             />
             {showButtons &&
-            <div className={styles.buttons}>
-              <Button type="secondary" size="medium">
-                Отмена
-              </Button>
-              <Button type="primary" size="medium">
-                Cохранить
-              </Button>
-            </div>}
+              <div className={styles.buttons}>
+                <Button type="secondary" size="medium" onClick={resetUpdateUserData}>
+                  Отмена
+                </Button>
+                <Button type="primary" size="medium" onClick={saveNewUserData}>
+                  Cохранить
+                </Button>
+              </div>}
           </form>
         </Route>
       </Switch>

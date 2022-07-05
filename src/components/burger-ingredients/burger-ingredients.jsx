@@ -125,7 +125,7 @@ const Product = ({ card }) => {
       const ingredientsWithEqualIds = ingredients.filter((item) => item._id === id);
       setCount(ingredientsWithEqualIds.length);
     }
-  }, [ingredients, bun])
+  }, [ingredients, bun, card.type, id, card._id])
 
   const openIngredientDetails = (data) => {
     dispatch(addIngredientInModal(data))
@@ -182,3 +182,5 @@ IngredientsCategory.propTypes = {
 Product.propTypes = {
   card: type
 };
+
+

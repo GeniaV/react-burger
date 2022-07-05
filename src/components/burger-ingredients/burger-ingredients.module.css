@@ -105,3 +105,8 @@
         max-height: 400px;
     }
 }
+
+.link {
+  color: white;
+  text-decoration: none;
+}

@@ -1,4 +1,8 @@
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "../actions/types";
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, 
+  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, 
+  FORGOT_PASSWORD_FAILED, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILED, GET_USER_REQUEST, 
+  GET_USER_SUCCESS, GET_USER_FAILED, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED, UPDATE_TOKEN_REQUEST, 
+  UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED } from "../actions/types";
 
 const initialState = {
   user: null,
@@ -7,8 +11,29 @@ const initialState = {
   registerFailed: false,
 
   loginRequest: false,
-  loginFailed: false
-};
+  loginSuccess: false,
+  loginFailed: false,
+
+  logoutRequest: false,
+  logoutFailed: false,
+
+  forgotPasswordRequest: false,
+  forgotPasswordFailed: false,
+  forgotPasswordSuccess: false,
+
+  resetPasswordRequest: false,
+  resetPasswordFailed: false,
+
+  getUserRequest: false,
+  getUserFailed: false,
+
+  updateUserRequest: false,
+  updateUserFailed: false,
+
+  updateTokenRequest: false,
+  updateTokenSuccess: false,
+  updateTokenFailed: false,
+}
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,6 +63,91 @@ export const authReducer = (state = initialState, action) => {
     }
     case LOGIN_FAILED: {
       return { ...state, loginFailed: true, loginRequest: false };
+    }
+
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        logoutRequest: true,
+        logoutFailed: false
+      };
+    }
+    case LOGOUT_SUCCESS: {
+      return { ...state, logoutFailed: false, user: action.payload, logoutRequest: false };
+    }
+    case LOGOUT_FAILED: {
+      return { ...state, logoutFailed: true, logoutRequest: false };
+    }
+
+    case FORGOT_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        forgotPasswordRequest: true,
+        forgotPasswordFailed: false
+      };
+    }
+    case FORGOT_PASSWORD_SUCCESS: {
+      return { ...state, forgotPasswordFailed: false, forgotPasswordSuccess: true, forgotPasswordRequest: false };
+    }
+    case FORGOT_PASSWORD_FAILED: {
+      return { ...state, forgotPasswordFailed: true, forgotPasswordRequest: false };
+    }
+
+    case RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        resetPasswordRequest: true,
+        resetPasswordFailed: false
+      };
+    }
+    case RESET_PASSWORD_SUCCESS: {
+      return { ...state, resetPasswordFailed: false, resetPasswordRequest: false };
+    }
+    case RESET_PASSWORD_FAILED: {
+      return { ...state, resetPasswordFailed: true, resetPasswordRequest: false };
+    }
+
+    case GET_USER_REQUEST: {
+      return {
+        ...state,
+        getUserRequest: true,
+        getUserFailed: false
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return { ...state, getUserFailed: false, user: action.payload, getUserRequest: false };
+    }
+    case GET_USER_FAILED: {
+      return { ...state, getUserFailed: true, getUserRequest: false };
+    }
+
+    case UPDATE_USER_REQUEST: {
+      return {
+        ...state,
+        updateUserRequest: true,
+        updateUserFailed: false
+      };
+    }
+    case UPDATE_USER_SUCCESS: {
+      return { ...state, updateUserFailed: false, user: action.payload, updateUserRequest: false };
+    }
+    case UPDATE_USER_FAILED: {
+      return { ...state, updateUserFailed: true, updateUserRequest: false };
+    }
+
+    case UPDATE_TOKEN_REQUEST: {
+      return {
+        ...state,
+        updateTokenRequest: true,
+        updateTokenSuccess: false,
+        updateTokenFailed: false
+      };
+    }
+    case UPDATE_TOKEN_SUCCESS: {
+      return { ...state,  updateTokenFailed: false, updateTokenSuccess: true, updateTokenRequest: false };
+    }
+    case UPDATE_TOKEN_FAILED: {
+      return { ...state, updateTokenFailed: true, updateTokenSuccess: false, updateTokenRequest: false};
     }
 
     default: {
