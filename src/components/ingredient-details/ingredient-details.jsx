@@ -1,9 +1,30 @@
 import ingredientDetailsStyles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from "react-router-dom";
+import { Preloader } from "../preloader/preloader";
+import { useEffect } from "react";
+import { getIngredients } from "../../services/actions/ingredients";
 
 export function IngredientDetails() {
-  const { ingredientData } = useSelector(store => store.ingredientData);
+  let { id } = useParams();
+  const ingredientsData = useSelector(store => store.ingredientsList.ingredients);
+  let ingredientData = ingredientsData.find((el) => el._id === id);
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!ingredientData) {
+      dispatch(getIngredients());
+      history.replace(`/ingredients/${id}`);
+    }
+  }, [dispatch, ingredientData])
+
+
+  if (!ingredientData) {
+    return (<Preloader />)
+  }
 
   return (
     <section className={ingredientDetailsStyles.container}>
@@ -25,16 +46,16 @@ export function IngredientDetails() {
   );
 }
 
-function Ingredient({ ingredientInfo, text}) {
+function Ingredient({ ingredientInfo, text }) {
   return (
     <li>
-    <p className="text text_type_main-default text_color_inactive pb-2">
-      {text}
-    </p>
-    <p className="text text_type_digits-default text_color_inactive">
-      {ingredientInfo}
-    </p>
-  </li>
+      <p className="text text_type_main-default text_color_inactive pb-2">
+        {text}
+      </p>
+      <p className="text text_type_digits-default text_color_inactive">
+        {ingredientInfo}
+      </p>
+    </li>
   )
 }
 

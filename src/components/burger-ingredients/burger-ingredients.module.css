@@ -5,6 +5,8 @@
     max-width: 272px;
     position: relative;
     cursor: pointer;
+    color: white;
+    text-decoration: none;
 }
 
 .tabs {
@@ -105,3 +107,4 @@
         max-height: 400px;
     }
 }
+

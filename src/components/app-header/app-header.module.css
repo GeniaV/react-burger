@@ -1,36 +1,48 @@
 .container {
-    background-color: rgba(28, 28, 33, 1);
+  background-color: rgba(28, 28, 33, 1);
 }
 
 .header {
-    max-width: 1280px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
-    justify-items: center;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .nav {
-    display: flex;
-    justify-self: start;
+  display: flex;
+  justify-self: start;
 }
 
 .menu {
-    display: grid;
-    column-gap: 28px;
-    list-style-type: none;
-    grid-template-columns: minmax(max-content, max-content) minmax(max-content, max-content);
-    padding: 0;
-    margin: 0;
+  display: grid;
+  column-gap: 28px;
+  list-style-type: none;
+  grid-template-columns: minmax(max-content, max-content) minmax(max-content, max-content);
+  padding: 0;
+  margin: 0;
 }
 
 .item {
-    display: flex;
-    color: rgba(242, 242, 243, 1);
-    cursor: pointer;
-    text-decoration: none;
-    align-items: center;
-    justify-self: end;
+  display: flex;
+  cursor: pointer;
+  text-decoration: none;
+  align-items: center;
+  justify-self: end;
+  color: #8585AD;
+}
+
+.item:hover {
+  opacity: 0.8;
+}
+
+.activeLink {
+  color: white;
+}
+
+.activeLink:hover {
+  opacity: 0.8;
 }

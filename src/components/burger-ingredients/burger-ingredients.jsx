@@ -8,10 +8,11 @@ import {
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from "../../services/actions/actions";
-import { addIngredientInModal } from "../../services/actions/actions";
+import { getIngredients } from "../../services/actions/ingredients";
+import { addIngredientInModal } from "../../services/actions/ingredient";
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
+import { useLocation, Link } from "react-router-dom";
 
 const Tabs = memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
   const [current, setCurrent] = useState("Булки");
@@ -114,6 +115,7 @@ const ProductList = ({ category }) => {
 const Product = ({ card }) => {
   const id = card._id;
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [count, setCount] = useState(0);
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
@@ -125,7 +127,7 @@ const Product = ({ card }) => {
       const ingredientsWithEqualIds = ingredients.filter((item) => item._id === id);
       setCount(ingredientsWithEqualIds.length);
     }
-  }, [ingredients, bun])
+  }, [ingredients, bun, card.type, id, card._id])
 
   const openIngredientDetails = (data) => {
     dispatch(addIngredientInModal(data))
@@ -136,8 +138,11 @@ const Product = ({ card }) => {
     item: { id }
   });
 
+
   return (
-    <article ref={dragRef} className={burgerIngredientsStyles.card} key={card._id} onClick={() => openIngredientDetails(card)}>
+    <Link to={{ pathname: `/ingredients/${id}`, state: { background: location } }}
+      ref={dragRef} className={burgerIngredientsStyles.card}
+      key={card._id} onClick={() => openIngredientDetails(card)}>
       {count > 0 &&
         <Counter
           count={count}
@@ -158,7 +163,7 @@ const Product = ({ card }) => {
       <div className={burgerIngredientsStyles.name}>
         <p className="text text_type_main-default">{card.name}</p>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -182,3 +187,5 @@ IngredientsCategory.propTypes = {
 Product.propTypes = {
   card: type
 };
+
+

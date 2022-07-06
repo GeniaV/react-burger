@@ -1,11 +1,14 @@
-.conatainer {
+.container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .photo {
   width: 520px;
   height: 240px;
   box-sizing: border-box;
+  align-self: center;
 }
 
 .name {
@@ -24,4 +27,12 @@
 
   max-width: 516px;
   margin: 0 auto 60px auto;
+}
+
+.title {
+  display: flex;
+  padding-top: 53px;
+  padding-bottom: 13px;
+  width: 100%;
+  align-self: center;
 }
