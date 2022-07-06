@@ -26,7 +26,9 @@ export const AppHeader = memo(() => {
             </li>
           </ul>
         </nav>
-        <Logo />
+        <NavLink exact to="/" >
+          <Logo />
+        </NavLink>
         <NavLink className={appHeaderStyles.item} activeClassName={appHeaderStyles.activeLink} to="/profile">
           <ProfileIcon type={isMathProfile ? 'primary' : 'secondary'} />
           <p className="text text_type_main-default ml-2 mt-4 mb-4 mr-5">Личный кабинет</p>
@@ -35,9 +37,6 @@ export const AppHeader = memo(() => {
     </div>
   )
 })
-
-
-
 
 
 
