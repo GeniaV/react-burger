@@ -32,7 +32,7 @@ export function register(email, password, name) {
     });
     createUser(email, password, name)
       .then(res => {
-        let authToken = res.accessToken.split('Bearer ')[1];
+        const authToken = res.accessToken.split('Bearer ')[1];
         setCookie('token', authToken);
         localStorage.setItem('token', res.refreshToken);
         if (res && res.success) {
@@ -69,7 +69,7 @@ export function login(email, password) {
     });
     logInItoAccount(email, password)
       .then(res => {
-        let authToken = res.accessToken.split('Bearer ')[1];
+        const authToken = res.accessToken.split('Bearer ')[1];
         setCookie('token', authToken);
         localStorage.setItem('token', res.refreshToken);
         if (res && res.success) {
@@ -85,6 +85,13 @@ export function login(email, password) {
 }
 
 //Выход из системы
+function userLogoutFailed(err) {
+  return {
+    type: LOGOUT_FAILED,
+    payload: `Произошла Ошибка выхода из системы: ${err.message}`
+  }
+}
+
 export function logout() {
   return function (dispatch) {
     dispatch({
@@ -100,16 +107,11 @@ export function logout() {
             payload: null
           });
         } else {
-          dispatch({
-            type: LOGOUT_FAILED
-          });
+          dispatch(userLogoutFailed());
         }
       })
       .catch(err => {
-        dispatch({
-          type: LOGOUT_FAILED,
-          payload: `Произошла Ошибка выхода из системы: ${err.message}`
-        });
+        dispatch(userLogoutFailed(err));
       })
   };
 }
@@ -244,7 +246,7 @@ export function refreshToken() {
     });
     updateTokenRequest()
       .then(res => {
-        let authToken = res.accessToken.split('Bearer ')[1];
+        const authToken = res.accessToken.split('Bearer ')[1];
         setCookie('token', authToken);
         localStorage.setItem('token', res.refreshToken);
         if (res && res.success) {
