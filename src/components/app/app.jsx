@@ -23,9 +23,9 @@ import { getUser } from '../../services/actions/auth';
 import { refreshToken } from '../../services/actions/auth';
 import { getCookie } from '../../utils/utils';
 import { useLocation } from "react-router-dom";
+import { FeedPage } from '../../pages/feed/feed';
 
 export function App() {
-  const { isIngredientDetailsOpened } = useSelector(store => store.ingredientData);
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
   const { ingredientsRequest } = useSelector(store => store.ingredientsList);
 
@@ -92,6 +92,9 @@ export function App() {
         </Route>
         <Route exact path="/reset-password">
           <ResetPasswordPage />
+        </Route>
+        <Route exact path="/feed">
+          <FeedPage />
         </Route>
         <ProtectedRoute path="/profile">
           <ProfilePage />
