@@ -1,5 +1,7 @@
 import ordersStyles from './orders.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export function OrdersPage() {
 
@@ -19,7 +21,11 @@ export function OrdersPage() {
 }
 
 function OrderInfo() {
+  const location = useLocation();
+  const { id } = 'kl';
+
   return (
+    <Link to={{ pathname: `/profile/orders/${id}`, state: { background: location } }} className={ordersStyles.link}>
     <section className={`pt-6 pr-6 pl-6 pb-6 mb-6 ${ordersStyles.order_container}`}>
       <div className={ordersStyles.technical_info}>
         <p className="text text_type_digits-default">#034535</p>
@@ -59,6 +65,7 @@ function OrderInfo() {
         </div>
       </section>
     </section>
+    </Link>
   );
 }
 

@@ -6,6 +6,7 @@ import { Switch, Route } from 'react-router-dom';
 import { OrdersPage } from "./orders/orders";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, getUser, updateUser } from "../../services/actions/auth";
+import { NotFound } from "../not-found/not-found";
 
 export function ProfilePage() {
   const user = useSelector(store => store.auth.user);
@@ -92,7 +93,7 @@ export function ProfilePage() {
           <NavLink exact to="/profile/orders" className={`text text_type_main-medium ${styles.link}`} activeClassName={styles.activeLink}>
             История заказов
           </NavLink>
-          <button  className={`text text_type_main-medium ${styles.button}`} onClick={logoutSubmit} type="secondary" size="large">
+          <button className={`text text_type_main-medium ${styles.button}`} onClick={logoutSubmit} type="secondary" size="large">
             Выход
           </button>
         </ul>
@@ -161,6 +162,9 @@ export function ProfilePage() {
                 </Button>
               </div>}
           </form>
+        </Route>
+        <Route>
+          <NotFound />
         </Route>
       </Switch>
     </div>

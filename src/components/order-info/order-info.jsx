@@ -3,7 +3,7 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 
 export function OrderInformation() {
   return (
-    <section className={orderInfoStyles.container}>
+    <>
       <p className={`text text_type_digits-default mb-10 ${orderInfoStyles.order_number}`}>#034533</p>
       <h3 className="text text_type_main-medium mb-3">Black Hole Singularity острый бургер</h3>
       <p className="text text_type_main-default mb-15">Выполнен</p>
@@ -23,7 +23,7 @@ export function OrderInformation() {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </section>
+    </>
   );
 }
 

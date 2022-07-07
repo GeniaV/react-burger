@@ -24,6 +24,7 @@ import { refreshToken } from '../../services/actions/auth';
 import { getCookie } from '../../utils/utils';
 import { useLocation } from "react-router-dom";
 import { FeedPage } from '../../pages/feed/feed';
+import { OrderInformation } from '../order-info/order-info';
 
 export function App() {
   const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
@@ -36,6 +37,18 @@ export function App() {
     dispatch(removeIngredienFromModal())
     setOrderDetailsOpened(false);
     history.replace('/');
+  };
+
+  const closeOrderInfoModal = () => {
+    dispatch(removeIngredienFromModal())
+    setOrderDetailsOpened(false);
+    history.replace('/feed');
+  };
+
+  const closeOrderInfoModalFromProfile = () => {
+    dispatch(removeIngredienFromModal())
+    setOrderDetailsOpened(false);
+    history.replace('/profile/orders');
   };
 
   const openOrderDetailsModal = () => {
@@ -103,21 +116,57 @@ export function App() {
           <h2 className={`mt-30 pb-3 text text_type_main-large ${appStyles.title}`}>Детали ингредиента</h2>
           <IngredientDetails />
         </Route>
+        <Route path="/feed/:id">
+          <div className={appStyles.order_page}>
+            <OrderInformation />
+          </div>
+        </Route>
+        <ProtectedRoute path="/profile/orders/:id">
+          <div className={appStyles.order_page}>
+            <OrderInformation />
+          </div>
+        </ProtectedRoute>
         <Route>
           <NotFound />
         </Route>
       </Switch>
       {background && (
-        <Route path="/ingredients/:id">
-          <Modal
-            title="Детали ингредиента"
-            onOverlayClick={closeAllModals}
-            close={closeAllModals}
-            onCloseClick={closeAllModals}
-          >
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <>
+          <Route path="/ingredients/:id">
+            <Modal
+              title="Детали ингредиента"
+              onOverlayClick={closeAllModals}
+              close={closeAllModals}
+              onCloseClick={closeAllModals}
+            >
+              <IngredientDetails />
+            </Modal>
+          </Route>
+          <Route path="/feed/:id">
+            <Modal
+              title=""
+              onOverlayClick={closeOrderInfoModal}
+              close={closeOrderInfoModal}
+              onCloseClick={closeOrderInfoModal}
+            >
+              <div className={appStyles.order_modal}>
+                <OrderInformation />
+              </div>
+            </Modal>
+          </Route>
+          <ProtectedRoute path="/profile/orders/:id">
+            <Modal
+              title=""
+              onOverlayClick={closeOrderInfoModalFromProfile}
+              close={closeOrderInfoModalFromProfile}
+              onCloseClick={closeOrderInfoModalFromProfile}
+            >
+              <div className={appStyles.order_modal}>
+                <OrderInformation />
+              </div>
+            </Modal>
+          </ProtectedRoute>
+        </>
       )}
       {
         isOrderDetailsOpened &&

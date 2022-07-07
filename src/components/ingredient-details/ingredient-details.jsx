@@ -19,7 +19,7 @@ export function IngredientDetails() {
       dispatch(getIngredients());
       history.replace(`/ingredients/${id}`);
     }
-  }, [dispatch, ingredientData])
+  }, [dispatch, ingredientData, history, id])
 
 
   if (!ingredientData) {
