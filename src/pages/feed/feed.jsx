@@ -22,7 +22,7 @@ export function FeedPage() {
 
 function OrderInfo() {
   return (
-    <section className={`pt-6 pr-6 pl-6 mb-4 ${feedStyles.order_container}`}>
+    <section className={`pt-6 pr-6 pl-6 pb-6 mb-4 ${feedStyles.order_container}`}>
       <div className={feedStyles.technical_info}>
         <p className="text text_type_digits-default">#034535</p>
         <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
