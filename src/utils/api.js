@@ -167,6 +167,3 @@ export function updateTokenRequest() {
   })
     .then(checkReponse)
 }
-
-
-

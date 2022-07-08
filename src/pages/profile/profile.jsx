@@ -7,6 +7,7 @@ import { OrdersPage } from "./orders-history/orders-history";
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, getUser, updateUser } from "../../services/actions/auth";
 import { NotFound } from "../not-found/not-found";
+import { useRouteMatch } from "react-router-dom";
 
 export function ProfilePage() {
   const user = useSelector(store => store.auth.user);
@@ -81,7 +82,10 @@ export function ProfilePage() {
 
   useEffect(() => {
     dispatch(getUser());
-  }, [dispatch])
+  }, [dispatch]);
+
+  const isMathPersonalInfo = !!useRouteMatch({ path: '/profile', exact: true });
+  const isMatchOrderHistory = !!useRouteMatch({ path: '/profile/orders', exact: true });
 
   return (
     <div className={styles.wrapper}>
@@ -97,9 +101,16 @@ export function ProfilePage() {
             Выход
           </button>
         </ul>
-        <p className={`text text_type_main-default text_color_inactive ${styles.additional_text}`}>
-          В этом разделе вы можете изменить&nbsp;свои персональные данные
-        </p>
+        {isMathPersonalInfo && (
+          <p className={`text text_type_main-default text_color_inactive ${styles.additional_text}`}>
+            В этом разделе вы можете изменить&nbsp;свои персональные данные
+          </p>
+        )}
+        {isMatchOrderHistory && (
+          <p className={`text text_type_main-default text_color_inactive ${styles.additional_text}`}>
+            В этом разделе вы можете просмотреть свою историю заказов
+          </p>
+        )}
       </nav>
       <Switch>
         <Route exact path="/profile/orders">
