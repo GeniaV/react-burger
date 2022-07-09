@@ -1,14 +1,29 @@
 import feedStyles from './feed.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { Order } from '../../components/order/order';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
+import { Preloader } from '../../components/preloader/preloader';
 
 export function FeedPage() {
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch({ type: WS_CONNECTION_START });
+      return () => {
+        dispatch({ type: WS_CONNECTION_CLOSED })
+      }
+    }, [dispatch]
+  );
+
   return (
     <section className={feedStyles.page}>
       <article className={`pl-2 pr-2 ${feedStyles.feed_section}`}>
         <h1 className="text text_type_main-large mt-10 mb-5">Лента заказов</h1>
         <div className={`mt-5 ${feedStyles.section}`}>
-          <Orders/>
+          <Orders />
         </div>
       </article>
       <OrdersStatusSection />
@@ -18,15 +33,29 @@ export function FeedPage() {
 
 export function Orders() {
   const location = useLocation();
+  const orders = useSelector(store => store.ws.orders);
   const { id } = 'rr';
 
+  if (!orders) {
+    return <Preloader />
+  }
+
   return (
-    <Link to={{ pathname: `/feed/${id}`, state: { background: location } }} className={feedStyles.link}>
-      <Order status='' />
-      <Order status='' />
-      <Order status='' />
-      <Order status='' />
-    </Link>
+    <>
+      {orders.map((order) => {
+        return (
+          <Link to={{ pathname: `/feed/${id}`, state: { background: location } }} className={feedStyles.link} key={order._id}>
+            <Order
+              status=''
+              orderNumber={order.number}
+              orderCreateTime={order.createdAt}
+              burgerName={order.name}
+              ingredients={order.ingredients}
+            />
+          </Link>
+        )
+      })}
+    </>
   );
 }
 
