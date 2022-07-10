@@ -48,13 +48,20 @@ export const formatDate = (date) => {
   const today = new Date();
 
   function diffSubtract(dayOne, dayTwo) {
-    return Math.floor((dayOne - dayTwo) / 86400000);
+    return Math.ceil((dayOne - dayTwo) / 86400000);
   }
 
   let dayQty = diffSubtract(today, dateOfOrder);
 
+  const formatterForFay = new Intl.DateTimeFormat("ru", {
+    day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    timeZone: 'UTC'
+  });
+
   const formatDay = (dateOfOrder, dayQty) => {
-    if (dayQty === 0) {
+    if (formatterForFay.format(today) === formatterForFay.format(dateOfOrder)) {
       return 'Cегодня'
     }
     if (dayQty === 1) {

@@ -60,6 +60,8 @@ export function Orders() {
 }
 
 function OrdersStatusSection() {
+  const { total, totalToday } = useSelector(store => store.ws);
+
   return (
     <section className={feedStyles.status_container}>
       <article className={feedStyles.board}>
@@ -84,11 +86,11 @@ function OrdersStatusSection() {
       </article>
       <div>
         <h3 className="text text_type_main-medium">Выполнено за все время:</h3>
-        <p className={`text text_type_digits-large ${feedStyles.done_qty}`}>28 752</p>
+        <p className={`text text_type_digits-large ${feedStyles.done_qty}`}>{total}</p>
       </div>
       <div>
         <h3 className="text text_type_main-medium">Выполнено за сегодня:</h3>
-        <p className={`text text_type_digits-large ${feedStyles.done_qty}`}>138</p>
+        <p className={`text text_type_digits-large ${feedStyles.done_qty}`}>{totalToday}</p>
       </div>
     </section>
   )
