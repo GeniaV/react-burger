@@ -40,7 +40,7 @@ export const formatDate = (date) => {
   const formatter = new Intl.DateTimeFormat("ru", {
     hour: 'numeric',
     minute: 'numeric',
-    timeZone: 'UTC'
+    timeZone: 'Europe/Moscow'
   });
 
   let dateOfOrder = new Date(date);
@@ -57,7 +57,7 @@ export const formatDate = (date) => {
     day: 'numeric',
     year: 'numeric',
     month: 'long',
-    timeZone: 'UTC'
+    timeZone: 'Europe/Moscow'
   });
 
   const formatDay = (dateOfOrder, dayQty) => {

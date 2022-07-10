@@ -56,7 +56,7 @@
 }
 
 .status_lists {
-  width: 272px;
+  min-width: 272px;
 }
 
 .done_list {
@@ -67,6 +67,9 @@
   gap: 8px;
   margin: 0;
   color: #00CCCC;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 153px;
 }
 
 .inprocess_list {
@@ -76,6 +79,9 @@
   flex-direction: column;
   gap: 8px;
   margin: 0;
+  flex-direction: column;
+  flex-wrap: wrap;
+  height: 153px;
 }
 
 .done_qty {

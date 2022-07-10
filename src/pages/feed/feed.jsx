@@ -60,7 +60,25 @@ export function Orders() {
 }
 
 function OrdersStatusSection() {
-  const { total, totalToday } = useSelector(store => store.ws);
+  const { total, totalToday, orders } = useSelector(store => store.ws);
+
+  const ordersDoneArr = orders.filter((order) => {
+    return order.status === 'done'
+  })
+
+  const ordersInProcessArr = orders.filter((order) => {
+    return order.status !== 'done'
+  })
+
+  const firstThirtyItems = (arr) => {
+    if (arr.length > 10) {
+      return arr.slice(0, 10);
+    } else {
+      if (arr.length <= 10) {
+        return arr;
+      }
+    }
+  }
 
   return (
     <section className={feedStyles.status_container}>
@@ -68,19 +86,17 @@ function OrdersStatusSection() {
         <div className={feedStyles.status_lists}>
           <h3 className="text text_type_main-medium pb-6">Готовы:</h3>
           <ul className={feedStyles.done_list}>
-            <li className="text text_type_digits-default">034533</li>
-            <li className="text text_type_digits-default">034532</li>
-            <li className="text text_type_digits-default">034530</li>
-            <li className="text text_type_digits-default">034527</li>
-            <li className="text text_type_digits-default">034525</li>
+            {firstThirtyItems(ordersDoneArr).map((order) =>
+              <li className="text text_type_digits-default" key={order._id}>{order.number}</li>
+            )}
           </ul>
         </div>
         <div className={feedStyles.status_lists}>
           <h3 className="text text_type_main-medium pb-6">В работе:</h3>
           <ul className={feedStyles.inprocess_list}>
-            <li className="text text_type_digits-default">034538</li>
-            <li className="text text_type_digits-default">034541</li>
-            <li className="text text_type_digits-default">034542</li>
+            {firstThirtyItems(ordersInProcessArr).map((order) =>
+              <li className="text text_type_digits-default" key={order._id}>{order.number}</li>
+            )}
           </ul>
         </div>
       </article>

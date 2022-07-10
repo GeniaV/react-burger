@@ -45,7 +45,7 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
           </li >
           {ingredientsqty > 6 && (
             <li className={orderStyles.list_item}>
-              <p className={`text text_type_main-default ${orderStyles.add_qty}`}>+{hideIngredirntQty}</p>
+              <p className={`text text_type_main-default ${orderStyles.add_qty}`}>{`+${hideIngredirntQty}`}</p>
               <div className={orderStyles.back}>
                 <Ingredient />
               </div>
