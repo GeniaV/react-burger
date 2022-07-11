@@ -1,7 +1,7 @@
 import orderStyles from './order.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/actions/ingredients';
 import { formatDate } from '../../utils/utils';
@@ -9,6 +9,16 @@ import { formatDate } from '../../utils/utils';
 export function Order({ status, orderNumber, orderCreateTime, burgerName, ingredients }) {
   const ingredientsqty = ingredients.length;
   const hideIngredirntQty = ingredientsqty - 6;
+
+  const allIngredients = useSelector(store => store.ingredientsList.ingredients);
+
+  const ingredientsDataArray = ingredients.map((ingredientInOrder) => {
+    return allIngredients.find((item) => ingredientInOrder === item._id)
+  });
+
+  const ingredientData = ingredientsDataArray.map((ingredient) => {
+    return ingredient;
+  });
 
   const dispatch = useDispatch();
 
@@ -28,26 +38,34 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
       </div>
       <section className={orderStyles.order_info}>
         <ul className={orderStyles.items}>
-          <li className={orderStyles.list_item}>
-            <Ingredient />
-          </li>
-          <li className={orderStyles.list_item}>
-            <Ingredient />
-          </li >
-          <li className={orderStyles.list_item}>
-            <Ingredient />
-          </li >
-          <li className={orderStyles.list_item}>
-            <Ingredient />
-          </li >
-          <li className={orderStyles.list_item}>
-            <Ingredient />
-          </li >
-          {ingredientsqty > 6 && (
+          {allIngredients.length && ingredients.length && ingredientsqty <= 5 &&
+            ingredientData.map((ing, index) => {
+              return (
+                <li className={orderStyles.list_item} key={index}>
+                  <Ingredient ingredientimage={ing.image} ingredientName={ing.name} />
+                </li>
+              )
+            })
+          }
+          {allIngredients.length && ingredients.length && ingredientsqty >= 6 &&
+            ingredientData.slice(0, 5).map((ing, index) => {
+              return (
+                <li className={orderStyles.list_item} key={index}>
+                  <Ingredient ingredientimage={ing.image} ingredientName={ing.name} />
+                </li>
+              )
+            })
+          }
+          {allIngredients.length && ingredients.length && ingredientsqty > 6 && (
             <li className={orderStyles.list_item}>
               <p className={`text text_type_main-default ${orderStyles.add_qty}`}>{`+${hideIngredirntQty}`}</p>
               <div className={orderStyles.back}>
-                <Ingredient />
+                {ingredientData.slice(5, 6).map((ing, index) => {
+                  return (
+                    <Ingredient ingredientimage={ing.image} ingredientName={ing.name} key={index} />
+                  )
+                })
+                }
               </div>
             </li >
           )}
@@ -57,14 +75,15 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
           <CurrencyIcon type="primary" />
         </div>
       </section>
-    </section>
+    </section >
   );
 }
 
-function Ingredient() {
+function Ingredient({ ingredientimage, ingredientName }) {
   return (
     <div className={orderStyles.border}>
       <div className={orderStyles.item}>
+        <img className={orderStyles.img} src={ingredientimage} alt={ingredientName} />
       </div>
     </div>
   );
@@ -77,3 +96,11 @@ Order.propTypes = {
   burgerName: PropTypes.string.isRequired,
   ingredients: PropTypes.array.isRequired,
 }
+
+Ingredient.propTypes = {
+  ingredientName: PropTypes.string.isRequired,
+  ingredientimage: PropTypes.string.isRequired,
+}
+
+
+
