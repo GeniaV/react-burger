@@ -35,8 +35,6 @@ export function Orders() {
   const location = useLocation();
   const orders = useSelector(store => store.ws.orders);
 
-  const { id } = 'rr';
-
   if (!orders) {
     return <Preloader />
   }
@@ -45,7 +43,7 @@ export function Orders() {
     <>
       {orders.map((order) => {
         return (
-          <Link to={{ pathname: `/feed/${id}`, state: { background: location } }} className={feedStyles.link} key={order._id}>
+          <Link to={{ pathname: `/feed/${order._id}`, state: { background: location } }} className={feedStyles.link} key={order._id}>
             <Order
               status=''
               orderNumber={order.number}
