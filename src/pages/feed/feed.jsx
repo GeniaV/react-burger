@@ -34,6 +34,7 @@ export function FeedPage() {
 export function Orders() {
   const location = useLocation();
   const orders = useSelector(store => store.ws.orders);
+
   const { id } = 'rr';
 
   if (!orders) {
@@ -111,5 +112,6 @@ function OrdersStatusSection() {
     </section>
   )
 }
+
 
 

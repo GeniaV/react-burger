@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/actions/ingredients';
 import { formatDate } from '../../utils/utils';
+import { useMemo } from 'react';
 
 export function Order({ status, orderNumber, orderCreateTime, burgerName, ingredients }) {
   const ingredientsqty = ingredients.length;
@@ -12,13 +13,31 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
 
   const allIngredients = useSelector(store => store.ingredientsList.ingredients);
 
-  const ingredientsDataArray = ingredients.map((ingredientInOrder) => {
-    return allIngredients.find((item) => ingredientInOrder === item._id)
-  });
+  const ingredientsDataArray = useMemo(() => {
+    return ingredients.map((ingredientInOrder) => {
+      return allIngredients.find((item) => ingredientInOrder === item._id)
+    })
+  }, [ingredients, allIngredients])
 
-  const ingredientData = ingredientsDataArray.map((ingredient) => {
-    return ingredient;
-  });
+  const ingredientData = useMemo(() => {
+    return ingredientsDataArray.map((ingredient) => {
+      return ingredient;
+    })
+  }, [ingredientsDataArray]);
+
+  const totalOrder = ingredients.reduce((previousValue, currentItem) => {
+
+    const ingredient = allIngredients.find((item) => {
+      return currentItem === item._id;
+    });
+
+    if (!ingredient) {
+      return previousValue;
+    }
+
+    return previousValue + ingredient.price;
+
+  }, 0);
 
   const dispatch = useDispatch();
 
@@ -71,7 +90,9 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
           )}
         </ul>
         <div className={`ml-6 ${orderStyles.price_container}`}>
-          <p className="text text_type_digits-default mr-2">480</p>
+          <p className="text text_type_digits-default mr-2">
+            {totalOrder}
+          </p>
           <CurrencyIcon type="primary" />
         </div>
       </section>
@@ -101,6 +122,18 @@ Ingredient.propTypes = {
   ingredientName: PropTypes.string.isRequired,
   ingredientimage: PropTypes.string.isRequired,
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
