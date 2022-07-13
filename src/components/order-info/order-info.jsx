@@ -7,6 +7,7 @@ import { useMemo, useEffect } from 'react';
 import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
 import { getIngredients } from '../../services/actions/ingredients';
+import PropTypes from "prop-types";
 
 export function OrderInformation() {
   let { id } = useParams();
@@ -22,7 +23,7 @@ export function OrderInformation() {
       dispatch(getIngredients());
       history.replace(`/feed/${id}`);
     }
-  }, [dispatch]);
+  }, [dispatch, ingredientData, history, id]);
 
   let count = {};
 
@@ -35,6 +36,22 @@ export function OrderInformation() {
   }
 
   ingredientData.count = count;
+
+  const allIngredients = useSelector(store => store.ingredientsList.ingredients);
+
+  const totalOrder = ingredientData.ingredients.reduce((previousValue, currentItem) => {
+
+    const ingredient = allIngredients.find((item) => {
+      return currentItem === item._id;
+    });
+
+    if (!ingredient) {
+      return previousValue;
+    }
+
+    return previousValue + ingredient.price;
+
+  }, 0);
 
   if (!ingredientData) {
     return (<Preloader />)
@@ -55,14 +72,14 @@ export function OrderInformation() {
       }
       <h3 className="text text_type_main-medium mb-6">Состав:</h3>
       <section className={orderInfoStyles.ingredients_section}>
-        {ingredientData.count && [... new Set(ingredientData.ingredients)].map((ingredient, index) =>
+        {ingredientData.count && [...new Set(ingredientData.ingredients)].map((ingredient, index) =>
           <IngredientInfo ingredient={ingredient} key={index} count={ingredientData.count} />
         )}
       </section>
       <div className={`mt-10 ${orderInfoStyles.technical_info}`}>
         <p className="text text_type_main-default text_color_inactive">{formatDate(ingredientData.createdAt)}</p>
         <div className={`ml-6 ${orderInfoStyles.price_container}`}>
-          <p className="text text_type_digits-default mr-2">510</p>
+          <p className="text text_type_digits-default mr-2">{totalOrder}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>
@@ -76,8 +93,7 @@ function IngredientInfo({ ingredient, count }) {
 
   const currentIngredient = useMemo(() => {
     return allIngredients.find((item) => ingredient === item._id)
-  }
-    , [ingredient, allIngredients]);
+  }, [ingredient, allIngredients]);
 
   if (!ingredient) {
     return null
@@ -102,5 +118,12 @@ function IngredientInfo({ ingredient, count }) {
     </section>
   )
 }
+
+IngredientInfo.propTypes = {
+  ingredient: PropTypes.string.isRequired,
+  count: PropTypes.object.isRequired
+}
+
+
 
 
