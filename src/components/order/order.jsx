@@ -53,7 +53,9 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
       </div>
       <div>
         <h3 className="text text_type_main-medium mb-2">{burgerName}</h3>
-        <p className="text text_type_main-default">{status}</p>
+        {status !== 'Выполнен' ?
+          <p className="text text_type_main-default">{status}</p> :
+          <p className={`text text_type_main-default ${orderStyles.done}`}>{status}</p>}
       </div>
       <section className={orderStyles.order_info}>
         <ul className={orderStyles.items}>

@@ -9,14 +9,12 @@ import { Preloader } from '../../components/preloader/preloader';
 export function FeedPage() {
   const dispatch = useDispatch();
 
-  useEffect(
-    () => {
-      dispatch({ type: WS_CONNECTION_START });
-      return () => {
-        dispatch({ type: WS_CONNECTION_CLOSED })
-      }
-    }, [dispatch]
-  );
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START });
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED })
+    }
+  }, [dispatch]);
 
   return (
     <section className={feedStyles.page}>

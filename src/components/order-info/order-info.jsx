@@ -6,7 +6,6 @@ import { formatDate } from '../../utils/utils';
 import { useMemo, useEffect } from 'react';
 import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
-import { getIngredients } from '../../services/actions/ingredients';
 import PropTypes from "prop-types";
 
 export function OrderInformation() {
@@ -20,7 +19,6 @@ export function OrderInformation() {
 
   useEffect(() => {
     if (!ingredientData) {
-      dispatch(getIngredients());
       history.replace(`/feed/${id}`);
     }
   }, [dispatch, ingredientData, history, id]);
@@ -123,7 +121,6 @@ IngredientInfo.propTypes = {
   ingredient: PropTypes.string.isRequired,
   count: PropTypes.object.isRequired
 }
-
 
 
 
