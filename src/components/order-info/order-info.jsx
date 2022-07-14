@@ -11,21 +11,21 @@ import PropTypes from "prop-types";
 export function OrderInformation() {
   let { id } = useParams();
   const orders = useSelector(store => store.ws.orders);
-  let ingredientData = orders.find((el) => el._id === id);
+  let orderData = orders.find((el) => el._id === id);
 
   const dispatch = useDispatch();
 
   const history = useHistory();
 
   useEffect(() => {
-    if (!ingredientData) {
+    if (!orderData) {
       history.replace(`/feed/${id}`);
     }
-  }, [dispatch, ingredientData, history, id]);
+  }, [dispatch, orderData, history, id]);
 
   let count = {};
 
-  for (let elem of ingredientData.ingredients) {
+  for (let elem of orderData.ingredients) {
     if (count[elem] === undefined) {
       count[elem] = 1;
     } else {
@@ -33,11 +33,11 @@ export function OrderInformation() {
     }
   }
 
-  ingredientData.count = count;
+  orderData.count = count;
 
   const allIngredients = useSelector(store => store.ingredientsList.ingredients);
 
-  const totalOrder = ingredientData.ingredients.reduce((previousValue, currentItem) => {
+  const totalOrder = orderData.ingredients.reduce((previousValue, currentItem) => {
 
     const ingredient = allIngredients.find((item) => {
       return currentItem === item._id;
@@ -51,31 +51,31 @@ export function OrderInformation() {
 
   }, 0);
 
-  if (!ingredientData) {
+  if (!orderData) {
     return (<Preloader />)
   }
 
   return (
     <>
-      <p className={`text text_type_digits-default mb-10 ${orderInfoStyles.order_number}`}>#{ingredientData.number}</p>
-      <h3 className="text text_type_main-medium mb-3">{ingredientData.name}</h3>
-      {ingredientData.status === 'done' &&
+      <p className={`text text_type_digits-default mb-10 ${orderInfoStyles.order_number}`}>#{orderData.number}</p>
+      <h3 className="text text_type_main-medium mb-3">{orderData.name}</h3>
+      {orderData.status === 'done' &&
         <p className={`text text_type_main-default mb-15 ${orderInfoStyles.done}`}>Выполнен</p>
       }
-      {ingredientData.status === 'created' &&
+      {orderData.status === 'created' &&
         <p className="text text_type_main-default mb-15">Создан</p>
       }
-      {ingredientData.status === 'pending' &&
+      {orderData.status === 'pending' &&
         <p className="text text_type_main-default mb-15">Готовится</p>
       }
       <h3 className="text text_type_main-medium mb-6">Состав:</h3>
       <section className={orderInfoStyles.ingredients_section}>
-        {ingredientData.count && [...new Set(ingredientData.ingredients)].map((ingredient, index) =>
-          <IngredientInfo ingredient={ingredient} key={index} count={ingredientData.count} />
+        {orderData.count && [...new Set(orderData.ingredients)].map((ingredient, index) =>
+          <IngredientInfo ingredient={ingredient} key={index} count={orderData.count} />
         )}
       </section>
       <div className={`mt-10 ${orderInfoStyles.technical_info}`}>
-        <p className="text text_type_main-default text_color_inactive">{formatDate(ingredientData.createdAt)}</p>
+        <p className="text text_type_main-default text_color_inactive">{formatDate(orderData.createdAt)}</p>
         <div className={`ml-6 ${orderInfoStyles.price_container}`}>
           <p className="text text_type_digits-default mr-2">{totalOrder}</p>
           <CurrencyIcon type="primary" />
