@@ -7,77 +7,91 @@ import { useMemo, useEffect } from 'react';
 import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
 import PropTypes from "prop-types";
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
+import { getIngredients } from '../../services/actions/ingredients';
 
 export function OrderInformation() {
   let { id } = useParams();
   const orders = useSelector(store => store.ws.orders);
   let orderData = orders.find((el) => el._id === id);
-
+  const allIngredients = useSelector(store => store.ingredientsList.ingredients);
+  const history = useHistory();
   const dispatch = useDispatch();
 
-  const history = useHistory();
+  const orderInfo = useMemo(() => {
+    if (!orderData || 0) return null;
+
+    const totalOrder = orderData.ingredients.reduce((previousValue, currentItem) => {
+
+      const ingredient = allIngredients.find((item) => {
+        return currentItem === item._id;
+      });
+
+      if (!ingredient) {
+        return previousValue;
+      }
+
+      return previousValue + ingredient.price;
+
+    }, 0);
+
+    let count = {};
+
+    for (let elem of orderData.ingredients) {
+      if (count[elem] === undefined) {
+        count[elem] = 1;
+      } else {
+        count[elem]++;
+      }
+    }
+
+    orderData.count = count;
+
+    return {
+      ...orderData,
+      totalOrder,
+      count
+    };
+  }, [orderData, allIngredients]);
 
   useEffect(() => {
     if (!orderData) {
+      dispatch({ type: WS_CONNECTION_START });
+      dispatch(getIngredients());
       history.replace(`/feed/${id}`);
+    }
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED })
     }
   }, [dispatch, orderData, history, id]);
 
-  let count = {};
-
-  for (let elem of orderData.ingredients) {
-    if (count[elem] === undefined) {
-      count[elem] = 1;
-    } else {
-      count[elem]++;
-    }
-  }
-
-  orderData.count = count;
-
-  const allIngredients = useSelector(store => store.ingredientsList.ingredients);
-
-  const totalOrder = orderData.ingredients.reduce((previousValue, currentItem) => {
-
-    const ingredient = allIngredients.find((item) => {
-      return currentItem === item._id;
-    });
-
-    if (!ingredient) {
-      return previousValue;
-    }
-
-    return previousValue + ingredient.price;
-
-  }, 0);
-
-  if (!orderData) {
+  if (!orderInfo) {
     return (<Preloader />)
   }
 
   return (
     <>
-      <p className={`text text_type_digits-default mb-10 ${orderInfoStyles.order_number}`}>#{orderData.number}</p>
-      <h3 className="text text_type_main-medium mb-3">{orderData.name}</h3>
-      {orderData.status === 'done' &&
+      <p className={`text text_type_digits-default mb-10 ${orderInfoStyles.order_number}`}>#{orderInfo.number}</p>
+      <h3 className="text text_type_main-medium mb-3">{orderInfo.name}</h3>
+      {orderInfo.status === 'done' &&
         <p className={`text text_type_main-default mb-15 ${orderInfoStyles.done}`}>Выполнен</p>
       }
-      {orderData.status === 'created' &&
+      {orderInfo.status === 'created' &&
         <p className="text text_type_main-default mb-15">Создан</p>
       }
-      {orderData.status === 'pending' &&
+      {orderInfo.status === 'pending' &&
         <p className="text text_type_main-default mb-15">Готовится</p>
       }
       <h3 className="text text_type_main-medium mb-6">Состав:</h3>
       <section className={orderInfoStyles.ingredients_section}>
-        {orderData.count && [...new Set(orderData.ingredients)].map((ingredient, index) =>
-          <IngredientInfo ingredient={ingredient} key={index} count={orderData.count} />
+        {orderInfo.count && [...new Set(orderInfo.ingredients)].map((ingredient, index) =>
+          <IngredientInfo ingredient={ingredient} key={index} count={orderInfo.count} />
         )}
       </section>
       <div className={`mt-10 ${orderInfoStyles.technical_info}`}>
-        <p className="text text_type_main-default text_color_inactive">{formatDate(orderData.createdAt)}</p>
+        <p className="text text_type_main-default text_color_inactive">{formatDate(orderInfo.createdAt)}</p>
         <div className={`ml-6 ${orderInfoStyles.price_container}`}>
-          <p className="text text_type_digits-default mr-2">{totalOrder}</p>
+          <p className="text text_type_digits-default mr-2">{orderInfo.totalOrder}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>
@@ -90,11 +104,12 @@ function IngredientInfo({ ingredient, count }) {
   const allIngredients = useSelector(store => store.ingredientsList.ingredients);
 
   const currentIngredient = useMemo(() => {
-    return allIngredients.find((item) => ingredient === item._id)
+    if (!ingredient || 0) return null;
+    return allIngredients.find((item) => ingredient === item._id);
   }, [ingredient, allIngredients]);
 
   if (!ingredient) {
-    return null
+    return <Preloader />
   }
 
   return (
@@ -121,6 +136,12 @@ IngredientInfo.propTypes = {
   ingredient: PropTypes.string.isRequired,
   count: PropTypes.object.isRequired
 }
+
+
+
+
+
+
 
 
 
