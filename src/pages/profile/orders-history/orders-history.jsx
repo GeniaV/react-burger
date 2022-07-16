@@ -4,20 +4,20 @@ import { useLocation } from 'react-router-dom';
 import { Order } from '../../../components/order/order';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../../services/actions/types';
+import { WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from '../../../services/actions/types';
 import { Preloader } from '../../../components/preloader/preloader';
 
 export function OrdersPage() {
   const location = useLocation();
 
-  const orders = useSelector(store => store.ws.orders);
+  const orders = useSelector(store => store.wsAuth.orders);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: WS_CONNECTION_START });
+    dispatch({ type: WS_AUTH_CONNECTION_START });
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED })
+      dispatch({ type: WS_AUTH_CONNECTION_CLOSED })
     }
   }, [dispatch]);
 

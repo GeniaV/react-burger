@@ -13,12 +13,18 @@ export function getIngredientsFromServer() {
 export function putAnOrder(id) {
   return fetch(`${API_URL}/orders`, {
     method: "POST",
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
     headers: {
       "Content-Type": "application/json",
+      Authorization: 'Bearer ' + getCookie('token')
     },
     body: JSON.stringify({
       ingredients: id
     }),
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
   })
     .then(checkReponse)
 }

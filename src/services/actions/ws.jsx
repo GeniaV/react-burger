@@ -23,10 +23,10 @@ export const wsConnectionClosed = () => {
   };
 };
 
-export const wsGetMessage = orders => {
+export const wsGetMessage = order => {
   return {
     type: WS_GET_ORDERS,
-    payload: orders
+    payload: order
   };
 };
 
