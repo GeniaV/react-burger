@@ -1,9 +1,7 @@
 import orderStyles from './order.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { getIngredients } from '../../services/actions/ingredients';
+import { useSelector } from 'react-redux';
 import { formatDate } from '../../utils/utils';
 import { useMemo } from 'react';
 
@@ -38,12 +36,6 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
     return previousValue + ingredient.price;
 
   }, 0);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
 
   return (
     <section className={`pt-6 pr-6 pl-6 pb-6 mb-6 ${orderStyles.order_container}`}>

@@ -1,18 +1,26 @@
 import orderInfoStyles from './order-info.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { formatDate } from '../../utils/utils';
 import { useMemo, useEffect } from 'react';
 import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
 import PropTypes from "prop-types";
-import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED, WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from '../../services/actions/types';
 import { getIngredients } from '../../services/actions/ingredients';
 
 export function OrderInformation() {
   let { id } = useParams();
-  const orders = useSelector(store => store.ws.orders);
+  let match = useRouteMatch()
+  const isProfile = '/profile/orders/:id';
+  const isFeed = '/feed/:id';
+
+  const allOrders = useSelector(store => store.ws.orders);
+  const userOrders = useSelector(store => store.wsAuth.orders);
+
+  let orders = match.path === isProfile ? userOrders : allOrders;
+
   let orderData = orders.find((el) => el._id === id);
   const allIngredients = useSelector(store => store.ingredientsList.ingredients);
   const history = useHistory();
@@ -56,14 +64,25 @@ export function OrderInformation() {
 
   useEffect(() => {
     if (!orderData) {
-      dispatch({ type: WS_CONNECTION_START });
+      if (match.path === isProfile) {
+        dispatch({ type: WS_AUTH_CONNECTION_START });
+      }
+      if (match.path === isFeed) {
+        dispatch({ type: WS_CONNECTION_START });
+      }
       dispatch(getIngredients());
-      history.replace(`/feed/${id}`);
+      history.replace(`${match.url}`);
     }
+
     return () => {
-      dispatch({ type: WS_CONNECTION_CLOSED })
+      if (match.path === isProfile) {
+        dispatch({ type: WS_AUTH_CONNECTION_CLOSED });
+      }
+      if (match.path === isFeed) {
+        dispatch({ type: WS_CONNECTION_CLOSED });
+      }
     }
-  }, [dispatch, orderData, history, id]);
+  }, [dispatch, orderData, history, orderInfo, match.path, match.url]);
 
   if (!orderInfo) {
     return (<Preloader />)
