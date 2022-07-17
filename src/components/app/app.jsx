@@ -25,6 +25,7 @@ import { getCookie } from '../../utils/utils';
 import { useLocation } from "react-router-dom";
 import { FeedPage } from '../../pages/feed/feed';
 import { OrderInformation } from '../order-info/order-info';
+import { getIngredients } from '../../services/actions/ingredients';
 
 export function App() {
   const [isModalOpened, setModalOpened] = useState(false);
@@ -33,9 +34,12 @@ export function App() {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const closeAllModals = () => {
+  const closeOrderModal = () => {
     dispatch(removeIngredienFromModal())
     setModalOpened(false);
+  };
+
+  const closeModal = () => {
     history.goBack();
   };
 
@@ -63,6 +67,10 @@ export function App() {
       dispatch(getUser());
     }
   }, [dispatch, refreshTokenData, user, cookie, updateTokenSuccess]);
+
+  useEffect(() => {
+    dispatch(getIngredients())
+  }, [dispatch]);
 
   const location = useLocation();
   const background = location.state?.background;
@@ -123,9 +131,9 @@ export function App() {
           <Route path="/ingredients/:id">
             <Modal
               title="Детали ингредиента"
-              onOverlayClick={closeAllModals}
-              close={closeAllModals}
-              onCloseClick={closeAllModals}
+              onOverlayClick={closeModal}
+              close={closeModal}
+              onCloseClick={closeModal}
             >
               <IngredientDetails />
             </Modal>
@@ -133,9 +141,9 @@ export function App() {
           <Route path="/feed/:id">
             <Modal
               title=""
-              onOverlayClick={closeAllModals}
-              close={closeAllModals}
-              onCloseClick={closeAllModals}
+              onOverlayClick={closeModal}
+              close={closeModal}
+              onCloseClick={closeModal}
             >
               <div className={appStyles.order_modal}>
                 <OrderInformation />
@@ -145,9 +153,9 @@ export function App() {
           <ProtectedRoute path="/profile/orders/:id">
             <Modal
               title=""
-              onOverlayClick={closeAllModals}
-              close={closeAllModals}
-              onCloseClick={closeAllModals}
+              onOverlayClick={closeModal}
+              close={closeModal}
+              onCloseClick={closeModal}
             >
               <div className={appStyles.order_modal}>
                 <OrderInformation />
@@ -160,9 +168,9 @@ export function App() {
         isModalOpened &&
         <Modal
           title=""
-          onOverlayClick={closeAllModals}
-          close={closeAllModals}
-          onCloseClick={closeAllModals}
+          onOverlayClick={closeOrderModal}
+          close={closeOrderModal}
+          onCloseClick={closeOrderModal}
         >
           <OrderDetails />
         </Modal>
@@ -170,4 +178,3 @@ export function App() {
     </>
   )
 }
-

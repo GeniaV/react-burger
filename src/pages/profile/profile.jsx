@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout, getUser, updateUser } from "../../services/actions/auth";
 import { NotFound } from "../not-found/not-found";
 import { useRouteMatch } from "react-router-dom";
-import { getIngredients } from "../../services/actions/ingredients";
 import { WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from "../../services/actions/types";
 import { OrderInformation } from "../../components/order-info/order-info";
 import { useLocation } from "react-router-dom";
@@ -86,7 +85,6 @@ export function ProfilePage() {
 
   useEffect(() => {
     dispatch(getUser());
-    dispatch(getIngredients());
     dispatch({ type: WS_AUTH_CONNECTION_START });
     return () => {
       dispatch({ type: WS_AUTH_CONNECTION_CLOSED })

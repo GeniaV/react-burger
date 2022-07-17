@@ -5,14 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
 import { Preloader } from '../../components/preloader/preloader';
-import { getIngredients } from '../../services/actions/ingredients';
 
 export function FeedPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({ type: WS_CONNECTION_START });
-    dispatch(getIngredients());
     return () => {
       dispatch({ type: WS_CONNECTION_CLOSED })
     }

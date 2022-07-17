@@ -8,7 +8,6 @@ import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED, WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from '../../services/actions/types';
-import { getIngredients } from '../../services/actions/ingredients';
 
 export function OrderInformation() {
   let { id } = useParams();
@@ -70,7 +69,6 @@ export function OrderInformation() {
       if (match.path === isFeed) {
         dispatch({ type: WS_CONNECTION_START });
       }
-      dispatch(getIngredients());
       history.replace(`${match.url}`);
     }
 
