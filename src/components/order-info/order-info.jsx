@@ -8,13 +8,14 @@ import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED, WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from '../../services/actions/types';
+import { getUser } from '../../services/actions/auth';
 
 export function OrderInformation() {
   let { id } = useParams();
   let match = useRouteMatch()
   const isProfile = '/profile/orders/:id';
   const isFeed = '/feed/:id';
-
+  const user = useSelector(store => store.auth.user);
   const allOrders = useSelector(store => store.ws.orders);
   const userOrders = useSelector(store => store.wsAuth.orders);
 
@@ -64,6 +65,7 @@ export function OrderInformation() {
   useEffect(() => {
     if (!orderData) {
       if (match.path === isProfile) {
+        dispatch(getUser());
         dispatch({ type: WS_AUTH_CONNECTION_START });
       }
       if (match.path === isFeed) {
@@ -80,7 +82,7 @@ export function OrderInformation() {
         dispatch({ type: WS_CONNECTION_CLOSED });
       }
     }
-  }, [dispatch, orderData, history, orderInfo, match.path, match.url]);
+  }, [dispatch, orderData, history, orderInfo, match.path, match.url, user]);
 
   if (!orderInfo) {
     return (<Preloader />)
