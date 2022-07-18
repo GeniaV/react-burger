@@ -9,9 +9,7 @@ const modalsContainer = document.querySelector("#modals");
 
 export function Modal({
   title,
-  onOverlayClick,
   close,
-  onCloseClick,
   children,
 }) {
 
@@ -36,12 +34,12 @@ export function Modal({
         <div className={modalStyles.title}>
           <h2 className="text text_type_main-large ml-10">{title}</h2>
         </div>
-        <div className={modalStyles.close} onClick={onCloseClick}>
+        <div className={modalStyles.close} onClick={close}>
           <CloseIcon type="primary" />
         </div>
         {children}
       </div>
-      <ModalOverlay onClick={onOverlayClick} />
+      <ModalOverlay onClick={close} />
     </>,
     modalsContainer
   );
@@ -49,8 +47,6 @@ export function Modal({
 
 Modal.propTypes = {
   title: PropTypes.string,
-  onOverlayClick: PropTypes.func,
-  onEscKeydown: PropTypes.func,
-  onCloseClick: PropTypes.func,
+  close: PropTypes.func,
   children: PropTypes.node
 };

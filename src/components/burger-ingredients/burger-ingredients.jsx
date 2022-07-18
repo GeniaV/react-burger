@@ -7,8 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from "../../services/actions/ingredients";
+import { useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
 import { useLocation, Link } from "react-router-dom";
@@ -49,12 +48,6 @@ const Tabs = memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
 
 export function BurgerIngredients() {
   const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => store.ingredientsList);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch])
 
   const bunCategory = useMemo(() => {
     return ingredients.filter((data) => data.type === "bun")

@@ -69,7 +69,7 @@ export function App() {
   }, [dispatch, refreshTokenData, user, cookie, updateTokenSuccess]);
 
   useEffect(() => {
-    dispatch(getIngredients())
+    dispatch(getIngredients());
   }, [dispatch]);
 
   const location = useLocation();
@@ -131,9 +131,7 @@ export function App() {
           <Route path="/ingredients/:id">
             <Modal
               title="Детали ингредиента"
-              onOverlayClick={closeModal}
               close={closeModal}
-              onCloseClick={closeModal}
             >
               <IngredientDetails />
             </Modal>
@@ -141,9 +139,7 @@ export function App() {
           <Route path="/feed/:id">
             <Modal
               title=""
-              onOverlayClick={closeModal}
               close={closeModal}
-              onCloseClick={closeModal}
             >
               <div className={appStyles.order_modal}>
                 <OrderInformation />
@@ -153,9 +149,7 @@ export function App() {
           <ProtectedRoute path="/profile/orders/:id">
             <Modal
               title=""
-              onOverlayClick={closeModal}
               close={closeModal}
-              onCloseClick={closeModal}
             >
               <div className={appStyles.order_modal}>
                 <OrderInformation />
@@ -168,9 +162,7 @@ export function App() {
         isModalOpened &&
         <Modal
           title=""
-          onOverlayClick={closeOrderModal}
           close={closeOrderModal}
-          onCloseClick={closeOrderModal}
         >
           <OrderDetails />
         </Modal>

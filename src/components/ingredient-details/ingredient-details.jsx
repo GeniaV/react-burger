@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 import { useEffect } from "react";
-import { getIngredients } from "../../services/actions/ingredients";
 
 export function IngredientDetails() {
   let { id } = useParams();
@@ -16,7 +15,6 @@ export function IngredientDetails() {
 
   useEffect(() => {
     if (!ingredientData) {
-      dispatch(getIngredients());
       history.replace(`/ingredients/${id}`);
     }
   }, [dispatch, ingredientData, history, id])

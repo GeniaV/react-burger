@@ -55,7 +55,8 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
             ingredientData.map((ing, index) => {
               return (
                 <li className={orderStyles.list_item} key={index}>
-                  <Ingredient ingredientimage={ing.image} ingredientName={ing.name} />
+                  {ing &&
+                  <Ingredient ingredientimage={ing.image} ingredientName={ing.name} />}
                 </li>
               )
             })
