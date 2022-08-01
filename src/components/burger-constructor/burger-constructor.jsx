@@ -183,15 +183,15 @@ function MakeAnOrder({ onClick }) {
 }
 
 // Проверка данных
-BurgerConstructor.propTypes = {
-  onClick: PropTypes.func
-};
+// BurgerConstructor.propTypes = {
+//   onClick: PropTypes.func
+// };
 
-MakeAnOrder.propTypes = {
-  onClick: PropTypes.func
-};
+// MakeAnOrder.propTypes = {
+//   onClick: PropTypes.func
+// };
 
-ProductCard.propTypes = {
-  card: type,
-  index: PropTypes.number
-}
+// ProductCard.propTypes = {
+//   card: type,
+//   index: PropTypes.number
+// }

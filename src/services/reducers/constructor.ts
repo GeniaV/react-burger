@@ -1,14 +1,21 @@
 import {
   GET_SELECTED_INGREDIENTS, ADD_INGREDIENT, ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS_IN_CONSTRUCTOR,
   RESET_CONSTRUCTOR
-} from "../actions/types"
+} from "../actions/types";
+import { TIngredientWithUniqueId } from '../../utils/types';
+import { TConstructorActions } from '../actions/constructor';
 
-const constructorInitialState = {
+type TConstructorState = {
+  bun: null | TIngredientWithUniqueId;
+  ingredients: TIngredientWithUniqueId[];
+};
+
+const constructorInitialState: TConstructorState = {
   bun: null,
   ingredients: []
 };
 
-export const selectedIngredientsReducer = (state = constructorInitialState, action) => {
+export const selectedIngredientsReducer = (state = constructorInitialState, action: TConstructorActions): TConstructorState => {
   switch (action.type) {
     case GET_SELECTED_INGREDIENTS: {
       return {

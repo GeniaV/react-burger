@@ -155,24 +155,24 @@ const Product = ({ card }) => {
 }
 
 // Проверка данных
-ProductList.propTypes = {
-  category: PropTypes.arrayOf(type).isRequired
-}
+// ProductList.propTypes = {
+//   category: PropTypes.arrayOf(type).isRequired
+// }
 
-Tabs.propTypes = {
-  inViewBuns: PropTypes.bool.isRequired,
-  inViewSaucess: PropTypes.bool.isRequired,
-  inViewFilling: PropTypes.bool.isRequired
-};
+// Tabs.propTypes = {
+//   inViewBuns: PropTypes.bool.isRequired,
+//   inViewSaucess: PropTypes.bool.isRequired,
+//   inViewFilling: PropTypes.bool.isRequired
+// };
 
-IngredientsCategory.propTypes = {
-  name: PropTypes.string,
-  category: PropTypes.arrayOf(type).isRequired,
-  id: PropTypes.string
-};
+// IngredientsCategory.propTypes = {
+//   name: PropTypes.string,
+//   category: PropTypes.arrayOf(type).isRequired,
+//   id: PropTypes.string
+// };
 
-Product.propTypes = {
-  card: type
-};
+// Product.propTypes = {
+//   card: type
+// };
 
 
