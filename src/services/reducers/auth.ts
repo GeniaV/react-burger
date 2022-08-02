@@ -1,10 +1,46 @@
-import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED,
+import {
+  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED,
   LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAILED, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILED, GET_USER_REQUEST,
   GET_USER_SUCCESS, GET_USER_FAILED, UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED, UPDATE_TOKEN_REQUEST,
-  UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED } from "../actions/types";
+  UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED
+} from "../actions/types";
+import { TUser } from '../../utils/types';
+import { TAuthActions } from '../actions/auth'
 
-const initialState = {
+type TAuthState = {
+  user: TUser['user'] | null;
+
+  registerRequest: boolean;
+  registerFailed: boolean;
+
+  loginRequest: boolean;
+  loginSuccess: boolean;
+  loginFailed: boolean;
+
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+
+  forgotPasswordRequest: boolean;
+  forgotPasswordFailed: boolean;
+  forgotPasswordSuccess: boolean;
+
+  resetPasswordRequest: boolean;
+  resetPasswordSuccess: boolean;
+  resetPasswordFailed: boolean;
+
+  getUserRequest: boolean;
+  getUserFailed: boolean;
+
+  updateUserRequest: boolean;
+  updateUserFailed: boolean;
+
+  updateTokenRequest: boolean;
+  updateTokenSuccess: boolean;
+  updateTokenFailed: boolean;
+};
+
+const initialState: TAuthState = {
   user: null,
 
   registerRequest: false,
@@ -36,7 +72,7 @@ const initialState = {
   updateTokenFailed: false,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions): TAuthState => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {
@@ -145,10 +181,10 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case UPDATE_TOKEN_SUCCESS: {
-      return { ...state,  updateTokenFailed: false, updateTokenSuccess: true, updateTokenRequest: false };
+      return { ...state, updateTokenFailed: false, updateTokenSuccess: true, updateTokenRequest: false };
     }
     case UPDATE_TOKEN_FAILED: {
-      return { ...state, updateTokenFailed: true, updateTokenSuccess: false, updateTokenRequest: false};
+      return { ...state, updateTokenFailed: true, updateTokenSuccess: false, updateTokenRequest: false };
     }
 
     default: {

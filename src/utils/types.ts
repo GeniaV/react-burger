@@ -34,3 +34,29 @@ export type TOrderData = {
   order: { number: number };
   success: boolean;
 };
+
+export type TUser = {
+  success: boolean;
+  user: {
+    email: string;
+    name: string;
+  };
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type TOrderDetails = {
+  ingredients: Array<string>;
+  id: string;
+  status: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TOrder = {
+  success: boolean;
+  orders: TOrderDetails[];
+  total: number;
+  totalToday: number;
+};

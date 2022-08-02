@@ -9,24 +9,66 @@ import {
   updateUserRequest, updateTokenRequest
 } from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
+import { TUser } from "../../utils/types";
+import { AppThunk, AppDispatch } from "../../utils/types";
+
+export type TAuthActions =
+  IRegisterUserOnServerSuccessAction
+  | IRegisterUserOnServerFailedAction
+  | ILoginOnServerSuccessAction
+  | ILoginOnServerFailedAction
+  | IUserLogoutFailedAction
+  | IGetUserFromServerAction
+  | IGetUserFromServerFailedAction
+  | IUpdateUserOnServerAction
+  | IUpdateUserOnFailedAction
+  | IRegisterUserOnServerRequestAction
+  | ILoginOnServerRequestAction
+  | IUserLogoutRequestAction
+  | IUserLogoutSuccessAction
+  | IForgotPasswordRequestAction
+  | IForgotPasswordSuccessAction
+  | IForgotPasswordFailedAction
+  | IResetPasswordRequestAction
+  | IResetPasswordSuccessAction
+  | IResetPasswordFailedAction
+  | IGetUserRequestAction
+  | IUpdateUserRequestAction
+  | IUpdateTokenRequestAction
+  | IUpdateTokenSuccessAction
+  | IUpdateTokenFailedAction;
 
 //Регистрация
-function registerUserOnServerSuccess(res) {
+interface IRegisterUserOnServerRequestAction {
+  readonly type: typeof REGISTER_REQUEST;
+};
+
+interface IRegisterUserOnServerSuccessAction {
+  readonly type: typeof REGISTER_SUCCESS;
+  readonly payload: TUser['user'];
+};
+
+const registerUserOnServerSuccess = (res: TUser): IRegisterUserOnServerSuccessAction => {
   return {
     type: REGISTER_SUCCESS,
     payload: res.user
   }
-}
+};
 
-function registerUserOnServerFailed(err) {
+interface IRegisterUserOnServerFailedAction {
+  readonly type: typeof REGISTER_FAILED;
+  readonly payload: string;
+};
+
+const registerUserOnServerFailed = (err: { message: string }): IRegisterUserOnServerFailedAction => {
   return {
     type: REGISTER_FAILED,
     payload: `Произошла Ошибка регистрации пользователя: ${err.message}`
   }
-}
+};
 
-export function register(email, password, name) {
-  return function (dispatch) {
+export const register: AppThunk = (email: string, password: string, name: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: REGISTER_REQUEST
     });
@@ -38,32 +80,48 @@ export function register(email, password, name) {
         if (res && res.success) {
           dispatch(registerUserOnServerSuccess(res));
         } else {
-          dispatch(registerUserOnServerFailed());
+          dispatch({
+            type: REGISTER_FAILED
+          });
         }
       })
       .catch(err => {
         dispatch(registerUserOnServerFailed(err));
       })
   };
-}
+};
 
 //Авторизация
-function loginOnServerSuccess(res) {
+interface ILoginOnServerRequestAction {
+  readonly type: typeof LOGIN_REQUEST;
+};
+
+interface ILoginOnServerSuccessAction {
+  readonly type: typeof LOGIN_SUCCESS;
+  readonly payload: TUser['user'];
+};
+
+const loginOnServerSuccess = (res: TUser): ILoginOnServerSuccessAction => {
   return {
     type: LOGIN_SUCCESS,
     payload: res.user
   }
-}
+};
 
-function loginOnServerFailed(err) {
+interface ILoginOnServerFailedAction {
+  readonly type: typeof LOGIN_FAILED;
+  readonly payload: string;
+};
+
+const loginOnServerFailed = (err: { message: string }): ILoginOnServerFailedAction => {
   return {
     type: LOGIN_FAILED,
     payload: `Произошла Ошибка авторизации: ${err.message}`
   }
-}
+};
 
-export function login(email, password) {
-  return function (dispatch) {
+export const login: AppThunk = (email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: LOGIN_REQUEST
     });
@@ -75,25 +133,41 @@ export function login(email, password) {
         if (res && res.success) {
           dispatch(loginOnServerSuccess(res));
         } else {
-          dispatch(loginOnServerFailed());
+          dispatch({
+            type: LOGIN_FAILED
+          });
         }
       })
       .catch(err => {
         dispatch(loginOnServerFailed(err));
       })
   };
-}
+};
 
 //Выход из системы
-function userLogoutFailed(err) {
+interface IUserLogoutRequestAction {
+  readonly type: typeof LOGOUT_REQUEST;
+};
+
+interface IUserLogoutSuccessAction {
+  readonly type: typeof LOGOUT_SUCCESS;
+  readonly payload: TUser['user'];
+};
+
+interface IUserLogoutFailedAction {
+  readonly type: typeof LOGOUT_FAILED;
+  readonly payload: string;
+};
+
+const userLogoutFailed = (err: { message: string }): IUserLogoutFailedAction => {
   return {
     type: LOGOUT_FAILED,
     payload: `Произошла Ошибка выхода из системы: ${err.message}`
   }
-}
+};
 
-export function logout() {
-  return function (dispatch) {
+export const logout: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: LOGOUT_REQUEST
     });
@@ -107,18 +181,32 @@ export function logout() {
             payload: null
           });
         } else {
-          dispatch(userLogoutFailed());
+          dispatch({
+            type: LOGOUT_FAILED
+          });
         }
       })
       .catch(err => {
         dispatch(userLogoutFailed(err));
       })
   };
-}
+};
 
 //Забыли пароль
-export function forgotPassword(email) {
-  return function (dispatch) {
+interface IForgotPasswordRequestAction {
+  readonly type: typeof FORGOT_PASSWORD_REQUEST;
+};
+
+interface IForgotPasswordSuccessAction {
+  readonly type: typeof FORGOT_PASSWORD_SUCCESS;
+};
+
+interface IForgotPasswordFailedAction {
+  readonly type: typeof FORGOT_PASSWORD_FAILED;
+};
+
+export const forgotPassword: AppThunk = (email: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST
     });
@@ -141,11 +229,23 @@ export function forgotPassword(email) {
         });
       })
   };
-}
+};
 
 //Сброс пароля
-export function resetPassword(password, token) {
-  return function (dispatch) {
+interface IResetPasswordRequestAction {
+  readonly type: typeof RESET_PASSWORD_REQUEST;
+};
+
+interface IResetPasswordSuccessAction {
+  readonly type: typeof RESET_PASSWORD_SUCCESS;
+};
+
+interface IResetPasswordFailedAction {
+  readonly type: typeof RESET_PASSWORD_FAILED;
+};
+
+export const resetPassword: AppThunk = (password: string, token: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: RESET_PASSWORD_REQUEST
     });
@@ -168,25 +268,39 @@ export function resetPassword(password, token) {
         });
       })
   };
-}
+};
 
 //Получение данных о пользователе
-function getUserFromServer(res) {
+interface IGetUserRequestAction {
+  readonly type: typeof GET_USER_REQUEST;
+};
+
+interface IGetUserFromServerAction {
+  readonly type: typeof GET_USER_SUCCESS;
+  readonly payload: TUser['user'];
+};
+
+const getUserFromServer = (res: TUser): IGetUserFromServerAction => {
   return {
     type: GET_USER_SUCCESS,
     payload: res.user
   }
-}
+};
 
-function getUserFromServerFailed(err) {
+interface IGetUserFromServerFailedAction {
+  readonly type: typeof GET_USER_FAILED;
+  readonly payload: string;
+};
+
+const getUserFromServerFailed = (err: { message: string }): IGetUserFromServerFailedAction => {
   return {
     type: GET_USER_FAILED,
     payload: `Произошла Ошибка получения данных о пользователе: ${err.message}`
   }
-}
+};
 
-export function getUser() {
-  return function (dispatch) {
+export const getUser: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_USER_REQUEST
     });
@@ -195,32 +309,48 @@ export function getUser() {
         if (res && res.success) {
           dispatch(getUserFromServer(res));
         } else {
-          dispatch(getUserFromServerFailed());
+          dispatch({
+            type: GET_USER_FAILED
+          });
         }
       })
       .catch(err => {
         dispatch(getUserFromServerFailed(err));
       })
   };
-}
+};
 
 //Обновление данных о пользователе
-function updateUserOnServer(res) {
+interface IUpdateUserRequestAction {
+  readonly type: typeof UPDATE_USER_REQUEST;
+};
+
+interface IUpdateUserOnServerAction {
+  readonly type: typeof UPDATE_USER_SUCCESS;
+  readonly payload: TUser['user'];
+};
+
+const updateUserOnServer = (res: TUser): IUpdateUserOnServerAction => {
   return {
     type: UPDATE_USER_SUCCESS,
     payload: res.user
   }
-}
+};
 
-function updateUserOnFailed(err) {
+interface IUpdateUserOnFailedAction {
+  readonly type: typeof UPDATE_USER_FAILED;
+  readonly payload: string;
+};
+
+const updateUserOnFailed = (err: { message: string }): IUpdateUserOnFailedAction => {
   return {
     type: UPDATE_USER_FAILED,
     payload: `Произошла Ошибка обновления данных о пользователе: ${err.message}`
   }
-}
+};
 
-export function updateUser(name, email, password) {
-  return function (dispatch) {
+export const updateUser: AppThunk = (name: string, email: string, password: string) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: UPDATE_USER_REQUEST
     });
@@ -229,18 +359,32 @@ export function updateUser(name, email, password) {
         if (res && res.success) {
           dispatch(updateUserOnServer(res));
         } else {
-          dispatch(updateUserOnFailed());
+          dispatch({
+            type: UPDATE_USER_FAILED
+          });
         }
       })
       .catch(err => {
         dispatch(updateUserOnFailed(err));
       })
   };
-}
+};
 
 //Обновление токена
-export function refreshToken() {
-  return function (dispatch) {
+interface IUpdateTokenRequestAction {
+  readonly type: typeof UPDATE_TOKEN_REQUEST;
+};
+
+interface IUpdateTokenSuccessAction {
+  readonly type: typeof UPDATE_TOKEN_SUCCESS;
+};
+
+interface IUpdateTokenFailedAction {
+  readonly type: typeof UPDATE_TOKEN_FAILED;
+};
+
+export const refreshToken: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: UPDATE_TOKEN_REQUEST,
     });
@@ -266,6 +410,8 @@ export function refreshToken() {
         });
       })
   };
-}
+};
+
+
 
 
