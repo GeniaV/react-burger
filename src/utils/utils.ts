@@ -14,15 +14,15 @@ import {
 } from "../services/actions/types";
 
 //Возвращение куки
-export function getCookie(name) {
+export const getCookie = (name: string) => {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+};
 
 //Установка куки
-export function setCookie(name, value, props) {
+export const setCookie = (name: string, value: string | number | boolean, props?: Record<string, any>) => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -46,12 +46,12 @@ export function setCookie(name, value, props) {
 }
 
 //Удаление куки
-export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+export const deleteCookie = (name: string) => {
+  setCookie(name, false, { expires: -1 });
 }
 
 //Функцуия форматирования даты
-export const formatDate = (date) => {
+export const formatDate = (date: string | Date) => {
   const formatter = new Intl.DateTimeFormat("ru", {
     hour: 'numeric',
     minute: 'numeric',
@@ -62,8 +62,8 @@ export const formatDate = (date) => {
 
   const today = new Date();
 
-  function diffSubtract(dayOne, dayTwo) {
-    return Math.ceil((dayOne - dayTwo) / 86400000);
+  function diffSubtract(dayOne: string | Date, dayTwo: string | Date) {
+    return Math.ceil((Number(dayOne) - Number(dayTwo)) / 86400000);
   }
 
   let dayQty = diffSubtract(today, dateOfOrder);
@@ -75,7 +75,7 @@ export const formatDate = (date) => {
     timeZone: 'Europe/Moscow'
   });
 
-  const formatDay = (dateOfOrder, dayQty) => {
+  const formatDay = (dateOfOrder: Date, dayQty: number) => {
     if (formatterForFay.format(today) === formatterForFay.format(dateOfOrder)) {
       return 'Cегодня'
     }
@@ -113,3 +113,4 @@ export const wsAuthActions = {
   onError: WS_AUTH_CONNECTION_ERROR,
   onMessage: WS_AUTH_GET_ORDERS
 };
+
