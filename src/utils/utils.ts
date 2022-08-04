@@ -22,7 +22,7 @@ export const getCookie = (name: string) => {
 };
 
 //Установка куки
-export const setCookie = (name: string, value: string | number | boolean, props?: Record<string, any>) => {
+export const setCookie = (name: string, value: string | number | boolean, props?: Record<string, string | number | Date | boolean>) => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -30,7 +30,7 @@ export const setCookie = (name: string, value: string | number | boolean, props?
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
   }
-  if (exp && exp.toUTCString) {
+  if (exp && exp instanceof Date && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
   value = encodeURIComponent(value);
@@ -47,7 +47,7 @@ export const setCookie = (name: string, value: string | number | boolean, props?
 
 //Удаление куки
 export const deleteCookie = (name: string) => {
-  setCookie(name, false, { expires: -1 });
+  setCookie(name, '', { expires: -1 });
 }
 
 //Функцуия форматирования даты

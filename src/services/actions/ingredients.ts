@@ -7,7 +7,8 @@ import { AppDispatch } from "../../utils/types";
 export type TGetIngredientsActions =
 IGetIngredientsFromServerSuccessAction
 | IShowErrorWhenGetIngredietsFailedAction
-| IGetIngredientsRequestAction;
+| IGetIngredientsRequestAction
+| IShowErrorWhenGetIngredietsFailedWithoutPayloadAction;
 
 export interface IGetIngredientsRequestAction {
   readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -28,14 +29,24 @@ const getIngredientsFromServerSuccess = (res: { data: TIngredient[] }): IGetIngr
     type: GET_INGREDIENTS_SUCCESS,
     ingredients: res.data
   }
-}
+};
 
 const showErrorWhenGetIngredietsFailed = (err: { message: string }): IShowErrorWhenGetIngredietsFailedAction => {
   return {
     type: GET_INGREDIENTS_FAILED,
     payload: `Произошла Ошибка получения данных об ингредиентах: ${err.message}`
   }
-}
+};
+
+export interface IShowErrorWhenGetIngredietsFailedWithoutPayloadAction {
+  readonly type: typeof GET_INGREDIENTS_FAILED;
+};
+
+const showErrorWhenGetIngredietsFailedWithoutPayload = (): IShowErrorWhenGetIngredietsFailedWithoutPayloadAction => {
+  return {
+    type: GET_INGREDIENTS_FAILED
+  }
+};
 
 export const getIngredients: AppThunk = () => {
   return function (dispatch: AppDispatch) {
@@ -47,9 +58,7 @@ export const getIngredients: AppThunk = () => {
         if (res && res.success) {
           dispatch(getIngredientsFromServerSuccess(res));
         } else {
-          dispatch({
-            type: GET_INGREDIENTS_FAILED
-          });
+          dispatch(showErrorWhenGetIngredietsFailedWithoutPayload());
         }
       })
       .catch(err => {

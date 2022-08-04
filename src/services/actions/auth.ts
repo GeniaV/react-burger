@@ -21,7 +21,7 @@ export type TAuthActions =
   | IGetUserFromServerAction
   | IGetUserFromServerFailedAction
   | IUpdateUserOnServerAction
-  | IUpdateUserOnFailedAction
+  | IUpdateUserFailedAction
   | IRegisterUserOnServerRequestAction
   | ILoginOnServerRequestAction
   | IUserLogoutRequestAction
@@ -36,7 +36,12 @@ export type TAuthActions =
   | IUpdateUserRequestAction
   | IUpdateTokenRequestAction
   | IUpdateTokenSuccessAction
-  | IUpdateTokenFailedAction;
+  | IUpdateTokenFailedAction
+  | IRegisterUserOnServerWithouPayloadFailedAction
+  | ILoginOnServerWithouPayloadFailedAction
+  | IUserLogoutWithoutPayloadFailedAction
+  | IGetUserFromServerWithoutPayloadFailedAction
+  | IUpdateUserWihoutPayloadFailedAction;
 
 //Регистрация
 interface IRegisterUserOnServerRequestAction {
@@ -67,6 +72,16 @@ const registerUserOnServerFailed = (err: { message: string }): IRegisterUserOnSe
   }
 };
 
+interface IRegisterUserOnServerWithouPayloadFailedAction {
+  readonly type: typeof REGISTER_FAILED;
+};
+
+const registerUserOnServerWithouPayloadFailed = (): IRegisterUserOnServerWithouPayloadFailedAction => {
+  return {
+    type: REGISTER_FAILED,
+  }
+};
+
 export const register: AppThunk = (email: string, password: string, name: string) => {
   return function (dispatch: AppDispatch) {
     dispatch({
@@ -80,9 +95,7 @@ export const register: AppThunk = (email: string, password: string, name: string
         if (res && res.success) {
           dispatch(registerUserOnServerSuccess(res));
         } else {
-          dispatch({
-            type: REGISTER_FAILED
-          });
+          dispatch(registerUserOnServerWithouPayloadFailed());
         }
       })
       .catch(err => {
@@ -120,6 +133,16 @@ const loginOnServerFailed = (err: { message: string }): ILoginOnServerFailedActi
   }
 };
 
+interface ILoginOnServerWithouPayloadFailedAction {
+  readonly type: typeof LOGIN_FAILED;
+};
+
+const loginOnServerWithouPayloadFailed = (): ILoginOnServerWithouPayloadFailedAction => {
+  return {
+    type: LOGIN_FAILED
+  }
+};
+
 export const login: AppThunk = (email: string, password: string) => {
   return function (dispatch: AppDispatch) {
     dispatch({
@@ -133,9 +156,7 @@ export const login: AppThunk = (email: string, password: string) => {
         if (res && res.success) {
           dispatch(loginOnServerSuccess(res));
         } else {
-          dispatch({
-            type: LOGIN_FAILED
-          });
+          dispatch(loginOnServerWithouPayloadFailed());
         }
       })
       .catch(err => {
@@ -151,7 +172,7 @@ interface IUserLogoutRequestAction {
 
 interface IUserLogoutSuccessAction {
   readonly type: typeof LOGOUT_SUCCESS;
-  readonly payload: TUser['user'];
+  readonly payload: TUser['user'] | null;
 };
 
 interface IUserLogoutFailedAction {
@@ -163,6 +184,16 @@ const userLogoutFailed = (err: { message: string }): IUserLogoutFailedAction => 
   return {
     type: LOGOUT_FAILED,
     payload: `Произошла Ошибка выхода из системы: ${err.message}`
+  }
+};
+
+interface IUserLogoutWithoutPayloadFailedAction {
+  readonly type: typeof LOGOUT_FAILED;
+};
+
+const userLogoutWithoutPayloadFailed = (): IUserLogoutWithoutPayloadFailedAction => {
+  return {
+    type: LOGOUT_FAILED
   }
 };
 
@@ -181,9 +212,7 @@ export const logout: AppThunk = () => {
             payload: null
           });
         } else {
-          dispatch({
-            type: LOGOUT_FAILED
-          });
+          dispatch(userLogoutWithoutPayloadFailed());
         }
       })
       .catch(err => {
@@ -299,6 +328,16 @@ const getUserFromServerFailed = (err: { message: string }): IGetUserFromServerFa
   }
 };
 
+interface IGetUserFromServerWithoutPayloadFailedAction {
+  readonly type: typeof GET_USER_FAILED;
+};
+
+const getUserFromServerWithoutPayloadFailed = (): IGetUserFromServerWithoutPayloadFailedAction => {
+  return {
+    type: GET_USER_FAILED
+  }
+};
+
 export const getUser: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     dispatch({
@@ -309,9 +348,7 @@ export const getUser: AppThunk = () => {
         if (res && res.success) {
           dispatch(getUserFromServer(res));
         } else {
-          dispatch({
-            type: GET_USER_FAILED
-          });
+          dispatch(getUserFromServerWithoutPayloadFailed());
         }
       })
       .catch(err => {
@@ -337,15 +374,25 @@ const updateUserOnServer = (res: TUser): IUpdateUserOnServerAction => {
   }
 };
 
-interface IUpdateUserOnFailedAction {
+interface IUpdateUserFailedAction {
   readonly type: typeof UPDATE_USER_FAILED;
   readonly payload: string;
 };
 
-const updateUserOnFailed = (err: { message: string }): IUpdateUserOnFailedAction => {
+const updateUserFailed = (err: { message: string }): IUpdateUserFailedAction => {
   return {
     type: UPDATE_USER_FAILED,
     payload: `Произошла Ошибка обновления данных о пользователе: ${err.message}`
+  }
+};
+
+interface IUpdateUserWihoutPayloadFailedAction {
+  readonly type: typeof UPDATE_USER_FAILED;
+};
+
+const updateUserWihoutPayloadFailed = (): IUpdateUserWihoutPayloadFailedAction => {
+  return {
+    type: UPDATE_USER_FAILED
   }
 };
 
@@ -359,13 +406,11 @@ export const updateUser: AppThunk = (name: string, email: string, password: stri
         if (res && res.success) {
           dispatch(updateUserOnServer(res));
         } else {
-          dispatch({
-            type: UPDATE_USER_FAILED
-          });
+          dispatch(updateUserWihoutPayloadFailed());
         }
       })
       .catch(err => {
-        dispatch(updateUserOnFailed(err));
+        dispatch(updateUserFailed(err));
       })
   };
 };
