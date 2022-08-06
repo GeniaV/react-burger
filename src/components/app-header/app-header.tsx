@@ -37,7 +37,7 @@ export const AppHeader = memo(() => {
       </header>
     </div>
   )
-})
+});
 
 
 

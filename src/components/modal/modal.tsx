@@ -3,17 +3,23 @@ import ReactDOM from "react-dom";
 import modalStyles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ModalOverlay } from "../modal-overlay/modal-overlay";
-import PropTypes from "prop-types";
+import { ReactNode } from "react";
 
-const modalsContainer = document.querySelector("#modals");
+const modalsContainer = document.querySelector("#modals") as HTMLElement;
+
+interface IModal {
+  title: string;
+  close: () => void;
+  children?: ReactNode;
+};
 
 export function Modal({
   title,
   close,
   children,
-}) {
+}: IModal) {
 
-  const handleEscKeydown = (evt) => {
+  const handleEscKeydown = (evt: {key: string}) => {
     if (evt.key === 'Escape') {
       close()
     }
@@ -43,10 +49,5 @@ export function Modal({
     </>,
     modalsContainer
   );
-}
-
-Modal.propTypes = {
-  title: PropTypes.string,
-  close: PropTypes.func,
-  children: PropTypes.node
 };
+

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from "./not-found.module.css";
 import notFoundImage from "../../images/404.png";
+
 export function NotFound() {
 
   return (

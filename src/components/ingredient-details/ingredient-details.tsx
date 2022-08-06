@@ -5,8 +5,12 @@ import { useHistory, useParams } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 import { useEffect } from "react";
 
+interface ParamTypes {
+  id: string;
+};
+
 export function IngredientDetails() {
-  let { id } = useParams();
+  let { id } = useParams<ParamTypes>();
   const ingredientsData = useSelector(store => store.ingredientsList.ingredients);
   let ingredientData = ingredientsData.find((el) => el._id === id);
   const dispatch = useDispatch();
@@ -44,7 +48,12 @@ export function IngredientDetails() {
   );
 }
 
-function Ingredient({ ingredientInfo, text }) {
+interface IIngredient{
+  ingredientInfo: string | number;
+  text: string;
+};
+
+const Ingredient = ({ ingredientInfo, text }: IIngredient) => {
   return (
     <li>
       <p className="text text_type_main-default text_color_inactive pb-2">
