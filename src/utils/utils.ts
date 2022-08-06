@@ -13,6 +13,8 @@ import {
   WS_AUTH_SEND_ORDERS
 } from "../services/actions/types";
 
+import { TWs } from "./types";
+
 //Возвращение куки
 export const getCookie = (name: string) => {
   const matches = document.cookie.match(
@@ -96,7 +98,7 @@ export const formatDate = (date: string | Date) => {
 export const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 export const wsAuthUrl = 'wss://norma.nomoreparties.space/orders';
 
-export const wsActions = {
+export const wsActions: TWs = {
   wsInit: WS_CONNECTION_START,
   wsSendMessage: WS_SEND_ORDERS,
   onOpen: WS_CONNECTION_SUCCESS,
@@ -105,7 +107,7 @@ export const wsActions = {
   onMessage: WS_GET_ORDERS
 };
 
-export const wsAuthActions = {
+export const wsAuthActions: TWs = {
   wsInit: WS_AUTH_CONNECTION_START,
   wsSendMessage: WS_AUTH_SEND_ORDERS,
   onOpen: WS_AUTH_CONNECTION_SUCCESS,

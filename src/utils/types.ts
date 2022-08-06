@@ -78,3 +78,11 @@ export type TRefreshTokenResponse = {
   refreshToken: string;
 };
 
+export type TWs = {
+  wsInit: string;
+  wsSendMessage: string;
+  onOpen: string;
+  onClose: string;
+  onError: string;
+  onMessage: string;
+};

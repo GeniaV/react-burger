@@ -1,11 +1,12 @@
-import {
-  getCookie
-} from "../../utils/utils";
-export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
-  return store => {
-    let socket = null;
+import { getCookie } from "../../utils/utils";
+import { TWs } from "../../utils/types";
+import { AnyAction, Dispatch } from 'redux';
 
-    return next => action => {
+export const socketMiddleware = (wsUrl: string, wsActions: TWs, isAuth = false)=> {
+  return (store: { dispatch: Dispatch}) => {
+    let socket: WebSocket | null = null;
+
+    return (next: (arg: AnyAction) => void) => (action: AnyAction) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
@@ -47,3 +48,8 @@ export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
     };
   };
 };
+
+
+
+
+
