@@ -9,7 +9,7 @@ type TApplicationActions = TIngredientInModalActions | TPutAnPrderActions;
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<ReturnType = void> = ActionCreator<
-	ThunkAction<ReturnType, Action, RootState, TApplicationActions>
+  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
 >;
 
 export type TIngredient = {
@@ -27,7 +27,12 @@ export type TIngredient = {
   __v: number;
 };
 
-export type TIngredientWithUniqueId = TIngredient & { id: string};
+export type TIngredientsResponse = {
+  data: TIngredient[];
+  success: boolean;
+}
+
+export type TIngredientWithUniqueId = TIngredient & { id: string };
 
 export type TOrderData = {
   name: string;
@@ -60,3 +65,16 @@ export type TOrder = {
   total: number;
   totalToday: number;
 };
+
+export type TDefaulResponse = {
+  success: boolean;
+  message: string;
+};
+
+
+export type TRefreshTokenResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+};
+

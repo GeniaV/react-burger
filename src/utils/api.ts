@@ -1,17 +1,19 @@
 import { getCookie } from "./utils";
+import { TIngredientsResponse, TOrderData, TDefaulResponse, TUser, TRefreshTokenResponse } from "./types";
 
 const API_URL = "https://norma.nomoreparties.space/api";
 
-const checkReponse = (res) => {
+const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export function getIngredientsFromServer() {
-  return fetch(`${API_URL}/ingredients`).then(checkReponse);
-}
+export async function getIngredientsFromServer() {
+  const res = await fetch(`${API_URL}/ingredients`);
+  return checkResponse<TIngredientsResponse>(res);
+};
 
-export function putAnOrder(id) {
-  return fetch(`${API_URL}/orders`, {
+export const putAnOrder = async (id: Array<string>) => {
+  const res = await fetch(`${API_URL}/orders`, {
     method: "POST",
     mode: 'cors',
     cache: 'no-cache',
@@ -25,12 +27,12 @@ export function putAnOrder(id) {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
-}
+  });
+  return checkResponse<TOrderData>(res);
+};
 
-export function requestForgotPassword(email) {
-  return fetch(`${API_URL}/password-reset`, {
+export async function requestForgotPassword(email: string) {
+  const res = await fetch(`${API_URL}/password-reset`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,12 +40,12 @@ export function requestForgotPassword(email) {
     body: JSON.stringify({
       email: email
     }),
-  })
-    .then(checkReponse)
-}
+  });
+  return checkResponse<TDefaulResponse>(res);
+};
 
-export function createUser(email, password, name) {
-  return fetch(`${API_URL}/auth/register`, {
+export async function createUser(email: string, password: string, name: string) {
+  const res = await fetch(`${API_URL}/auth/register`, {
     method: "POST",
     mode: 'cors',
     cache: 'no-cache',
@@ -58,12 +60,12 @@ export function createUser(email, password, name) {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
+  });
+  return checkResponse<TUser>(res);
 }
 
-export function logInItoAccount(email, password) {
-  return fetch(`${API_URL}/auth/login`, {
+export async function logInItoAccount(email: string, password: string) {
+  const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     mode: 'cors',
     cache: 'no-cache',
@@ -77,12 +79,12 @@ export function logInItoAccount(email, password) {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
+  });
+  return checkResponse<TUser>(res);
 }
 
-export function logOutFromAccount() {
-  return fetch(`${API_URL}/auth/logout`, {
+export async function logOutFromAccount() {
+  const res = await fetch(`${API_URL}/auth/logout`, {
     method: "POST",
     mode: 'cors',
     cache: 'no-cache',
@@ -95,12 +97,12 @@ export function logOutFromAccount() {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
+  });
+  return checkResponse<TDefaulResponse>(res);
 }
 
-export function requestResetPassword(password, token) {
-  return fetch(`${API_URL}/password-reset/reset`, {
+export async function requestResetPassword(password: string, token: string) {
+  const res = await fetch(`${API_URL}/password-reset/reset`, {
     method: "POST",
     mode: 'cors',
     cache: 'no-cache',
@@ -114,12 +116,12 @@ export function requestResetPassword(password, token) {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
+  });
+  return checkResponse<TDefaulResponse>(res);
 }
 
-export function getUserRequest() {
-  return fetch(`${API_URL}/auth/user`, {
+export async function getUserRequest() {
+  const res = await fetch(`${API_URL}/auth/user`, {
     method: "GET",
     mode: 'cors',
     cache: 'no-cache',
@@ -130,12 +132,12 @@ export function getUserRequest() {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
+  });
+  return checkResponse<TUser>(res);
 }
 
-export function updateUserRequest(name, email, password) {
-  return fetch(`${API_URL}/auth/user`, {
+export async function updateUserRequest(name: string, email: string, password: string) {
+  const res = await fetch(`${API_URL}/auth/user`, {
     method: "PATCH",
     mode: 'cors',
     cache: 'no-cache',
@@ -151,12 +153,12 @@ export function updateUserRequest(name, email, password) {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
+  });
+  return checkResponse<TUser>(res);
 }
 
-export function updateTokenRequest() {
-  return fetch(`${API_URL}/auth/token`, {
+export async function updateTokenRequest() {
+  const res = await fetch(`${API_URL}/auth/token`, {
     method: "POST",
     mode: 'cors',
     cache: 'no-cache',
@@ -170,6 +172,6 @@ export function updateTokenRequest() {
     }),
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
-  })
-    .then(checkReponse)
-}
+  });
+  return checkResponse<TRefreshTokenResponse>(res);
+};
