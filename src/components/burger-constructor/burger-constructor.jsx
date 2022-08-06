@@ -8,10 +8,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "../../services/store";
 import { useDrop, useDrag } from "react-dnd";
 import { addToConstructorBun, addToConstructorIngredient, deleteIngredientFromConstructor, reorderIngredientsInConstructor } from "../../services/actions/constructor";
-
 
 export function BurgerConstructor({ onClick }) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);

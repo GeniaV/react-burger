@@ -1,7 +1,7 @@
 import feedStyles from './feed.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { Order } from '../../components/order/order';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
 import { Preloader } from '../../components/preloader/preloader';

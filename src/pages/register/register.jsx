@@ -2,7 +2,7 @@ import { PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burg
 import registerStyles from "./register.module.css";
 import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { register } from "../../services/actions/auth";
 
 export function RegisterPage() {

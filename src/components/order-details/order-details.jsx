@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import orderDetailsStyles from "./order-details.module.css";
 import doneImage from "../../images/done.svg";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/store';
 import { sendOrder } from "../../services/actions/order";
 
 export function OrderDetails() {

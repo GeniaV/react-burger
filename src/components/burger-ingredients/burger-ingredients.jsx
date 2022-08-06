@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { type } from "../../utils/types";
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
 import { useLocation, Link } from "react-router-dom";

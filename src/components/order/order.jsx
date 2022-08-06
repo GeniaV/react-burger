@@ -1,7 +1,7 @@
 import orderStyles from './order.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { formatDate } from '../../utils/utils';
 import { useMemo } from 'react';
 

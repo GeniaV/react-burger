@@ -2,7 +2,7 @@ import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-component
 import styles from "./forgot-password.module.css";
 import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { forgotPassword } from "../../services/actions/auth";
 
 export function ForgotPasswordPage() {

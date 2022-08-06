@@ -1,7 +1,7 @@
 import orderInfoStyles from './order-info.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useParams, useRouteMatch } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/store';
 import { formatDate } from '../../utils/utils';
 import { useMemo, useEffect } from 'react';
 import { Preloader } from '../preloader/preloader';

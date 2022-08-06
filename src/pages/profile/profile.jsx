@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { NavLink } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
 import { OrdersPage } from "./orders-history/orders-history";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { logout, getUser, updateUser } from "../../services/actions/auth";
 import { NotFound } from "../not-found/not-found";
 import { useRouteMatch } from "react-router-dom";

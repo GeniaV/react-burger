@@ -1,6 +1,6 @@
 import ingredientDetailsStyles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { useHistory, useParams } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
 import { useEffect } from "react";
