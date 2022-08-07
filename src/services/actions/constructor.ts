@@ -38,7 +38,7 @@ export interface IResetConstructorAction {
   readonly type: typeof RESET_CONSTRUCTOR;
 };
 
-export const addToConstructorIngredient = (ingredient: TIngredient): IAddToConstructorIngredientAction => {
+export const addToConstructorIngredient = (ingredient: TIngredientWithUniqueId): IAddToConstructorIngredientAction => {
   return {
     type: ADD_INGREDIENT,
     payload: {

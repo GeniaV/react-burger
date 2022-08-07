@@ -4,27 +4,33 @@ import {
   CurrencyIcon,
   DragIcon,
   ConstructorElement,
-  Button,
+  Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { type } from "../../utils/types";
-import PropTypes from "prop-types";
+
 import { useSelector, useDispatch } from "../../services/store";
 import { useDrop, useDrag } from "react-dnd";
 import { addToConstructorBun, addToConstructorIngredient, deleteIngredientFromConstructor, reorderIngredientsInConstructor } from "../../services/actions/constructor";
+import { TIngredientWithUniqueId, TOrderDetails } from "../../utils/types";
 
-export function BurgerConstructor({ onClick }) {
+interface IOnClick {
+  onClick: () => void;
+};
+
+export function BurgerConstructor({ onClick }: IOnClick) {
   const { bun, ingredients } = useSelector(store => store.selectedIngredients);
   const allIngredients = useSelector(store => store.ingredientsList.ingredients);
   const dispatch = useDispatch();
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) {
+    drop(item: TOrderDetails) {
       const draggedCard = allIngredients.find((el) => el._id === item.id);
-      if (draggedCard.type !== "bun") {
+      if (draggedCard && draggedCard.type !== "bun") {
         dispatch(addToConstructorIngredient(draggedCard));
       } else {
-        dispatch(addToConstructorBun(draggedCard));
+        if(draggedCard) {
+          dispatch(addToConstructorBun(draggedCard));
+        }
       }
     }
   })
@@ -50,7 +56,7 @@ function TopProduct() {
   const { bun } = useSelector(store => store.selectedIngredients);
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor} key={bun._id}>
+      {bun && <div className={burgerConstructorStyles.constr} key={bun._id}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -58,15 +64,15 @@ function TopProduct() {
           price={bun.price}
           thumbnail={bun.image}
         />
-      </div>
+      </div>}
     </article>)
-}
+};
 
 function BottomProduct() {
   const { bun } = useSelector(store => store.selectedIngredients);
   return (
     <article className={`mr-4 ${burgerConstructorStyles.bun}`}>
-      <div className={burgerConstructorStyles.constructor} key={bun._id}>
+      {bun && <div className={burgerConstructorStyles.constr} key={bun._id}>
         <ConstructorElement
           type="bottom"
           isLocked={true}
@@ -74,7 +80,7 @@ function BottomProduct() {
           price={bun.price}
           thumbnail={bun.image}
         />
-      </div>
+      </div>}
     </article>
   );
 }
@@ -88,12 +94,17 @@ function ProductList() {
       ))}
     </section>
   );
-}
+};
 
-function ProductCard({ card, index }) {
+interface IProductCard {
+  card: TIngredientWithUniqueId;
+  index: number;
+};
+
+function ProductCard({ card, index }: IProductCard) {
   const { ingredients } = useSelector(store => store.selectedIngredients);
   const id = card.id;
-  const ref = useRef(null);
+  const ref = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const [{ isDragging }, dragRef] = useDrag(() => ({
@@ -111,7 +122,7 @@ function ProductCard({ card, index }) {
       canDrop: monitor.canDrop()
     }),
 
-    drop(item) {
+    drop(item: TIngredientWithUniqueId) {
       const dragIndex = ingredients.findIndex((elem) => elem.id === item.id);
       const hoverIndex = index;
 
@@ -139,8 +150,8 @@ function ProductCard({ card, index }) {
   }
 
   return (
-    <section className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`} ref={dragAndDropItem}>
-      <DragIcon />
+    <section className={`mb-4 mr-2 ${burgerConstructorStyles.ingredients}`} ref={dragAndDropItem as any}>
+      <DragIcon type={"primary"} />
       <div className={burgerConstructorStyles.inner} style={{ boxShadow, borderRadius }}>
         <ConstructorElement
           text={card.name}
@@ -153,8 +164,9 @@ function ProductCard({ card, index }) {
   )
 }
 
-function MakeAnOrder({ onClick }) {
+function MakeAnOrder({ onClick }: IOnClick) {
   const constructorItems = useSelector(store => store.selectedIngredients);
+
 
   const price = useMemo(() => {
     return (
@@ -170,27 +182,11 @@ function MakeAnOrder({ onClick }) {
         <CurrencyIcon type="primary" />
       </div>
       {!constructorItems.bun ? (
-        <Button type="primary" size="large" onClick={onClick} disabled>
-          Оформить заказ
-        </Button>
-      ) : (<Button type="primary" size="large" onClick={onClick}>
-        Оформить заказ
-      </Button>)}
-
+        <Button type="primary" size="large" children="Оформить заказ" onClick={onClick} disabled={true}/>
+      ) : (<Button type="primary" size="large" children="Оформить заказ" onClick={onClick} disabled={false}/>)}
     </section>
   );
-}
+};
 
-// Проверка данных
-// BurgerConstructor.propTypes = {
-//   onClick: PropTypes.func
-// };
 
-// MakeAnOrder.propTypes = {
-//   onClick: PropTypes.func
-// };
 
-// ProductCard.propTypes = {
-//   card: type,
-//   index: PropTypes.number
-// }

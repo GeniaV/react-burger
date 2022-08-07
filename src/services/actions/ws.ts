@@ -2,7 +2,8 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS
+  WS_GET_ORDERS,
+  WS_CONNECTION_START
 } from "./types";
 import { TOrder } from "../../utils/types"
 
@@ -10,7 +11,12 @@ export type TWsActions =
 IWsConnectionSuccessAction
 | IWsConnectionErrorAction
 | IWsConnectionClosedAction
-| IWsGetMessageAction;
+| IWsGetMessageAction
+| IWsConnectionStartAction;
+
+interface IWsConnectionStartAction {
+  readonly type: typeof WS_CONNECTION_START;
+};
 
 interface IWsConnectionSuccessAction {
   readonly type: typeof WS_CONNECTION_SUCCESS;

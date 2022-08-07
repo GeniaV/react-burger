@@ -1,9 +1,9 @@
 import {  GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED } from "../actions/types";
-import { TIngredient } from '../../utils/types';
+import { TIngredientWithUniqueId } from '../../utils/types';
 import { TGetIngredientsActions } from '../actions/ingredients';
 
 type TIngredientsState = {
-  ingredients: ReadonlyArray<TIngredient>;
+  ingredients: ReadonlyArray<TIngredientWithUniqueId>;
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
 }

@@ -1,5 +1,4 @@
 import ingredientDetailsStyles from "./ingredient-details.module.css";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from '../../services/store';
 import { useHistory, useParams } from "react-router-dom";
 import { Preloader } from "../preloader/preloader";
@@ -64,9 +63,4 @@ const Ingredient = ({ ingredientInfo, text }: IIngredient) => {
       </p>
     </li>
   )
-}
-
-Ingredient.propTypes = {
-  ingredientInfo: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired
-}
+};

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
 import { Preloader } from '../../components/preloader/preloader';
+import { TOrderDetails } from '../../utils/types';
 
 export function FeedPage() {
   const dispatch = useDispatch();
@@ -67,7 +68,8 @@ function OrdersStatusSection() {
     return order.status !== 'done'
   })
 
-  const firstThirtyItems = (arr) => {
+
+  const firstThirtyItems = (arr: TOrderDetails[]): TOrderDetails[] => {
     if (arr.length > 10) {
       return arr.slice(0, 10);
     } else {
@@ -75,7 +77,8 @@ function OrdersStatusSection() {
         return arr;
       }
     }
-  }
+    return arr;
+  };
 
   return (
     <section className={feedStyles.status_container}>
@@ -107,7 +110,7 @@ function OrdersStatusSection() {
       </div>
     </section>
   )
-}
+};
 
 
 

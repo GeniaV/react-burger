@@ -1,6 +1,6 @@
 import { GET_INGREDIENTS_FAILED, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_REQUEST } from "./types";
 import { getIngredientsFromServer } from "../../utils/api";
-import { TIngredient } from "../../utils/types";
+import { TIngredientWithUniqueId } from "../../utils/types";
 import { AppThunk } from "../../utils/types";
 import { AppDispatch } from "../../utils/types";
 
@@ -16,7 +16,7 @@ export interface IGetIngredientsRequestAction {
 
 export interface IGetIngredientsFromServerSuccessAction {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly ingredients: TIngredient[];
+  readonly ingredients: TIngredientWithUniqueId[];
 };
 
 export interface IShowErrorWhenGetIngredietsFailedAction {
@@ -24,7 +24,7 @@ export interface IShowErrorWhenGetIngredietsFailedAction {
   readonly payload: string;
 };
 
-const getIngredientsFromServerSuccess = (res: { data: TIngredient[] }): IGetIngredientsFromServerSuccessAction => {
+const getIngredientsFromServerSuccess = (res: { data: TIngredientWithUniqueId[] }): IGetIngredientsFromServerSuccessAction => {
   return {
     type: GET_INGREDIENTS_SUCCESS,
     ingredients: res.data

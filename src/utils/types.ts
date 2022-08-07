@@ -28,7 +28,7 @@ export type TIngredient = {
 };
 
 export type TIngredientsResponse = {
-  data: TIngredient[];
+  data: TIngredientWithUniqueId[];
   success: boolean;
 }
 
@@ -52,11 +52,13 @@ export type TUser = {
 
 export type TOrderDetails = {
   ingredients: Array<string>;
-  id: string;
+  _id: string;
+  name: string;
   status: string;
   number: number;
   createdAt: string;
   updatedAt: string;
+  id?: string;
 };
 
 export type TOrder = {
