@@ -1,11 +1,18 @@
 import orderStyles from './order.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { useSelector } from '../../services/store';
 import { formatDate } from '../../utils/utils';
 import { useMemo } from 'react';
 
-export function Order({ status, orderNumber, orderCreateTime, burgerName, ingredients }) {
+interface IOrder {
+  status: string;
+  orderNumber: number;
+  orderCreateTime: string;
+  burgerName: string;
+  ingredients: string[];
+}
+
+export function Order({ status, orderNumber, orderCreateTime, burgerName, ingredients }: IOrder) {
   const ingredientsqty = ingredients.length;
   const hideIngredirntQty = ingredientsqty - 6;
 
@@ -65,7 +72,7 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
             ingredientData.slice(0, 5).map((ing, index) => {
               return (
                 <li className={orderStyles.list_item} key={index}>
-                  <Ingredient ingredientimage={ing.image} ingredientName={ing.name} />
+                  {ing && <Ingredient ingredientimage={ing.image} ingredientName={ing.name} />}
                 </li>
               )
             })
@@ -76,7 +83,7 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
               <div className={orderStyles.back}>
                 {ingredientData.slice(5, 6).map((ing, index) => {
                   return (
-                    <Ingredient ingredientimage={ing.image} ingredientName={ing.name} key={index} />
+                    ing && <Ingredient ingredientimage={ing.image} ingredientName={ing.name} key={index} />
                   )
                 })
                 }
@@ -95,7 +102,12 @@ export function Order({ status, orderNumber, orderCreateTime, burgerName, ingred
   );
 }
 
-function Ingredient({ ingredientimage, ingredientName }) {
+interface IIngredient {
+  ingredientimage: string;
+  ingredientName: string
+}
+
+function Ingredient({ ingredientimage, ingredientName }: IIngredient) {
   return (
     <div className={orderStyles.border}>
       <div className={orderStyles.item}>
@@ -103,32 +115,4 @@ function Ingredient({ ingredientimage, ingredientName }) {
       </div>
     </div>
   );
-}
-
-Order.propTypes = {
-  status: PropTypes.string.isRequired,
-  orderNumber: PropTypes.number.isRequired,
-  orderCreateTime: PropTypes.string.isRequired,
-  burgerName: PropTypes.string.isRequired,
-  ingredients: PropTypes.array.isRequired,
-}
-
-Ingredient.propTypes = {
-  ingredientName: PropTypes.string.isRequired,
-  ingredientimage: PropTypes.string.isRequired,
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+};
