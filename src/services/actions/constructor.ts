@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { ADD_BUN, DELETE_INGREDIENT, REORDER_INGREDIENTS_IN_CONSTRUCTOR, RESET_CONSTRUCTOR, ADD_INGREDIENT, GET_SELECTED_INGREDIENTS } from "./types";
-import { TIngredient, TIngredientWithUniqueId } from '../../utils/types';
+import { TIngredientWithUniqueId } from '../../utils/types';
 
 export type TConstructorActions =
 IAddToConstructorIngredientAction

@@ -10,7 +10,7 @@ import {
 } from "../../utils/api";
 import { setCookie, deleteCookie } from "../../utils/utils";
 import { TUser } from "../../utils/types";
-import { AppThunk, AppDispatch } from "../../utils/types";
+import { AppThunk } from "../../utils/types";
 
 export type TAuthActions =
   IRegisterUserOnServerSuccessAction
@@ -82,27 +82,26 @@ const registerUserOnServerWithouPayloadFailed = (): IRegisterUserOnServerWithouP
   }
 };
 
-export const register: AppThunk = (email: string, password: string, name: string) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: REGISTER_REQUEST
-    });
-    createUser(email, password, name)
-      .then(res => {
-        const authToken = res.accessToken.split('Bearer ')[1];
-        setCookie('token', authToken);
-        localStorage.setItem('token', res.refreshToken);
-        if (res && res.success) {
-          dispatch(registerUserOnServerSuccess(res));
-        } else {
-          dispatch(registerUserOnServerWithouPayloadFailed());
-        }
-      })
-      .catch(err => {
-        dispatch(registerUserOnServerFailed(err));
-      })
-  };
+export const register = (email: string, password: string, name: string): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: REGISTER_REQUEST
+  });
+  return createUser(email, password, name)
+    .then(res => {
+      const authToken = res.accessToken.split('Bearer ')[1];
+      setCookie('token', authToken);
+      localStorage.setItem('token', res.refreshToken);
+      if (res && res.success) {
+        dispatch(registerUserOnServerSuccess(res));
+      } else {
+        dispatch(registerUserOnServerWithouPayloadFailed());
+      }
+    })
+    .catch(err => {
+      dispatch(registerUserOnServerFailed(err));
+    })
 };
+
 
 //Авторизация
 interface ILoginOnServerRequestAction {
@@ -143,27 +142,26 @@ const loginOnServerWithouPayloadFailed = (): ILoginOnServerWithouPayloadFailedAc
   }
 };
 
-export const login: AppThunk = (email: string, password: string) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: LOGIN_REQUEST
-    });
-    logInItoAccount(email, password)
-      .then(res => {
-        const authToken = res.accessToken.split('Bearer ')[1];
-        setCookie('token', authToken);
-        localStorage.setItem('token', res.refreshToken);
-        if (res && res.success) {
-          dispatch(loginOnServerSuccess(res));
-        } else {
-          dispatch(loginOnServerWithouPayloadFailed());
-        }
-      })
-      .catch(err => {
-        dispatch(loginOnServerFailed(err));
-      })
-  };
+export const login = (email: string, password: string): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: LOGIN_REQUEST
+  });
+  return logInItoAccount(email, password)
+    .then(res => {
+      const authToken = res.accessToken.split('Bearer ')[1];
+      setCookie('token', authToken);
+      localStorage.setItem('token', res.refreshToken);
+      if (res && res.success) {
+        dispatch(loginOnServerSuccess(res));
+      } else {
+        dispatch(loginOnServerWithouPayloadFailed());
+      }
+    })
+    .catch(err => {
+      dispatch(loginOnServerFailed(err));
+    })
 };
+
 
 //Выход из системы
 interface IUserLogoutRequestAction {
@@ -197,29 +195,28 @@ const userLogoutWithoutPayloadFailed = (): IUserLogoutWithoutPayloadFailedAction
   }
 };
 
-export const logout: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: LOGOUT_REQUEST
-    });
-    logOutFromAccount()
-      .then(res => {
-        deleteCookie('token');
-        localStorage.removeItem('token');
-        if (res && res.success) {
-          dispatch({
-            type: LOGOUT_SUCCESS,
-            payload: null
-          });
-        } else {
-          dispatch(userLogoutWithoutPayloadFailed());
-        }
-      })
-      .catch(err => {
-        dispatch(userLogoutFailed(err));
-      })
-  };
+export const logout: AppThunk = (): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: LOGOUT_REQUEST
+  });
+  return logOutFromAccount()
+    .then(res => {
+      deleteCookie('token');
+      localStorage.removeItem('token');
+      if (res && res.success) {
+        dispatch({
+          type: LOGOUT_SUCCESS,
+          payload: null
+        });
+      } else {
+        dispatch(userLogoutWithoutPayloadFailed());
+      }
+    })
+    .catch(err => {
+      dispatch(userLogoutFailed(err));
+    })
 };
+
 
 //Забыли пароль
 interface IForgotPasswordRequestAction {
@@ -234,30 +231,28 @@ interface IForgotPasswordFailedAction {
   readonly type: typeof FORGOT_PASSWORD_FAILED;
 };
 
-export const forgotPassword: AppThunk = (email: string) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: FORGOT_PASSWORD_REQUEST
-    });
-    requestForgotPassword(email)
-      .then(res => {
-        if (res && res.success) {
-          dispatch({
-            type: FORGOT_PASSWORD_SUCCESS
-          });
-        } else {
-          dispatch({
-            type: FORGOT_PASSWORD_FAILED
-          });
-        }
-      })
-      .catch(err => {
+export const forgotPassword = (email: string): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: FORGOT_PASSWORD_REQUEST
+  });
+  return requestForgotPassword(email)
+    .then(res => {
+      if (res && res.success) {
         dispatch({
-          type: FORGOT_PASSWORD_FAILED,
-          payload: `Произошла Ошибка при запросе забытого пароля: ${err.message}`
+          type: FORGOT_PASSWORD_SUCCESS
         });
-      })
-  };
+      } else {
+        dispatch({
+          type: FORGOT_PASSWORD_FAILED
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: FORGOT_PASSWORD_FAILED,
+        payload: `Произошла Ошибка при запросе забытого пароля: ${err.message}`
+      });
+    })
 };
 
 //Сброс пароля
@@ -273,30 +268,28 @@ interface IResetPasswordFailedAction {
   readonly type: typeof RESET_PASSWORD_FAILED;
 };
 
-export const resetPassword: AppThunk = (password: string, token: string) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: RESET_PASSWORD_REQUEST
-    });
-    requestResetPassword(password, token)
-      .then(res => {
-        if (res && res.success) {
-          dispatch({
-            type: RESET_PASSWORD_SUCCESS
-          });
-        } else {
-          dispatch({
-            type: RESET_PASSWORD_FAILED
-          });
-        }
-      })
-      .catch(err => {
+export const resetPassword = (password: string, token: string): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: RESET_PASSWORD_REQUEST
+  });
+  return requestResetPassword(password, token)
+    .then(res => {
+      if (res && res.success) {
         dispatch({
-          type: RESET_PASSWORD_FAILED,
-          payload: `Произошла Ошибка сброса пароля: ${err.message}`
+          type: RESET_PASSWORD_SUCCESS
         });
-      })
-  };
+      } else {
+        dispatch({
+          type: RESET_PASSWORD_FAILED
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: RESET_PASSWORD_FAILED,
+        payload: `Произошла Ошибка сброса пароля: ${err.message}`
+      });
+    })
 };
 
 //Получение данных о пользователе
@@ -338,23 +331,21 @@ const getUserFromServerWithoutPayloadFailed = (): IGetUserFromServerWithoutPaylo
   }
 };
 
-export const getUser: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: GET_USER_REQUEST
-    });
-    getUserRequest()
-      .then(res => {
-        if (res && res.success) {
-          dispatch(getUserFromServer(res));
-        } else {
-          dispatch(getUserFromServerWithoutPayloadFailed());
-        }
-      })
-      .catch(err => {
-        dispatch(getUserFromServerFailed(err));
-      })
-  };
+export const getUser = (): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: GET_USER_REQUEST
+  });
+  return getUserRequest()
+    .then(res => {
+      if (res && res.success) {
+        dispatch(getUserFromServer(res));
+      } else {
+        dispatch(getUserFromServerWithoutPayloadFailed());
+      }
+    })
+    .catch(err => {
+      dispatch(getUserFromServerFailed(err));
+    })
 };
 
 //Обновление данных о пользователе
@@ -396,23 +387,21 @@ const updateUserWihoutPayloadFailed = (): IUpdateUserWihoutPayloadFailedAction =
   }
 };
 
-export const updateUser: AppThunk = (name: string, email: string, password: string) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: UPDATE_USER_REQUEST
-    });
-    updateUserRequest(name, email, password)
-      .then(res => {
-        if (res && res.success) {
-          dispatch(updateUserOnServer(res));
-        } else {
-          dispatch(updateUserWihoutPayloadFailed());
-        }
-      })
-      .catch(err => {
-        dispatch(updateUserFailed(err));
-      })
-  };
+export const updateUser = (name: string, email: string, password: string): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: UPDATE_USER_REQUEST
+  });
+  return updateUserRequest(name, email, password)
+    .then(res => {
+      if (res && res.success) {
+        dispatch(updateUserOnServer(res));
+      } else {
+        dispatch(updateUserWihoutPayloadFailed());
+      }
+    })
+    .catch(err => {
+      dispatch(updateUserFailed(err));
+    })
 };
 
 //Обновление токена
@@ -428,35 +417,29 @@ interface IUpdateTokenFailedAction {
   readonly type: typeof UPDATE_TOKEN_FAILED;
 };
 
-export const refreshToken: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: UPDATE_TOKEN_REQUEST,
-    });
-    updateTokenRequest()
-      .then(res => {
-        const authToken = res.accessToken.split('Bearer ')[1];
-        setCookie('token', authToken);
-        localStorage.setItem('token', res.refreshToken);
-        if (res && res.success) {
-          dispatch({
-            type: UPDATE_TOKEN_SUCCESS
-          });
-        } else {
-          dispatch({
-            type: UPDATE_TOKEN_FAILED
-          });
-        }
-      })
-      .catch(err => {
+export const refreshToken = (): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: UPDATE_TOKEN_REQUEST,
+  });
+  return updateTokenRequest()
+    .then(res => {
+      const authToken = res.accessToken.split('Bearer ')[1];
+      setCookie('token', authToken);
+      localStorage.setItem('token', res.refreshToken);
+      if (res && res.success) {
         dispatch({
-          type: UPDATE_TOKEN_FAILED,
-          payload: `Произошла Ошибка обновления токена: ${err.message}`
+          type: UPDATE_TOKEN_SUCCESS
         });
-      })
-  };
+      } else {
+        dispatch({
+          type: UPDATE_TOKEN_FAILED
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({
+        type: UPDATE_TOKEN_FAILED,
+        payload: `Произошла Ошибка обновления токена: ${err.message}`
+      });
+    })
 };
-
-
-
-

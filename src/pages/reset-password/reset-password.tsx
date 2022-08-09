@@ -1,21 +1,30 @@
-import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./reset-password.module.css";
 import { Link, Redirect } from 'react-router-dom';
-import { useState, useRef } from "react";
+import { useState, useRef, SyntheticEvent } from "react";
 import { useDispatch, useSelector } from '../../services/store';
 import { resetPassword } from "../../services/actions/auth";
+import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 
 export function ResetPasswordPage() {
-  const [passwordValue, setPasswordValue] = useState('');
-  const [token, setToken] = useState('');
-  const [icon, setIcon] = useState('ShowIcon');
-  const [type, setType] = useState('password');
+  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [token, setToken] = useState<string>('');
 
-  const inputPasswordRef = useRef(null);
-  const inputCodRef = useRef(null);
+  type TIconType = keyof TICons;
+  const [icon, setIcon] = useState<TIconType >('ShowIcon');
+
+  type TInputType = "password" | "text" | "email";
+  const [type, setType] = useState<TInputType >('password');
+
+  const inputPasswordRef = useRef<HTMLInputElement>(null);
+  const inputCodRef = useRef<HTMLInputElement>(null);
 
   const onIconClick = () => {
-    setTimeout(() => inputPasswordRef.current.focus(), 0);
+    setTimeout(() => {
+      if(inputPasswordRef.current !== null) {
+        inputPasswordRef.current.focus();
+      }
+    }, 0);
     setIcon('HideIcon');
     setType('text');
     if (icon === 'HideIcon' && type === 'text') {
@@ -26,9 +35,9 @@ export function ResetPasswordPage() {
 
   const dispatch = useDispatch();
 
-  const saveNewPassword = (e) => {
+  const saveNewPassword = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(resetPassword(passwordValue, token));
+    dispatch(resetPassword(passwordValue, token))
   }
 
   const forgotPasswordSuccess = useSelector(store => store.auth.forgotPasswordSuccess);

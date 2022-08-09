@@ -3,7 +3,8 @@ import {
   WS_AUTH_CONNECTION_ERROR,
   WS_AUTH_CONNECTION_CLOSED,
   WS_AUTH_GET_ORDERS,
-  WS_AUTH_SEND_ORDERS
+  WS_AUTH_SEND_ORDERS,
+  WS_AUTH_CONNECTION_START
 } from "./types";
 import { TOrder } from "../../utils/types";
 
@@ -12,7 +13,12 @@ IWsConnectionSuccessAction
 | IWsConnectionErrorAction
 | IWsConnectionClosedAction
 | IWsGetMessageAction
-| IWsSendMessageAction;
+| IWsSendMessageAction
+| IWsAuthConnectionStartAction;
+
+interface IWsAuthConnectionStartAction {
+  readonly type: typeof WS_AUTH_CONNECTION_START;
+};
 
 interface IWsConnectionSuccessAction {
   readonly type: typeof WS_AUTH_CONNECTION_SUCCESS;

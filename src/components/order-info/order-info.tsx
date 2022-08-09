@@ -6,12 +6,17 @@ import { formatDate } from '../../utils/utils';
 import { useMemo, useEffect } from 'react';
 import { Preloader } from '../preloader/preloader';
 import { useHistory } from 'react-router-dom';
-import PropTypes from "prop-types";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED, WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from '../../services/actions/types';
 import { getUser } from '../../services/actions/auth';
+import { TCount } from "../../utils/types";
+
+
+interface ParamTypes {
+  id: string;
+};
 
 export function OrderInformation() {
-  let { id } = useParams();
+  let { id } = useParams<ParamTypes>();
   let match = useRouteMatch()
   const isProfile = '/profile/orders/:id';
   const isFeed = '/feed/:id';
@@ -43,7 +48,8 @@ export function OrderInformation() {
 
     }, 0);
 
-    let count = {};
+
+    let count: TCount = {};
 
     for (let elem of orderData.ingredients) {
       if (count[elem] === undefined) {
@@ -103,7 +109,7 @@ export function OrderInformation() {
       }
       <h3 className="text text_type_main-medium mb-6">Состав:</h3>
       <section className={orderInfoStyles.ingredients_section}>
-        {orderInfo.count && [...new Set(orderInfo.ingredients)].map((ingredient, index) =>
+        {orderInfo.count && Array.from(new Set(orderInfo.ingredients)).map((ingredient, index) =>
           <IngredientInfo ingredient={ingredient} key={index} count={orderInfo.count} />
         )}
       </section>
@@ -118,7 +124,12 @@ export function OrderInformation() {
   );
 }
 
-function IngredientInfo({ ingredient, count }) {
+interface IIngredientInfo {
+  ingredient: string;
+  count: TCount
+};
+
+function IngredientInfo({ ingredient, count }: IIngredientInfo) {
 
   const allIngredients = useSelector(store => store.ingredientsList.ingredients);
 
@@ -136,26 +147,20 @@ function IngredientInfo({ ingredient, count }) {
       <div className={orderInfoStyles.info}>
         <div className={orderInfoStyles.border}>
           <div className={orderInfoStyles.item}>
-            <img className={orderInfoStyles.img} src={currentIngredient.image} alt={currentIngredient.name} />
+            {currentIngredient !== null && currentIngredient !== undefined && <img className={orderInfoStyles.img} src={currentIngredient.image} alt={currentIngredient.name} />}
           </div>
         </div>
-        <p className={`text text_type_main-default ml-4 mr-4 ${orderInfoStyles.text}`}>
+        {currentIngredient !== null && currentIngredient !== undefined &&<p className={`text text_type_main-default ml-4 mr-4 ${orderInfoStyles.text}`}>
           {currentIngredient.name}
-        </p>
+        </p>}
       </div>
       <div className={orderInfoStyles.qty_container}>
-        <p className="text text_type_digits-default mr-2">{`${count[currentIngredient._id]} x ${currentIngredient.price}`}</p>
+      {currentIngredient !== null && currentIngredient !== undefined && <p className="text text_type_digits-default mr-2">{`${count[currentIngredient._id]} x ${currentIngredient.price}`}</p>}
         <CurrencyIcon type="primary" />
       </div>
     </section>
   )
-}
-
-IngredientInfo.propTypes = {
-  ingredient: PropTypes.string.isRequired,
-  count: PropTypes.object.isRequired
-}
-
+};
 
 
 

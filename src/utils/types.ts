@@ -1,16 +1,31 @@
 import { TIngredientInModalActions } from '../services/actions/ingredient';
 import { TPutAnPrderActions } from '../services/actions/order';
-import { ThunkAction } from 'redux-thunk';
-import { store } from '../services/store';
-import { Action, ActionCreator } from 'redux';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { TAuthActions } from "../services/actions/auth";
+import { TConstructorActions } from "../services/actions/constructor";
+import { TGetIngredientsActions} from "../services/actions/ingredients";
+import { TWsActions } from "../services/actions/ws";
+import { TWsAuthActions } from "../services/actions/wsAuth";
+import {rootReducer} from "../services/roorReducer"
 
-type TApplicationActions = TIngredientInModalActions | TPutAnPrderActions;
+type TApplicationActions = TIngredientInModalActions
+| TPutAnPrderActions
+| TAuthActions
+| TConstructorActions
+| TGetIngredientsActions
+| TWsActions
+| TWsAuthActions;
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ActionCreator<
-  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
+export type RootState = ReturnType<typeof rootReducer>;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  TApplicationActions
 >;
+
+export type AppDispatch = ThunkDispatch<RootState, never, TApplicationActions>;
 
 export type TIngredient = {
   _id: string;
@@ -59,7 +74,12 @@ export type TOrderDetails = {
   createdAt: string;
   updatedAt: string;
   id?: string;
+  count?: TCount
 };
+
+export type TCount = {
+  [elem: string]: number
+}
 
 export type TOrder = {
   success: boolean;

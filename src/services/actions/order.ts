@@ -1,7 +1,7 @@
 import { putAnOrder } from '../../utils/api';
 import { PUT_AN_ORDER, PUT_AN_ORDER_FAILED, PUT_AN_ORDER_REQUEST } from "./types";
 import { resetConstructor } from './constructor';
-import { TOrderData, AppDispatch, AppThunk } from '../../utils/types';
+import { TOrderData, AppThunk } from '../../utils/types';
 
 export type TPutAnPrderActions =
   | IPutAnOrderOnServerAction
@@ -36,18 +36,16 @@ const showErrorWhenPutAnOrderFailed = (err: { message: string; }): IShowErrorWhe
   }
 };
 
-export const sendOrder: AppThunk = (id: Array<string>) => {
-  return function (dispatch: AppDispatch) {
-    dispatch({
-      type: PUT_AN_ORDER_REQUEST
-    });
-    putAnOrder(id)
-      .then(res => {
-        dispatch(putAnOrderOnServer(res));
-        dispatch(resetConstructor());
-      })
-      .catch(err => {
-        dispatch(showErrorWhenPutAnOrderFailed(err))
-      })
-  };
+export const sendOrder = (id: Array<string>): AppThunk<Promise<unknown>> => (dispatch) => {
+  dispatch({
+    type: PUT_AN_ORDER_REQUEST
+  });
+  return putAnOrder(id)
+    .then(res => {
+      dispatch(putAnOrderOnServer(res));
+      dispatch(resetConstructor());
+    })
+    .catch(err => {
+      dispatch(showErrorWhenPutAnOrderFailed(err))
+    })
 };
