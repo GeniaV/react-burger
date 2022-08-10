@@ -195,7 +195,7 @@ const userLogoutWithoutPayloadFailed = (): IUserLogoutWithoutPayloadFailedAction
   }
 };
 
-export const logout: AppThunk = (): AppThunk<Promise<unknown>> => (dispatch) => {
+export const logout = (): AppThunk<Promise<unknown>> => (dispatch) => {
   dispatch({
     type: LOGOUT_REQUEST
   });
@@ -300,12 +300,16 @@ interface IGetUserRequestAction {
 interface IGetUserFromServerAction {
   readonly type: typeof GET_USER_SUCCESS;
   readonly payload: TUser['user'];
+  readonly name: string;
+  readonly email: string;
 };
 
 const getUserFromServer = (res: TUser): IGetUserFromServerAction => {
   return {
     type: GET_USER_SUCCESS,
-    payload: res.user
+    payload: res.user,
+    name: res.user.name,
+    email: res.user.email
   }
 };
 

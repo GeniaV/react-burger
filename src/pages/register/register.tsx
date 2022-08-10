@@ -1,14 +1,14 @@
 import { PasswordInput, Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import registerStyles from "./register.module.css";
 import { Link, Redirect } from 'react-router-dom';
-import { useState, useRef } from "react";
+import { useState, useRef, SetStateAction } from "react";
 import { useDispatch, useSelector } from '../../services/store';
 import { register } from "../../services/actions/auth";
 
 export function RegisterPage() {
   const [passwordValue, setPasswordValue] = useState('');
 
-  const onChangePassword = e => {
+  const onChangePassword = (e: { target: { value: SetStateAction<string>; }; }) => {
     setPasswordValue(e.target.value)
   }
 
@@ -20,7 +20,7 @@ export function RegisterPage() {
 
   const dispatch = useDispatch();
 
-  const userRegister = (e) => {
+  const userRegister = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(register(emailValue, passwordValue, namelValue));
   }

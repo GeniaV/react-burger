@@ -10,6 +10,8 @@ import { TAuthActions } from '../actions/auth'
 
 type TAuthState = {
   user: TUser['user'] | null;
+  name: string;
+  email: string;
 
   registerRequest: boolean;
   registerFailed: boolean;
@@ -42,6 +44,8 @@ type TAuthState = {
 
 const initialState: TAuthState = {
   user: null,
+  name: '',
+  email: '',
 
   registerRequest: false,
   registerFailed: false,
@@ -152,7 +156,7 @@ export const authReducer = (state = initialState, action: TAuthActions): TAuthSt
       };
     }
     case GET_USER_SUCCESS: {
-      return { ...state, getUserFailed: false, user: action.payload, getUserRequest: false };
+      return { ...state, getUserFailed: false, user: action.payload, name: action.name, email: action.email, getUserRequest: false };
     }
     case GET_USER_FAILED: {
       return { ...state, getUserFailed: true, getUserRequest: false };

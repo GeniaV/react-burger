@@ -11,7 +11,7 @@ export function ForgotPasswordPage() {
 
   const dispatch = useDispatch();
 
-  const sentForgotPassword = (e) => {
+  const sentForgotPassword = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     dispatch(forgotPassword(emailValue));
   }
