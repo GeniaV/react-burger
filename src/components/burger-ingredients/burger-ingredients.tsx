@@ -1,19 +1,25 @@
-import { useEffect, useState, memo, useMemo, forwardRef } from "react";
+import React, { useEffect, useState, memo, useMemo, forwardRef } from "react";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import {
   Tab,
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { type } from "../../utils/types";
-import PropTypes from "prop-types";
 import { useSelector } from '../../services/store';
 import { useInView } from 'react-intersection-observer';
 import { useDrag } from "react-dnd";
 import { useLocation, Link } from "react-router-dom";
+import { TIngredientWithUniqueId } from "../../utils/types";
+import { FunctionComponent } from 'react';
 
-const Tabs = memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
-  const [current, setCurrent] = useState("Булки");
+interface ITabs {
+  inViewBuns: boolean;
+  inViewSaucess: boolean;
+  inViewFilling: boolean;
+};
+
+const Tabs = memo(({ inViewBuns, inViewSaucess, inViewFilling }: ITabs) => {
+  const [current, setCurrent] = useState<string>("Булки");
 
   useEffect(() => {
     if (inViewBuns) {
@@ -25,10 +31,12 @@ const Tabs = memo(({ inViewBuns, inViewSaucess, inViewFilling }) => {
     }
   }, [inViewBuns, inViewFilling, inViewSaucess]);
 
-  const scrollToSection = (current, id) => {
+  const scrollToSection = (current: string, id: string) => {
     setCurrent(current);
     const element = document.getElementById(id);
-    element.scrollIntoView({ behavior: "smooth" });
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
   return (
@@ -80,19 +88,30 @@ export function BurgerIngredients() {
       }
     </>
   );
-}
+};
 
-const IngredientsCategory = forwardRef(({ name, category, id }, ref) => {
-  return (
+interface IIngredientsCategory {
+  name: string;
+  category: TIngredientWithUniqueId[],
+  id: string;
+};
+
+type Ref = HTMLDivElement;
+
+const IngredientsCategory = forwardRef<Ref, IIngredientsCategory>(({ name, category, id }, ref) => (
     <div ref={ref}>
       <h2 className="text text_type_main-medium" id={id} >
         {name}
       </h2>
       <ProductList category={category} />
-    </div>)
-})
+    </div>
+))
 
-const ProductList = ({ category }) => {
+interface IProductList {
+  category: TIngredientWithUniqueId[],
+};
+
+const ProductList: FunctionComponent<IProductList> = ({ category })=> {
   return (
     <section
       className={`pt-6 pl-4 pr-4 mb-10 ${burgerIngredientsStyles.items}`}
@@ -104,7 +123,11 @@ const ProductList = ({ category }) => {
   );
 }
 
-const Product = ({ card }) => {
+interface IProduct {
+  card: TIngredientWithUniqueId,
+};
+
+const Product: FunctionComponent<IProduct> = ({ card }) => {
   const id = card._id;
 
   const location = useLocation();
@@ -134,7 +157,6 @@ const Product = ({ card }) => {
         <Counter
           count={count}
           size="default"
-          className={burgerIngredientsStyles.counter}
         />}
       <img
         className={`ml-4 mr-4 ${burgerIngredientsStyles.image}`}
@@ -152,27 +174,4 @@ const Product = ({ card }) => {
       </div>
     </Link>
   );
-}
-
-// Проверка данных
-// ProductList.propTypes = {
-//   category: PropTypes.arrayOf(type).isRequired
-// }
-
-// Tabs.propTypes = {
-//   inViewBuns: PropTypes.bool.isRequired,
-//   inViewSaucess: PropTypes.bool.isRequired,
-//   inViewFilling: PropTypes.bool.isRequired
-// };
-
-// IngredientsCategory.propTypes = {
-//   name: PropTypes.string,
-//   category: PropTypes.arrayOf(type).isRequired,
-//   id: PropTypes.string
-// };
-
-// Product.propTypes = {
-//   card: type
-// };
-
-
+};
