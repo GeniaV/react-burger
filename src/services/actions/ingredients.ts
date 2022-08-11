@@ -48,12 +48,11 @@ const showErrorWhenGetIngredietsFailedWithoutPayload = (): IShowErrorWhenGetIngr
   }
 };
 
-export const getIngredients: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
+export const getIngredients = (): AppThunk<Promise<unknown>> => (dispatch) => {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     });
-    getIngredientsFromServer()
+    return getIngredientsFromServer()
       .then(res => {
         if (res && res.success) {
           dispatch(getIngredientsFromServerSuccess(res));
@@ -65,4 +64,3 @@ export const getIngredients: AppThunk = () => {
         dispatch(showErrorWhenGetIngredietsFailed(err));
       })
   };
-};

@@ -35,7 +35,7 @@ export function App() {
   const dispatch = useDispatch();
 
   const closeOrderModal = () => {
-    dispatch(removeIngredienFromModal())
+    dispatch(removeIngredienFromModal(null))
     setModalOpened(false);
   };
 
@@ -72,7 +72,19 @@ export function App() {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const location = useLocation();
+  type TLocation = {
+    background: {
+      pathname: string;
+      search: string;
+      hash: string;
+      state: null;
+      key: string;
+    }
+    from: string;
+    state?: object;
+  };
+
+  const location = useLocation<TLocation>();
   const background = location.state?.background;
 
   return (

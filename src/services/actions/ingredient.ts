@@ -13,7 +13,7 @@ export interface IAddIngredientDataInModalAction {
 
 export interface IRemoveIngredientDataFromModalAction {
   readonly type: typeof REMOVE_INGREDIENT_DATA_FROM_MODAL;
-  readonly ingredientData: string;
+  readonly ingredientData: null;
 }
 
 export const addIngredientInModal = (ingredientData: TIngredient): IAddIngredientDataInModalAction => ({
@@ -21,7 +21,7 @@ export const addIngredientInModal = (ingredientData: TIngredient): IAddIngredien
   ingredientData
 });
 
-export const removeIngredienFromModal = (ingredientData: ''): IRemoveIngredientDataFromModalAction => ({
+export const removeIngredienFromModal = (ingredientData: null): IRemoveIngredientDataFromModalAction => ({
   type: REMOVE_INGREDIENT_DATA_FROM_MODAL,
   ingredientData
 });
