@@ -6,7 +6,7 @@
 -------------------------
 
 An app for desktop that helps users create their own burgers using different ingredients and place orders after that.
-On the left side of this App user can choose buns, souses and fillings for his future burger. On the right side user sees his order, burger contains and the total price. User can drag buns and ingredient from the left part and drop them into the right part (burger constructor). It is also possible to reorder innner ingredients in the burger constructor and delete fillings.
+On the left side of this App user can choose buns, souses and fillings for his future burger. On the right side user sees his order, burger contains and the total price. User can drag buns, souses and fillings from the left part and drop them into the right part (burger constructor). It is also possible to reorder innner ingredients in the burger constructor and delete fillings.
 
 ![Main page](./src/images/screen.jpg)
 
@@ -14,7 +14,7 @@ If user clicks on ingredient's card, he will see ingredient details. Also user c
 
 ![Ingredient Details](./src/images/ingredient-details.jpg)
 
-In this project authorization is configured. User can place an order, if he has an account and is authorized.
+In this project authorization is configured. User can place an order, if he has an account and he is authorized.
 
 ![Login Page](./src/images/login-page.jpg)
 
