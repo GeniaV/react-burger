@@ -6,8 +6,9 @@ import { useEffect } from 'react';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/types';
 import { Preloader } from '../../components/preloader/preloader';
 import { TOrderDetails } from '../../utils/types';
+import { FunctionComponent } from "react";
 
-export function FeedPage() {
+export const FeedPage: FunctionComponent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export function FeedPage() {
   );
 }
 
-export function Orders() {
+export const Orders: FunctionComponent = () => {
   const location = useLocation();
   const orders = useSelector(store => store.ws.orders);
 
@@ -57,7 +58,7 @@ export function Orders() {
   );
 }
 
-function OrdersStatusSection() {
+const OrdersStatusSection: FunctionComponent = () => {
   const { total, totalToday, orders } = useSelector(store => store.ws);
 
   const ordersDoneArr = orders.filter((order) => {

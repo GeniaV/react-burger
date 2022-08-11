@@ -4,8 +4,9 @@ import { useLocation } from 'react-router-dom';
 import { Order } from '../../../components/order/order';
 import { useSelector } from '../../../services/store';
 import { Preloader } from '../../../components/preloader/preloader';
+import { FunctionComponent } from "react";
 
-export function OrdersPage() {
+export const OrdersPage: FunctionComponent = () => {
   const location = useLocation();
 
   const orders = useSelector(store => store.wsAuth.orders);

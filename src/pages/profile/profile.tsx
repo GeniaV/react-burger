@@ -10,21 +10,22 @@ import { NotFound } from "../not-found/not-found";
 import { useRouteMatch } from "react-router-dom";
 import { WS_AUTH_CONNECTION_START, WS_AUTH_CONNECTION_CLOSED } from "../../services/actions/types";
 import { OrderInformation } from "../../components/order-info/order-info";
+import { FunctionComponent } from "react";
 
-export function ProfilePage() {
+export const ProfilePage: FunctionComponent = () => {
   const user = useSelector(store => store.auth.user);
   const userName = useSelector(store => store.auth.name);
   const userEmail = useSelector(store => store.auth.email);
 
-  const [name, setName] = useState(userName);
-  const [login, setLogin] = useState(userEmail);
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>(userName);
+  const [login, setLogin] = useState<string>(userEmail);
+  const [password, setPassword] = useState<string>('');
 
-  const [disabledName, setDisabledName] = useState(true);
-  const [disabledLogin, setDisabledLogin] = useState(true);
-  const [disabledPassword, setDisabledPassword] = useState(true);
+  const [disabledName, setDisabledName] = useState<boolean>(true);
+  const [disabledLogin, setDisabledLogin] = useState<boolean>(true);
+  const [disabledPassword, setDisabledPassword] = useState<boolean>(true);
 
-  const [showButtons, setShowButtons] = useState(false);
+  const [showButtons, setShowButtons] = useState<boolean>(false);
 
   const inutRefName = useRef<HTMLInputElement>(null);
   const inutRefLogin = useRef<HTMLInputElement>(null);

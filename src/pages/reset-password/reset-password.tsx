@@ -5,13 +5,14 @@ import { useState, useRef, SyntheticEvent } from "react";
 import { useDispatch, useSelector } from '../../services/store';
 import { resetPassword } from "../../services/actions/auth";
 import { TICons } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
+import { FunctionComponent } from "react";
 
-export function ResetPasswordPage() {
+export const ResetPasswordPage: FunctionComponent = () => {
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [token, setToken] = useState<string>('');
 
   type TIconType = keyof TICons;
-  const [icon, setIcon] = useState<TIconType >('ShowIcon');
+  const [icon, setIcon] = useState<TIconType>('ShowIcon');
 
   type TInputType = "password" | "text" | "email";
   const [type, setType] = useState<TInputType >('password');

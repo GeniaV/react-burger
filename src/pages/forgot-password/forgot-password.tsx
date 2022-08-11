@@ -4,10 +4,11 @@ import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from '../../services/store';
 import { forgotPassword } from "../../services/actions/auth";
+import { FunctionComponent } from "react";
 
-export function ForgotPasswordPage() {
-  const [emailValue, setEmailValue] = useState('')
-  const inputRef = useRef(null)
+export const ForgotPasswordPage: FunctionComponent = () => {
+  const [emailValue, setEmailValue] = useState<string>('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const dispatch = useDispatch();
 

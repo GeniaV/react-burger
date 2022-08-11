@@ -4,16 +4,17 @@ import { Link, Redirect, useLocation } from 'react-router-dom';
 import { useState, useRef, SetStateAction } from "react";
 import { useDispatch, useSelector } from '../../services/store';
 import { login } from "../../services/actions/auth";
+import { FunctionComponent } from "react";
 
-export function LoginPage() {
-  const [passwordValue, setPasswordValue] = useState('')
+export const LoginPage: FunctionComponent = () => {
+  const [passwordValue, setPasswordValue] = useState<string>('')
 
   const onChangePassword = (e: { target: { value: SetStateAction<string>; }; }) => {
     setPasswordValue(e.target.value)
   }
 
-  const [emailValue, setEmailValue] = useState('')
-  const inputRef = useRef(null)
+  const [emailValue, setEmailValue] = useState<string>('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const dispatch = useDispatch();
 

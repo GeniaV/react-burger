@@ -4,19 +4,20 @@ import { Link, Redirect } from 'react-router-dom';
 import { useState, useRef, SetStateAction } from "react";
 import { useDispatch, useSelector } from '../../services/store';
 import { register } from "../../services/actions/auth";
+import { FunctionComponent } from "react";
 
-export function RegisterPage() {
-  const [passwordValue, setPasswordValue] = useState('');
+export const RegisterPage: FunctionComponent = () => {
+  const [passwordValue, setPasswordValue] = useState<string>('');
 
   const onChangePassword = (e: { target: { value: SetStateAction<string>; }; }) => {
     setPasswordValue(e.target.value)
   }
 
-  const [emailValue, setEmailValue] = useState('');
-  const inputRef = useRef(null);
+  const [emailValue, setEmailValue] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const [namelValue, setnamelValue] = useState('');
-  const inputNemeRef = useRef(null);
+  const [namelValue, setnamelValue] = useState<string>('');
+  const inputNemeRef = useRef<HTMLInputElement>(null);
 
   const dispatch = useDispatch();
 

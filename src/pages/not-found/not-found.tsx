@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import styles from "./not-found.module.css";
 import notFoundImage from "../../images/404.png";
+import { FunctionComponent } from "react";
 
-export function NotFound() {
+export const NotFound: FunctionComponent = () => {
 
   return (
     <div className={styles.conatiner}>
