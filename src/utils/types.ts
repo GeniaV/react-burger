@@ -6,7 +6,9 @@ import { TConstructorActions } from "../services/actions/constructor";
 import { TGetIngredientsActions} from "../services/actions/ingredients";
 import { TWsActions } from "../services/actions/ws";
 import { TWsAuthActions } from "../services/actions/wsAuth";
-import {rootReducer} from "../services/roorReducer"
+import {rootReducer} from "../services/roorReducer";
+import { Button as ButtonUI, Tab as TabUI } from "@ya.praktikum/react-developer-burger-ui-components";
+import {FC, SyntheticEvent} from "react";
 
 type TApplicationActions = TIngredientInModalActions
 | TPutAnPrderActions
@@ -108,3 +110,21 @@ export type TWs = {
   onError: string;
   onMessage: string;
 };
+
+export const Button: FC<{
+  type?: 'secondary' | 'primary';
+  size?: 'small' | 'medium' | 'large';
+  onClick?: (() => void) | ((e: SyntheticEvent) => void);
+  disabled?: boolean;
+  name?: string;
+  htmlType?: 'button' | 'submit' | 'reset';
+  className?: string;
+  children: React.ReactNode;
+}> = ButtonUI
+
+export const Tab: FC<{
+  active: boolean;
+  value: string;
+  onClick: (value: string) => void;
+  children: React.ReactNode;
+}> = TabUI

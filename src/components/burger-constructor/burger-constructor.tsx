@@ -4,8 +4,8 @@ import {
   CurrencyIcon,
   DragIcon,
   ConstructorElement,
-  Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "../../utils/types";
 
 import { useSelector, useDispatch } from "../../services/store";
 import { useDrop, useDrag } from "react-dnd";
