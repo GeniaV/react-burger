@@ -1,9 +1,15 @@
 # Project Stellar Burger
 
-**Stack:** React, CSS, JS, Redux, React Router, WebSocket, TypeScript.
+**STACK**
+
+JavaScript, CSS, JSX, React, Redux, React Router, WebSocket, TypeScript.
 
 [Link](https://geniav.github.io/react-burger/)
 -------------------------
+
+**The main goal of this project** is to study React, Redux, React Router, WebSocket, TypeScript and use this tech stack in practice.
+
+**DESCRIPTION**
 
 An app for desktop that helps users create their own burgers using different ingredients and place orders after that.
 On the left side of this App user can choose buns, souses and fillings for his future burger. On the right side user sees his order, burger contains and the total price. User can drag buns, souses and fillings from the left part and drop them into the right part (burger constructor). It is also possible to reorder innner ingredients in the burger constructor and delete fillings.
@@ -26,4 +32,15 @@ On the Profile page users can find theirs own orders.
 
 ![Profile Page](./src/images/profile-page.jpg)
 
----
+**INSTALLATION**
+
+Check that [Node.js](https://nodejs.org/en/) is installed.
+
+```sh
+npm i --legacy-peer-deps
+```
+```sh
+npm start
+```
+
+
