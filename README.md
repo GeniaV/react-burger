@@ -1,40 +1,42 @@
-# Project Stellar Burger
+# Проект "Stellar Burger"
+
+[Ссылка на проект](https://geniav.github.io/react-burger/)
+-------------------------
 
 **STACK**
 
 JavaScript, CSS, JSX, React, Redux, React Router, WebSocket, TypeScript.
 
-[Link](https://geniav.github.io/react-burger/)
--------------------------
+**ЦЕЛЬ ПРОЕКТА**
 
-**The main goal of this project** is to study React, Redux, React Router, WebSocket, TypeScript and use this tech stack in practice.
+**Основная цель проекта –** изучить React, Redux, React Router, WebSocket, TypeScript и применить полученные знание на практике в данном учебном проекте.
 
-**DESCRIPTION**
+**ОПИСАНИЕ**
 
-An app for desktop that helps users create their own burgers using different ingredients and place orders after that.
-On the left side of this App user can choose buns, souses and fillings for his future burger. On the right side user sees his order, burger contains and the total price. User can drag buns, souses and fillings from the left part and drop them into the right part (burger constructor). It is also possible to reorder innner ingredients in the burger constructor and delete fillings.
+Десктопное приложение, которое помогает пользователям создавать собственные бургеры из различных доступных ингредиентов и размещать заказы на эти бургеры. Слева можно выбирать булочки, начинки и соусы для будущих бургеров. Справа пользователь видит состав выбранного бургера и его стоимость. Сборка бургера осуществляется путем перетаскивания ингредиентов с левой части в правую ("drag and drop"). Также настроена опция удаления начинок и соусов из бургера и изменение порядка их размещения в бургере.
 
 ![Main page](./src/images/screen.jpg)
 
-If user clicks on ingredient's card, he will see ingredient details. Also user can update the page and see ingredient's details on the ingredient's individual page.
+При клике на карточку с ингредиентом пользователь видит детали конкретного ингредиента. Если после клика обновить страницу, детали ингредиента откроются на отдельной странице.
 
 ![Ingredient Details](./src/images/ingredient-details.jpg)
 
-In this project authorization is configured. User can place an order, if he has an account and he is authorized.
+Зарегистрированные пользователи могут размещать заказы.
 
 ![Login Page](./src/images/login-page.jpg)
 
-On the left side of the Feed page there are the last 50 orders, that are gotten using WebSoket. On the right side you can see orders' statuses and information about orders' quantity in real time. It is also posible to open order details, if user clicks on the order.
+Слева на странице «Лента заказов» посредством WebSocket подгружается 50 последних заказов бургерной. Справа в режиме реального времени отражаются статусы заказов. При клике на заказ также можно посмотреть его детали в попапе, при обновлении страницы – на отдельной странице.
 
 ![Feed Page](./src/images/feed-page.jpg)
 
-On the Profile page users can find theirs own orders.
+В личном кабинете пользователь видит свои собственные заказы.
 
 ![Profile Page](./src/images/profile-page.jpg)
 
-**INSTALLATION**
+**ЗАПУСК ПРОЕКТА**
 
-Check that [Node.js](https://nodejs.org/en/) is installed.
+Необходима установка [Node.js](https://nodejs.org/en/).
+Далее:
 
 ```sh
 npm i --legacy-peer-deps
@@ -42,5 +44,3 @@ npm i --legacy-peer-deps
 ```sh
 npm start
 ```
-
-
